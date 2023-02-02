@@ -1,6 +1,6 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const newProduct = async function (name, price, image, volumen, quantity, category, stock, details, grapesName, stateName, regionName, typeName) {
+const newProduct = async function (name, price, image, volumen, quantity, category, stock, details, winerys, grapesName, stateName, regionName, typeName) {
   //Busco wine por name para saber si existe
 //   grapesId?
   if (!name || !price || !image || !volumen || !quantity || !category || !stock || !details || !winerys || !grapesName || !stateName || !regionName || !typeName ) {
