@@ -23,13 +23,10 @@ module.exports = (sequelize) => {
       },
       volume: {
         type: DataTypes.INTEGER,
+        allowNull: false,
       },
       quantity: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      description: {
-        type: DataTypes.TEXT,
         allowNull: false,
       },
       category: {
@@ -44,6 +41,14 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       winery: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      rating: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      review: {
         type: DataTypes.STRING,
         allowNull: false,
       },

@@ -30,7 +30,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Type, Grape } = sequelize.models;
+const { Product, Type, Grape, State, Region } = sequelize.models;
 
 
 // Aca vendrian las relaciones
@@ -42,6 +42,13 @@ Type.belongsToMany(Product, {through: 'Product_Type', timestamps: false});
 
 Product.belongsToMany(Grape, {through: 'Product_Grape', timestamps: false})
 Grape.belongsToMany(Product, {through: 'Product_Grape', timestamps: false})
+
+Product.belongsToMany(State, {through: 'Product_State', timestamps: false})
+State.belongsToMany(Product, {through: 'Product_State', timestamps: false})
+
+Product.belongsToMany(Region, {through: 'Product_Region', timestamps: false})
+Region.belongsToMany(Product, {through: 'Product_Region', timestamps: false})
+
 
 
 module.exports = {
