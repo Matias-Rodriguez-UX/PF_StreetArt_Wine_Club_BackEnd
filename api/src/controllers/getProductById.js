@@ -18,3 +18,4 @@ const productById = async function(productId){
       }
 } 
 
+module.exports = { productById };
