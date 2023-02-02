@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { newWine } = require('../controllers/newWine')
-const { wineById } = require('../controllers/wineById')
+const { productById } = require('../controllers/getProductById')
 const { deleteWine } = require('../controllers/deleteWine')
 const { updateWine } = require('../controllers/updateWine')
 // const { Wine } = require("../db");
