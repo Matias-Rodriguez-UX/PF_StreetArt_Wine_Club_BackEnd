@@ -3,14 +3,13 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-    DB_USER, DB_PASSWORD, DB_HOST,
-  } = process.env;
+  DB_USER, DB_PASSWORD, DB_HOST,
+} = process.env;
 
-  const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`, {
+const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/products`, {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
-
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -29,10 +28,30 @@ let entries = Object.entries(sequelize.models);
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-// Aca vendrian las relaciones con los modelos traídos por destructuring
+// En sequelize.models están todos los modelos importados como propiedades
+// Para relacionarlos hacemos un destructuring
+const { Product, Type, Grape, State, Region } = sequelize.models;
+
+
+// Aca vendrian las relaciones
+// Product.hasMany(Reviews);
+//Product (una caja de vinos) puede tener varios tipos (tinto, blanco, etc)
+Product.belongsToMany(Type, {through: 'Product_Type', timestamps: false});
+//Mientras que tipos también pueden pertenecer a varias cajas de vino
+Type.belongsToMany(Product, {through: 'Product_Type', timestamps: false});
+
+Product.belongsToMany(Grape, {through: 'Product_Grape', timestamps: false})
+Grape.belongsToMany(Product, {through: 'Product_Grape', timestamps: false})
+
+Product.belongsToMany(State, {through: 'Product_State', timestamps: false})
+State.belongsToMany(Product, {through: 'Product_State', timestamps: false})
+
+Product.belongsToMany(Region, {through: 'Product_Region', timestamps: false})
+Region.belongsToMany(Product, {through: 'Product_Region', timestamps: false})
+
 
 
 module.exports = {
-    ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-    conn: sequelize,     // para importar la conexión { conn } = require('./db.js');
-  };
+  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
+  conn: sequelize,     // para importar la conexión { conn } = require('./db.js');
+};
