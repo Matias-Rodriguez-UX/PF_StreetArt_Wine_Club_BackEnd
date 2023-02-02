@@ -8,8 +8,8 @@ const router= Router();
 
 router.post('/', async (req, res)=>{
     try {
-    const { name, price, volumen, grapes, quantity, stock, details, winerys, image, states, regions } = req.body;
-    let result = await newWine(name, price, volumen, grapes, quantity, stock, details, winerys, image, states, regions)
+    const { name, price, image, volumen, quantity, category, stock, details, grapesID, statesID, regionsID, typeID } = req.body;
+    let result = await newWine( name, price, image, volumen, quantity, category, stock, details, grapesID, statesID, regionsID, typeID )
     res.status(200).send({result})
 } catch (error) {
     res.status(400).send(error.message)
@@ -27,9 +27,9 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:idWine', async (req, res) => {
-    const wineId = req.params.idWine
+    const productId = req.params.idWine
     try {
-        let result = await wineById(wineId);
+        let result = await productById(productId);
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
@@ -39,8 +39,8 @@ router.get('/:idWine', async (req, res) => {
 router.put('/:id', async (req, res)=>{
     try {
         const id = req.params.id
-        const { name, price, volumen, grapes, quantity, stock, details, winerys, image, states, regions } = req.body;
-    let result = await updateWine(id, name, price, volumen, grapes, quantity, stock, details, winerys, image, states, regions)
+        const { name, price, image, volumen, quantity, category, stock, details, grapesID, statesID, regionsID, typeID } = req.body;
+    let result = await updateWine(id, name, price, image, volumen, quantity, category, stock, details, grapesID, statesID, regionsID, typeID)
     res.status(200).send(result)
 } catch (error) {
     res.status(400).send(error.message)
