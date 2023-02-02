@@ -1,9 +1,9 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const newProduct = async function (name, price, image, volumen, quantity, category, stock, details, winerys, grapesName, stateName, regionName, typeName) {
+const newProduct = async function (name, price, image, volumen, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
   //Busco wine por name para saber si existe
 //   grapesId?
-  if (!name || !price || !image || !volumen || !quantity || !category || !stock || !details || !winerys || !grapesName || !stateName || !regionName || !typeName ) {
+  if (!name || !price || !image || !volumen || !quantity || !category || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
     throw new Error('You must complete all fields')
   }
   const searchProduct = await Product.findOne({
@@ -34,12 +34,9 @@ const newProduct = async function (name, price, image, volumen, quantity, catego
     },
   });
 
-//   if (grapesMatch.length === 0) {
-//     throw new Error(`No se encuentra el país ${countryID} para agregar actividad`)
-//   }
   // si no existe en la base de datos, crearla
   if (!searchProduct) {
-    const newWine = await Wine.create({
+    const newProduct = await Product.create({
       name: name,
       price: price,
       image: image,
@@ -48,19 +45,19 @@ const newProduct = async function (name, price, image, volumen, quantity, catego
       category: category,
       stock: stock,
       details: details,
-      winery: winerys,
+      winery: winery,
     });
 
     //agrego la el vino a las cepas y otras tablas
-    await newWine.addGrape(grapesMatch);
-    await newWine.addState(stateMatch);
-    await newWine.addRegion(regionMatch);
-    await newWine.addType(typeMatch);
+    await newProduct.addGrape(grapesMatch);
+    await newProduct.addState(stateMatch);
+    await newProduct.addRegion(regionMatch);
+    await newProduct.addType(typeMatch);
 
     return `New box ${name} was created and added successfully`
   } else {
  
-    return `Box ${name} already exists`
+    return `Box ${name} added successfully`
   }
 }
 module.exports = { newProduct };
