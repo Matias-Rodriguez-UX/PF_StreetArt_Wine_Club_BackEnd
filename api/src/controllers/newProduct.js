@@ -59,7 +59,7 @@ const newProduct = async function (name, price, image, volume, quantity, categor
     return `New box ${name} was created and added successfully`
   } else {
  
-    return `Box ${name} added successfully`
+    return `${name} box already exists`
   }
 }
 module.exports = { newProduct };
