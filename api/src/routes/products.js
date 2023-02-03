@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { newProduct } = require('../controllers/newProduct')
 const { productById } = require('../controllers/getProductById')
 const { getProducts } = require('../controllers/getProducts')
-// const { deleteProduct } = require('../controllers/deleteProduct')
+const { deleteProduct } = require('../controllers/deleteProduct')
 // const { updateProduct } = require('../controllers/updateProduct')
 // const { Wine } = require("../db");
 const router= Router();
@@ -48,14 +48,14 @@ router.get('/:idWine', async (req, res) => {
 // }
 // })
 
-// router.delete('/:id', async (req, res)=>{
-//     try {
-//         const id = req.params.id
-//     let result = await deleteWine(id)
-//     res.status(200).send(result)
-// } catch (error) {
-//     res.status(400).send(error.message)
-// }
-// })  
+router.delete('/:id', async (req, res)=>{
+    try {
+        const id = req.params.id
+    let result = await deleteProduct(id)
+    res.status(200).send(result)
+} catch (error) {
+    res.status(400).send(error.message)
+}
+})  
 
 module.exports = router;
