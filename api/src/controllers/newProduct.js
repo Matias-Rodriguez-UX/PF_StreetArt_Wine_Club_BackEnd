@@ -1,9 +1,9 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const newProduct = async function (name, price, image, volumen, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
+const newProduct = async function (name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
   //Busco wine por name para saber si existe
 //   grapesId?
-  if (!name || !price || !image || !volumen || !quantity || !category || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
+  if (!name || !price || !image || !volume || !quantity || !category || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
     throw new Error('You must complete all fields')
   }
   const searchProduct = await Product.findOne({
@@ -40,12 +40,14 @@ const newProduct = async function (name, price, image, volumen, quantity, catego
       name: name,
       price: price,
       image: image,
-      volumen: volumen,
+      volume: volume,
       quantity: quantity,
       category: category,
       stock: stock,
       details: details,
       winery: winery,
+      rating:0,
+      review:""
     });
 
     //agrego la el vino a las cepas y otras tablas
