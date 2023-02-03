@@ -8,7 +8,7 @@ const getProducts = async function (name) {
     } else {
         let searchProduct = await productsAll.filter(p => p.name.toLowerCase().includes(name.toLowerCase()));
         if (searchProduct.length === 0) {
-            throw new Error(`Product with ${name} not found `)
+            throw new Error(`Product with name ${name} not found `)
         } else {
             return searchProduct;
         }
