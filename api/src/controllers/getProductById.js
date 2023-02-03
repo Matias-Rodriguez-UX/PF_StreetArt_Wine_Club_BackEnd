@@ -5,7 +5,6 @@ const productById = async function(productId){
     if(productId === null){
         throw new Error('You must enter an id')
       }
-
       const findProduct = await Product.findOne({
         where: {
           id: productId,
@@ -28,10 +27,6 @@ const productById = async function(productId){
             attributes: ["name"],
             through: { attributes: [] }
           }]
-
-
-
-
 
       });
       if(findProduct){
