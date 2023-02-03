@@ -27,13 +27,13 @@ const newProduct = async function (name, price, image, volume, quantity, categor
       name: typeName,
     },
   });
-  console.log(typesMatch)
+  // console.log(typesMatch)
   const regionsMatch = await Region.findAll({
     where: {
       name: regionName,
     },
   });
-  console.log(regionsMatch)
+  // console.log(regionsMatch)
   
   if (!searchProduct) {
     const newProduct = await Product.create({
