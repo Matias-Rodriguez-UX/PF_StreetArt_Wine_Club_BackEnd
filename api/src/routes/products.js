@@ -7,8 +7,8 @@ const { productById } = require('../controllers/getProductById')
 const router= Router();
 
 router.post('/', async (req, res)=>{
-    try {
     const { name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName} = req.body;
+    try {
     let result = await newProduct( name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName )
     res.status(200).send({result})
 } catch (error) {
