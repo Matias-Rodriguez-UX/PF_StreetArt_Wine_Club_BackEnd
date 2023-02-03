@@ -1,8 +1,7 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
 const newProduct = async function (name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
-  //Busco wine por name para saber si existe
-//   grapesId?
+
   if (!name || !price || !image || !volume || !quantity || !category || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
     throw new Error('You must complete all fields')
   }
@@ -11,34 +10,31 @@ const newProduct = async function (name, price, image, volume, quantity, categor
       name: name,
     },
   });
-  // console.log(searchWine)
-  const grapesMatch =  await grapesName.map(g => Grape.findOrCreate({
+  const grapesMatch = await Grape.findAll({
     where: {
-      name: g,
+      name: grapesName,
     },
-  }))
-console.log(grapesMatch)
-// console.log(grapesCreated)
-  const statesMatch = await stateName.map(s => State.findOrCreate({
+  });
+
+  const statesMatch = await State.findAll({
     where: {
-      name: s,
+      name: stateName,
     },
-  }))
+  });
+ 
+  const typesMatch = await Type.findAll({
+    where: {
+      name: typeName,
+    },
+  });
+  console.log(typesMatch)
+  const regionsMatch = await Region.findAll({
+    where: {
+      name: regionName,
+    },
+  });
+  console.log(regionsMatch)
   
-  // console.log(statesMatch)
-  const regionsMatch= await regionName.map(r => Region.findOrCreate({
-    where: {
-      name: r,
-    },
-  }))
-  // console.log(regionMatch)
-  const typesMatch= await typeName.map(t => Type.findOrCreate({
-    where: {
-      name: t,
-    },
-  }))
-  // console.log(typeMatch)
-  // si no existe en la base de datos, crearla
   if (!searchProduct) {
     const newProduct = await Product.create({
       name: name,
@@ -54,12 +50,10 @@ console.log(grapesMatch)
       review:""
     });
     
-    //agrego la el vino a las cepas y otras tablas
     await newProduct.setGrapes(grapesMatch);
     await newProduct.setStates(statesMatch);
     await newProduct.setRegions(regionsMatch);
     await newProduct.setTypes(typesMatch);
-
 
     return `New box ${name} was created and added successfully`
   } else {
