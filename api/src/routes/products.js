@@ -19,7 +19,7 @@ router.post('/', async (req, res)=>{
 router.get('/', async (req, res) => {
     try {
         let { name } = req.query;
-        const result = await getWine(name);
+        const result = await getProducts(name);
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)

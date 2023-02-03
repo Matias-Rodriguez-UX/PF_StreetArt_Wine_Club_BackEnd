@@ -12,28 +12,32 @@ const newProduct = async function (name, price, image, volume, quantity, categor
     },
   });
   // console.log(searchWine)
-  const grapesMatch = await Grape.findOrCreate({
+  const grapesMatch =  await grapesName.map(g => Grape.findOrCreate({
     where: {
-      name: grapesName,
+      name: g,
     },
-  });
-  // console.log(grapesMatch)
-  const stateMatch = await State.findOrCreate({
+  }))
+console.log(grapesMatch)
+// console.log(grapesCreated)
+  const statesMatch = await stateName.map(s => State.findOrCreate({
     where: {
-      name: stateName,
+      name: s,
     },
-  });
-  const regionMatch = await Region.findOrCreate({
+  }))
+  
+  // console.log(statesMatch)
+  const regionsMatch= await regionName.map(r => Region.findOrCreate({
     where: {
-      name: regionName,
+      name: r,
     },
-  });
-  const typeMatch = await Type.findOrCreate({
+  }))
+  // console.log(regionMatch)
+  const typesMatch= await typeName.map(t => Type.findOrCreate({
     where: {
-      name: typeName,
+      name: t,
     },
-  });
-
+  }))
+  // console.log(typeMatch)
   // si no existe en la base de datos, crearla
   if (!searchProduct) {
     const newProduct = await Product.create({
@@ -46,15 +50,16 @@ const newProduct = async function (name, price, image, volume, quantity, categor
       stock: stock,
       details: details,
       winery: winery,
-      rating:0,
+      rating:"",
       review:""
     });
-
+    
     //agrego la el vino a las cepas y otras tablas
-    await newProduct.addGrape(grapesMatch);
-    await newProduct.addState(stateMatch);
-    await newProduct.addRegion(regionMatch);
-    await newProduct.addType(typeMatch);
+    await newProduct.setGrapes(grapesMatch);
+    await newProduct.setStates(statesMatch);
+    await newProduct.setRegions(regionsMatch);
+    await newProduct.setTypes(typesMatch);
+
 
     return `New box ${name} was created and added successfully`
   } else {
