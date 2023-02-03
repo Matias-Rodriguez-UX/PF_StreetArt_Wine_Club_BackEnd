@@ -29,9 +29,6 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      category: {
-        type: DataTypes.STRING,
-      },
       stock: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -41,15 +38,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       winery: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      rating: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      review: {
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
     },
