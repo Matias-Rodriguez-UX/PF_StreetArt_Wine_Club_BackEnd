@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const { Product } = require("../db");
+const { Product, Grape, Type, Region, State } = require("../db");
 
 const productById = async function(productId){
     if(productId === null){
@@ -9,7 +9,30 @@ const productById = async function(productId){
       const findProduct = await Product.findOne({
         where: {
           id: productId,
-        },
+        },include: [{ 
+          model: Grape, 
+          attributes: ["name"],
+          through: { attributes: [] }},
+          { 
+            model: Type, 
+            attributes: ["name"],
+            through: { attributes: [] }
+          },
+          { 
+            model: Region, 
+            attributes: ["name"],
+            through: { attributes: [] }
+          },
+          { 
+            model: State, 
+            attributes: ["name"],
+            through: { attributes: [] }
+          }]
+
+
+
+
+
       });
       if(findProduct){
          return findProduct;
