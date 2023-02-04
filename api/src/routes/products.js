@@ -65,8 +65,8 @@ router.get('/:idWine', async (req, res) => {
 router.put('/:id', async (req, res)=>{
     try {
         const id = req.params.id
-        const { name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName} = req.body;
-    let result = await updateProduct(id, name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName)
+        const { name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types} = req.body;
+    let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
     res.status(200).send(result)
 } catch (error) {
     res.status(400).send(error.message)
