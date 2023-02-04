@@ -11,9 +11,9 @@ const { getOrderProducts } = require('../controllers/getOrderProducts')
 const router= Router();
 
 router.post('/', async (req, res)=>{
-    const { name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName} = req.body;
+    const { name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName} = req.body;
     try {
-    let result = await newProduct( name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName )
+    let result = await newProduct( name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName )
     res.status(200).send({result})
 } catch (error) {
     res.status(400).send(error.message)

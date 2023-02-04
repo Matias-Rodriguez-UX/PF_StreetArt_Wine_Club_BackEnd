@@ -2,7 +2,7 @@ const axios = require('axios');
 const { Product } = require('./db');
 const { newProduct } = require('./controllers/newProduct')
 
-const LoadingDb = async function (req, res) {
+const LoadingProducts = async function (req, res) {
   try {
     const ProductsLoading = await axios.get('http://demo8521051.mockable.io/products');
             
@@ -48,4 +48,4 @@ const LoadingDb = async function (req, res) {
     res.send(error);
   }
 }
-module.exports = { LoadingDb }
+module.exports = { LoadingProducts }
