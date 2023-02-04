@@ -1,9 +1,11 @@
 const { Product } = require("../db");
 
 const getOrderProducts = async function(order, value){
-    Product.findAll({
-        order:[ value, order ]
+    
+   let orders = await Product.findAll({
+        order:[[ value, order ]]
     })
+    return orders
 }
 
 module.exports = {getOrderProducts}
