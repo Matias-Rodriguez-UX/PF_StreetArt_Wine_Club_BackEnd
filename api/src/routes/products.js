@@ -4,6 +4,7 @@ const { productById } = require('../controllers/getProductById')
 const { getProducts } = require('../controllers/getProducts')
 const { deleteProduct } = require('../controllers/deleteProduct')
 const { updateProduct } = require('../controllers/updateProduct')
+const { getProductsByValue } = require('../controllers/getProductsByValue')
 
 const router= Router();
 
@@ -21,6 +22,17 @@ router.get('/', async (req, res) => {
     try {
         let { name } = req.query;
         const result = await getProducts(name);
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+});
+
+router.get('/filters', async (req, res) => {
+    try {
+        let { filter, value } = req.body;
+        // Table debe estar correctamente escrita y value siempre es la columna name
+        const result = await getProductsByValue(filter, value);
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
