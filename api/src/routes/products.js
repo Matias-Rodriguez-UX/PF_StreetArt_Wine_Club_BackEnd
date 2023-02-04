@@ -3,7 +3,7 @@ const { newProduct } = require('../controllers/newProduct')
 const { productById } = require('../controllers/getProductById')
 const { getProducts } = require('../controllers/getProducts')
 const { deleteProduct } = require('../controllers/deleteProduct')
-const { updateProduct } = require('../controllers/upDateProduct')
+const { updateProduct } = require('../controllers/updateProduct')
 const { getProductsByValue } = require('../controllers/getProductsByValue')
 
 const router= Router();
