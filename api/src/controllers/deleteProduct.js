@@ -17,7 +17,7 @@ const deleteProduct = async function (id) {
                 id: id
             }
         })
-        return `Actividad ${id} eliminada con éxito`
+        return `The product ${id} was successfully removed`
     }
 }
 module.exports = { deleteProduct };
