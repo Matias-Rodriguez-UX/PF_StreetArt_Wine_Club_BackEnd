@@ -11,9 +11,9 @@ const { getOrderProducts } = require('../controllers/getOrderProducts')
 const router= Router();
 
 router.post('/', async (req, res)=>{
-    const { name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName} = req.body;
+    const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types} = req.body;
     try {
-    let result = await newProduct( name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName )
+    let result = await newProduct( name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
     res.status(200).send({result})
 } catch (error) {
     res.status(400).send(error.message)
@@ -65,8 +65,8 @@ router.get('/:idWine', async (req, res) => {
 router.put('/:id', async (req, res)=>{
     try {
         const id = req.params.id
-        const { name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types} = req.body;
-    let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
+        const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types} = req.body;
+    let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
     res.status(200).send(result)
 } catch (error) {
     res.status(400).send(error.message)
