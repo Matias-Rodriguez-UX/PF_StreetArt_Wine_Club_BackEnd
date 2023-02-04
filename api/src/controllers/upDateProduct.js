@@ -1,7 +1,6 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
 const updateProduct = async function (id, name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
-    //Busco la actividad por name para saber si existe
     if (!id) {
         throw new Error('You must enter an id value')
     }
