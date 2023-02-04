@@ -1,8 +1,8 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const newProduct = async function (name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
+const newProduct = async function (name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName) {
 
-  if (!name || !price || !image || !volume || !quantity || !category || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
+  if (!name || !price || !image || !volume || !quantity || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
     throw new Error('You must complete all fields')
   }
   const searchProduct = await Product.findOne({
@@ -42,7 +42,6 @@ const newProduct = async function (name, price, image, volume, quantity, categor
       image: image,
       volume: volume,
       quantity: quantity,
-      category: category,
       stock: stock,
       details: details,
       winery: winery,
