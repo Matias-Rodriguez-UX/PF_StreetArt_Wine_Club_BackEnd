@@ -1,6 +1,6 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const updateProduct = async function (id, name, price, image, volume, quantity, category, stock, details, winery, grapesName, stateName, regionName, typeName) {
+const updateProduct = async function (id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types) {
     if (!id) {
         throw new Error('You must enter an id value')
     }
@@ -11,25 +11,25 @@ const updateProduct = async function (id, name, price, image, volume, quantity, 
     });
     const grapesMatch = await Grape.findAll({
         where: {
-          name: grapesName,
+          name: grapes,
         },
       });
     
       const statesMatch = await State.findAll({
         where: {
-          name: stateName,
+          name: state,
         },
       });
      
       const typesMatch = await Type.findAll({
         where: {
-          name: typeName,
+          name: types,
         },
       });
       // console.log(typesMatch)
       const regionsMatch = await Region.findAll({
         where: {
-          name: regionName,
+          name: regions,
         },
       });
     if (!searchProduct) {
@@ -45,7 +45,7 @@ const updateProduct = async function (id, name, price, image, volume, quantity, 
                 category: category,
                 stock: stock,
                 details: details,
-                winery: winery,
+                winery: winerys,
                 rating:"",
                 review:""
             }, {
