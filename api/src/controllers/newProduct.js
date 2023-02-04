@@ -1,8 +1,8 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const newProduct = async function (name, price, image, volume, quantity, stock, details, winery, grapesName, stateName, regionName, typeName) {
+const newProduct = async function (name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types) {
 
-  if (!name || !price || !image || !volume || !quantity || !stock || !details || !winery || !grapesName || !stateName || !regionName || !typeName ) {
+  if (!name || !price || !image || !volume || !quantity || !stock || !details || !winery || !grapes || !state || !regions || !types ) {
     throw new Error('You must complete all fields')
   }
   const searchProduct = await Product.findOne({
@@ -12,25 +12,25 @@ const newProduct = async function (name, price, image, volume, quantity, stock, 
   });
   const grapesMatch = await Grape.findAll({
     where: {
-      name: grapesName,
+      name: grapes,
     },
   });
 
   const statesMatch = await State.findAll({
     where: {
-      name: stateName,
+      name: state,
     },
   });
  
   const typesMatch = await Type.findAll({
     where: {
-      name: typeName,
+      name: types,
     },
   });
   // console.log(typesMatch)
   const regionsMatch = await Region.findAll({
     where: {
-      name: regionName,
+      name: regions,
     },
   });
   // console.log(regionsMatch)
