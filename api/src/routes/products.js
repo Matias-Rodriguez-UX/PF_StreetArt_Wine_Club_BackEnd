@@ -5,6 +5,8 @@ const { getProducts } = require('../controllers/getProducts')
 const { deleteProduct } = require('../controllers/deleteProduct')
 const { updateProduct } = require('../controllers/upDateProduct')
 const { getProductsByValue } = require('../controllers/getProductsByValue')
+const { getOrderProducts } = require('../controllers/getOrderProducts')
+
 
 const router= Router();
 
@@ -16,7 +18,7 @@ router.post('/', async (req, res)=>{
 } catch (error) {
     res.status(400).send(error.message)
 }
-})  
+})
 
 router.get('/', async (req, res) => {
     try {
@@ -33,6 +35,17 @@ router.get('/filters', async (req, res) => {
         let { filter, value } = req.body;
         // Table debe estar correctamente escrita y value siempre es la columna name
         const result = await getProductsByValue(filter, value);
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+});
+
+router.get('/orders', async (req, res) => {
+    try {
+        let { order, value } = req.body;
+   
+        const result = await getOrderProducts(order, value);
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
