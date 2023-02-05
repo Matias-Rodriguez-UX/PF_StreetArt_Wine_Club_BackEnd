@@ -7,7 +7,9 @@ const { updateProduct } = require('../controllers/upDateProduct')
 const { getProductsByValue } = require('../controllers/getProductsByValue')
 const { getOrderProducts } = require('../controllers/getOrderProducts');
 const { getReviews } = require('../controllers/getReviews');
-const {newReview}  = require('../controllers/newReview')
+const {newReview}  = require('../controllers/newReview');
+const {deleteReview} = require ('../controllers/deleteReview');
+const {updateReview} = require ('../controllers/updateReview');
 
 const router= Router();
 
@@ -107,6 +109,30 @@ router.post('/:id/review', async(req,res)=>{
     }
 })
 
+router.delete('/:id/review/:idReview', async(req,res)=>{
+    try{
+        const {id, idReview} = req.params
+
+        let result = await deleteReview(id, idReview)
+        res.status(200).send(result)
+
+    } catch(error){
+        res.status(400).send(error.message)
+
+    }
+})
+
+router.put('/:id/review/:idReview', async(req,res)=>{
+    try{
+        const {id, idReview} = req.params
+        const { review,rating} = req.body;
+
+        let result = await updateReview(id, idReview, review, rating)
+        res.status(200).send(result)
+    } catch(error){
+        res.status(400).send(error.message)
+    }
+})
 
 
 
