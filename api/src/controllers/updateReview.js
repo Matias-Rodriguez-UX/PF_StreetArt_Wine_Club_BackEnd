@@ -1,11 +1,11 @@
 const { Review, User } = require("../db");
 
-const updateReview = async function(id, idReview, review, rating){
+const updateReview = async function(idReview, review, rating){
 
     const update = Review.update(
 		{ review: review, 
           rating: rating },
-		{ where: { productId: id, id: idReview} },
+		{ where: { id: idReview} },
 	)
 
     if (update){
