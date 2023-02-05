@@ -2,7 +2,7 @@ const { Product, Grape, State, Region, Type } = require("../db");
 
 const getProducts = async function (name) {
 
-    const productsAll = await Product.findAll({ include: Grape, State, Region, Type });
+    const productsAll = await Product.findAll({ include:[{model: Grape},{ model: State},{model: Region},{model: Type}] });
     if (!name) {  
         return productsAll;
     } else {
