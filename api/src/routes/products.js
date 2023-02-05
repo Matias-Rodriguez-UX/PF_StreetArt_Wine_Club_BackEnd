@@ -5,8 +5,9 @@ const { getProducts } = require('../controllers/getProducts')
 const { deleteProduct } = require('../controllers/deleteProduct')
 const { updateProduct } = require('../controllers/upDateProduct')
 const { getProductsByValue } = require('../controllers/getProductsByValue')
-const { getOrderProducts } = require('../controllers/getOrderProducts')
-
+const { getOrderProducts } = require('../controllers/getOrderProducts');
+const { getReviews } = require('../controllers/getReviews');
+const {newReview}  = require('../controllers/newReview')
 
 const router= Router();
 
@@ -52,8 +53,8 @@ router.get('/orders', async (req, res) => {
     }
 });
 
-router.get('/:idWine', async (req, res) => {
-    const productId = req.params.idWine
+router.get('/:idProduct', async (req, res) => {
+    const productId = req.params.idProduct
     try {
         let result = await productById(productId);
         res.status(200).send(result)
@@ -82,5 +83,33 @@ router.delete('/:id', async (req, res)=>{
     res.status(400).send(error.message)
 }
 })  
+
+
+router.get('/:id/review', async(req,res)=>{
+    try{
+        const {id} = req.params;
+        let result = await getReviews(id)
+        res.status(200).send(result)
+    } catch(error){
+        res.status(400).send(error.message)
+    }
+})
+
+router.post('/:id/review', async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const {review, rating} = req.body;
+
+        let result = await newReview(id, review, rating)
+        res.status(200).send(result)
+    } catch(error){
+        res.status(400).send(error.message)
+    }
+})
+
+
+
+
+
 
 module.exports = router;
