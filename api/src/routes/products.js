@@ -111,9 +111,9 @@ router.post('/:id/review', async(req,res)=>{
 
 router.delete('/:id/review/:idReview', async(req,res)=>{
     try{
-        const {id, idReview} = req.params
+        const {idReview} = req.params
 
-        let result = await deleteReview(id, idReview)
+        let result = await deleteReview(idReview)
         res.status(200).send(result)
 
     } catch(error){
@@ -127,7 +127,7 @@ router.put('/:id/review/:idReview', async(req,res)=>{
         const {id, idReview} = req.params
         const { review,rating} = req.body;
 
-        let result = await updateReview(id, idReview, review, rating)
+        let result = await updateReview(idReview, review, rating)
         res.status(200).send(result)
     } catch(error){
         res.status(400).send(error.message)
