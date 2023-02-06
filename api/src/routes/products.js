@@ -7,20 +7,20 @@ const { updateProduct } = require('../controllers/upDateProduct')
 const { getProductsByValue } = require('../controllers/getProductsByValue')
 const { getOrderProducts } = require('../controllers/getOrderProducts');
 const { getReviews } = require('../controllers/getReviews');
-const {newReview}  = require('../controllers/newReview');
-const {deleteReview} = require ('../controllers/deleteReview');
-const {updateReview} = require ('../controllers/updateReview');
+const { newReview } = require('../controllers/newReview');
+const { deleteReview } = require('../controllers/deleteReview');
+const { updateReview } = require('../controllers/updateReview');
 
-const router= Router();
+const router = Router();
 
-router.post('/', async (req, res)=>{
-    const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types} = req.body;
+router.post('/', async (req, res) => {
+    const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types } = req.body;
     try {
-    let result = await newProduct( name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
-    res.status(200).send({result})
-} catch (error) {
-    res.status(400).send(error.message)
-}
+        let result = await newProduct(name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
+        res.status(200).send({ result })
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
 })
 
 router.get('/', async (req, res) => {
@@ -35,7 +35,8 @@ router.get('/', async (req, res) => {
 
 router.get('/filters', async (req, res) => {
     try {
-        let { filter, value } = req.body;
+        let { filter, value } = await req.query;
+
         // Table debe estar correctamente escrita y value siempre es la columna name
         const result = await getProductsByValue(filter, value);
         res.status(200).send(result)
@@ -47,7 +48,7 @@ router.get('/filters', async (req, res) => {
 router.get('/orders', async (req, res) => {
     try {
         let { order, value } = req.body;
-   
+
         const result = await getOrderProducts(order, value);
         res.status(200).send(result)
     } catch (error) {
@@ -65,71 +66,72 @@ router.get('/:idProduct', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res)=>{
+
+router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types} = req.body;
-    let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
-    res.status(200).send(result)
-} catch (error) {
-    res.status(400).send(error.message)
-}
-})
-
-router.delete('/:id', async (req, res)=>{
-    try {
-        const id = req.params.id
-    let result = await deleteProduct(id)
-    res.status(200).send(result)
-} catch (error) {
-    res.status(400).send(error.message)
-}
-})  
-
-
-router.get('/:id/review', async(req,res)=>{
-    try{
-        const {id} = req.params;
-        let result = await getReviews(id)
+        const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types } = req.body;
+        let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
         res.status(200).send(result)
-    } catch(error){
+    } catch (error) {
         res.status(400).send(error.message)
     }
 })
 
-router.post('/:id/review', async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const {review, rating} = req.body;
+router.delete('/:id', async (req, res) => {
+    try {
+        const id = req.params.id
+        let result = await deleteProduct(id)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+
+router.get('/:id/review', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let result = await getReviews(id)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+router.post('/:id/review', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { review, rating } = req.body;
 
         let result = await newReview(id, review, rating)
         res.status(200).send(result)
-    } catch(error){
+    } catch (error) {
         res.status(400).send(error.message)
     }
 })
 
-router.delete('/:id/review/:idReview', async(req,res)=>{
-    try{
-        const {idReview} = req.params
+router.delete('/:id/review/:idReview', async (req, res) => {
+    try {
+        const { idReview } = req.params
 
         let result = await deleteReview(idReview)
         res.status(200).send(result)
 
-    } catch(error){
+    } catch (error) {
         res.status(400).send(error.message)
 
     }
 })
 
-router.put('/:id/review/:idReview', async(req,res)=>{
-    try{
-        const {id, idReview} = req.params
-        const { review,rating} = req.body;
+router.put('/:id/review/:idReview', async (req, res) => {
+    try {
+        const { id, idReview } = req.params
+        const { review, rating } = req.body;
 
         let result = await updateReview(idReview, review, rating)
         res.status(200).send(result)
-    } catch(error){
+    } catch (error) {
         res.status(400).send(error.message)
     }
 })
