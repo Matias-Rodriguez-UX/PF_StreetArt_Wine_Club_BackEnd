@@ -35,7 +35,8 @@ router.get('/', async (req, res) => {
 
 router.get('/filters', async (req, res) => {
     try {
-        let { filter, value } = req.body;
+        let { filter, value} = req.query;
+        console.log(req.query)
         // Table debe estar correctamente escrita y value siempre es la columna name
         const result = await getProductsByValue(filter, value);
         res.status(200).send(result)
