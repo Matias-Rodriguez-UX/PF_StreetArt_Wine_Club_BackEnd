@@ -47,8 +47,7 @@ router.get('/filters', async (req, res) => {
 
 router.get('/orders', async (req, res) => {
     try {
-        let { order, value } = req.body;
-   
+        let { order, value} = req.query;
         const result = await getOrderProducts(order, value);
         res.status(200).send(result)
     } catch (error) {
