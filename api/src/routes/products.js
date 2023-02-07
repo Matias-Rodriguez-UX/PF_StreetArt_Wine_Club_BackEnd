@@ -35,13 +35,36 @@ router.get('/', async (req, res) => {
 
 router.get('/filters', async (req, res) => {
     try {
-
-        let { filter, value} = req.query;
-        console.log(req.query)
-
-        // Table debe estar correctamente escrita y value siempre es la columna name
-        const result = await getProductsByValue(filter, value);
-        res.status(200).send(result)
+        let { filter, quantity } = req.query;
+        let objArray = JSON.parse(filter)
+        const limit = objArray.length
+        let allFilltered = []
+        // // Table debe estar correctamente escrita y value siempre es la columna name
+        for (const fil of objArray) {
+            const result = await getProductsByValue(fil.filter, fil.value);
+            for (const res of result) {
+                if (quantity == "all") {
+                    allFilltered.push(res)
+                } else if (res.quantity == quantity) {
+                    allFilltered.push(res)
+                }
+            }
+        }
+        const frequency = {};
+        const newArray = [];
+        for (const element of allFilltered) {
+            if (frequency[element.name]) {
+                frequency[element.name] += 1;
+            } else {
+                frequency[element.name] = 1;
+            }
+        }
+        for (const key in frequency) {
+            if (frequency[key] === limit) {
+                newArray.push(key);
+            }
+        }
+        res.status(200).send(newArray)
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -50,7 +73,7 @@ router.get('/filters', async (req, res) => {
 router.get('/orders', async (req, res) => {
     try {
 
-        let { order, value} = req.query;
+        let { order, value } = req.query;
 
         const result = await getOrderProducts(order, value);
         res.status(200).send(result)
