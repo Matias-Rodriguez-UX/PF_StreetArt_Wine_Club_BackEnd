@@ -14,10 +14,28 @@ module.exports = (sequelize) => {
         primaryKey: true,
         validate: {
           isEmail: {
-            msg: "Email invalido"
+            msg: "Ingrese un mail válido"
           }
         }
       },
+      role: {
+        type: DataTypes.ENUM('common', 'member', 'admin', 'superAdmin'),
+        allowNull: false,
+      },
+      fullname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      profile: {
+        type: DataTypes.TEXT,
+      },
+      avatar: {
+        type: DataTypes.STRING,
+      },
+      status: {
+        type: DataTypes.ENUM('active', 'inactive', 'suspended'),
+        defaultValue: 'active'
+      }
     },
     { timestamps: false }
   );

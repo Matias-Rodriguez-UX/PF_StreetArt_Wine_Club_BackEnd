@@ -30,7 +30,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Type, Grape, State, Region, Review, User } = sequelize.models;
+const { Product, Type, Grape, State, Region, Review, User, Membership, ShoppingCart, Order, Address } = sequelize.models;
 
 
 // Aca vendrian las relaciones
@@ -49,11 +49,50 @@ State.belongsToMany(Product, {through: 'Product_State', timestamps: false})
 Product.belongsToMany(Region, {through: 'Product_Region', timestamps: false})
 Region.belongsToMany(Product, {through: 'Product_Region', timestamps: false})
 
+
+
+//relación producto → review: en Review voy a tener la FK productId (el id del product al que pertenece dicha review)
 Product.hasMany(Review);
 Review.belongsTo(Product);
 
+//relación usuario → review: en review voy a tener la FK userId (el id del usuario al que pertenece dicha review)
 User.hasMany(Review);
 Review.belongsTo(User);
+
+//relación membresia → usuario: una membresía va a pertenecer a un usuario, la FK va a ser puesta en user como: membershipId
+Membership.hasOne(User);
+User.belongsTo(Membership);
+
+//relacion usuario → carrito
+User.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(User);
+
+//relación producto → carrito
+Product.hasMany(ShoppingCart);
+ShoppingCart.belongsTo(Product);
+
+//relación nro de orden → carrito
+Order.hasOne(ShoppingCart);
+ShoppingCart.belongsTo(Order);
+
+//relación usuario → pedido
+User.hasMany(Order);
+Order.belongsTo(User)
+
+//relación usuario → dirección
+User.hasMany(Address);
+Address.belongsTo(User);
+
+//relación provincia → dirección
+State.hasOne(Address);
+Address.belongsTo(State);
+
+//relación localidad → dirección
+Region.hasOne(Address);
+Address.belongsTo(Region);
+
+
+
 
 
 module.exports = {
