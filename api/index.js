@@ -3,10 +3,10 @@ const { conn } = require('./src/db.js');
 const {LoadingDb} = require('./src/DbLoad.js')
 const {LoadingProducts} = require('./src/DbLoadProducts.js')
 // Sincronización de todos los modelos:
-conn.sync({ force: false}).then(() => {
+conn.sync({ force: true}).then(() => {
   server.listen(3001, () => {
     LoadingDb()
-    LoadingProducts()
+    LoadingProducts() 
     console.log('%s listening at 3001');
   });
 });
