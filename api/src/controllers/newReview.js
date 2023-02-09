@@ -11,8 +11,10 @@ if(!review || !rating){
         review: review,
         rating: rating,
         userEmail: email
+       
 		
     })
+
 
     if(addReview){
         return 'The review was created successfully'
