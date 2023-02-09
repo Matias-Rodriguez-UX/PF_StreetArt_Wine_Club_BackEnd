@@ -123,12 +123,14 @@ router.get('/:id/review', async (req, res) => {
     }
 })
 
-router.post('/:id/review', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { review, rating } = req.body;
 
-        let result = await newReview(id, review, rating)
+router.post('/:id/review', async(req,res)=>{
+    try{
+        const {id} = req.params;
+        const {review, rating, email} = req.body;
+
+
+        let result = await newReview(id, review, rating, email)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
