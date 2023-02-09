@@ -6,7 +6,7 @@ const {LoadingProducts} = require('./src/DbLoadProducts.js')
 conn.sync({ force: false}).then(() => {
   server.listen(3001, () => {
     LoadingDb()
-    LoadingProducts()
+    LoadingProducts() 
     console.log('%s listening at 3001');
   });
 });
