@@ -6,8 +6,8 @@ const getReviews = async function(id){
         where: {
             productId: id,	
         },
-        //include:{model: User},
-        //order:[['id','DESC']]
+        include:{model: User},
+        order:[['id','DESC']]
     })
     return reviews;
 }

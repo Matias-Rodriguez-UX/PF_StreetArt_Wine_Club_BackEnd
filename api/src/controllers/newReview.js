@@ -1,6 +1,6 @@
 const { Review, User } = require("../db");
 
-const newReview = async function(id, review, rating ){
+const newReview = async function(id, review, rating, userId ){
     
 if(!review || !rating){
     throw new Error('The fields are required')
@@ -9,7 +9,8 @@ if(!review || !rating){
     const addReview = await Review.create({
         productId: id,
         review: review,
-        rating: rating
+        rating: rating,
+        userId: userId
 		
     })
 
