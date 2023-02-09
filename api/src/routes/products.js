@@ -43,9 +43,7 @@ router.get('/filters', async (req, res) => {
         for (const fil of objArray) {
             const result = await getProductsByValue(fil.filter, fil.value);
             for (const res of result) {
-                if (quantity == "all") {
-                    allFilltered.push(res)
-                } else if (res.quantity == quantity) {
+                if (quantity == "all" || res.quantity == quantity) {
                     allFilltered.push(res)
                 }
             }
