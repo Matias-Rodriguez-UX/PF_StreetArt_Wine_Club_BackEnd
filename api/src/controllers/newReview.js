@@ -1,6 +1,6 @@
 const { Review, User } = require("../db");
 
-const newReview = async function(id, review, rating, userId ){
+const newReview = async function(id, review, rating, email ){
     
 if(!review || !rating){
     throw new Error('The fields are required')
@@ -10,7 +10,7 @@ if(!review || !rating){
         productId: id,
         review: review,
         rating: rating,
-        userId: userId
+        userEmail: email
 		
     })
 
