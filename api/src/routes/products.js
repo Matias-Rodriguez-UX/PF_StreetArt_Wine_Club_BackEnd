@@ -128,8 +128,6 @@ router.post('/:id/review', async(req,res)=>{
     try{
         const {id} = req.params;
         const {review, rating, email} = req.body;
-
-
         let result = await newReview(id, review, rating, email)
         res.status(200).send(result)
     } catch (error) {
