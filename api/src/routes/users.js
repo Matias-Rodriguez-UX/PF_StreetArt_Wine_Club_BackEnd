@@ -6,6 +6,8 @@ const { getUserID } = require('../controllers/getUserID');
 const { updateUser } = require('../controllers/updateUser');
 const router = Router();
 
+//Traer usuario por ID
+
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -16,6 +18,8 @@ router.get('/:id', async (req, res) => {
         res.status(400).send(error.message)
     }
 })
+
+//traer todos los usuarios
 router.get('/', async (req, res) => {
     try {
         let result = await User.findAll();
@@ -25,6 +29,8 @@ router.get('/', async (req, res) => {
         res.status(400).send(error.message)
     }
 })
+
+// crear usuario
 router.post('/', async (req, res) => {
     try {
         const { email, role, fullname, profile, avatar} = req.body;
@@ -36,6 +42,7 @@ console.log(req.body)
     }
 })
 
+//eliminar permanentemente usuario
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params
@@ -48,6 +55,7 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+//modificar datos del usuario
 router.put('/', async (req, res) => {
     try {
         const { id, email, rol, fullname, profile, avatar,status } = req.body;

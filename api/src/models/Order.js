@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
   sequelize.define(
     "order",
     {
-      orderNumber: {
+      number: {
         type: DataTypes.STRING,
         primaryKey: true,
       },
@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM('processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'),
+        type: DataTypes.ENUM('cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'),
         defaultValue: 'processing payment',
         allowNull: false,
       },
