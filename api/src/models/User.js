@@ -35,7 +35,11 @@ module.exports = (sequelize) => {
       status: {
         type: DataTypes.ENUM('active', 'inactive', 'suspended'),
         defaultValue: 'active'
+      },
+      PasswordToken: {
+        type: DataTypes.STRING,
       }
+
     },
     { timestamps: false }
   );
