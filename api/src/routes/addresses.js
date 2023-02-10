@@ -16,6 +16,7 @@ router.get('/', async (req, res) => {
     }
 })
 
+//crear direccion de entrega de usuario
 router.post('/', async (req, res) => {
     try {
         const { reference, address, zipCode, telephone, userEmail, stateId, regionId} = req.body;
