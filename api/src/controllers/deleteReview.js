@@ -1,6 +1,7 @@
 const { Review, User } = require("../db");
 
-const deleteReview = async function(idReview){
+const deleteReview = async function(idReview
+){
 
 const delReview = Review.destroy({
     where: {
