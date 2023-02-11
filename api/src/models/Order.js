@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       },
       status: {
         type: DataTypes.ENUM('cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'),
-        defaultValue: 'processing payment',
+        defaultValue: 'cart',
         allowNull: false,
       },
     },
