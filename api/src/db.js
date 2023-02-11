@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
@@ -67,13 +67,9 @@ User.belongsTo(Membership);
 User.hasMany(ShoppingCart);
 ShoppingCart.belongsTo(User);
 
-//relación producto → carrito
-Product.hasMany(ShoppingCart);
-ShoppingCart.belongsTo(Product);
-
 //relación nro de orden → carrito
-Order.hasOne(ShoppingCart);
-ShoppingCart.belongsTo(Order);
+Order.belongsToMany(Product, {through: ShoppingCart});
+Product.belongsToMany(Order, {through: ShoppingCart});
 
 //relación usuario → pedido
 User.hasMany(Order);
