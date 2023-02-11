@@ -1,9 +1,13 @@
 const { Router, Memberships, ShoppingCarts, Orders, Review  } = require('express');
-const { User } = require("../db");
+const { User, Membership } = require("../db");
 const { createUser} = require('../controllers/createUser');
 const { deleteUser } = require('../controllers/deleteUser');
 const { getUserID } = require('../controllers/getUserID');
 const { updateUser } = require('../controllers/updateUser');
+const { newMembership } = require ('../controllers/newMembership')
+const { getMembership } = require ('../controllers/getMembership')
+const { updateMembership } = require ('../controllers/updateMembership')
+
 const router = Router();
 
 //Traer usuario por ID
@@ -66,6 +70,47 @@ router.put('/', async (req, res) => {
         res.status(400).send(error.message)
     }
 })
+
+//agregar membresia 
+router.post('/:id/membership', async(req,res)=>{
+    try{
+        const { id } = req.params;
+        const { name, discount, price } = req.body;
+        let result = await newMembership(id, name, discount, price)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+//traer membresias 
+
+router.get('/:id/membership', async (req, res) => {
+    try {
+        const { id } = req.params;
+        let result = await getMembership(id)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+//modificar membresia 
+
+router.put('/:id/membership/:idMembership', async (req, res) => {
+    try {
+        const { id, idMembership } = req.params
+        const { name, discount, price } = req.body;
+
+        let result = await updateMembership(idMembership, name, discount, price)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+
+
 
 
 
