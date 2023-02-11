@@ -180,7 +180,7 @@ router.get('/membership/:id', async (req, res) => {
     }
 })
 
-//modificar membresia 
+//actualizar membresia 
 
 router.put('/membership/:idMembership', async (req, res) => {
     try {
@@ -198,7 +198,7 @@ router.put('/:userId/membership/:membershipId', async (req, res) => {
         const { userId, membershipId } = req.params
 
         let result = await assignMembership(userId, membershipId)
-        res.status(200).send()
+        res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
     }
