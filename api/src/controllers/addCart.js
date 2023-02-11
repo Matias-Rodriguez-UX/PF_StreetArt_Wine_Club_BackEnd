@@ -1,19 +1,20 @@
+// const { where } = require("sequelize");
 const { Product, User, ShoppingCart, Order } = require("../db");
 
 const addCart = async function(userId, totalPrice, quantity, email, productId){
-//console.log(quantity)
-//console.log(productId)
 
 if (email) {
               let order = await Order.findOne({ where: { userEmail: email, status: 'cart' } })
-              console.log(order)
+              // console.log(order)
                       if (!order) {
                           let newOrder = await Order.create({
                               totalPrice: 0,
                           })
-                          console.log(newOrder)
+                          // console.log(newOrder)
                      await newOrder.setUser(email)
+                     
                       if (productId) {
+                        
                           await ShoppingCart.create({
                             totalPrice,
                             quantity,
@@ -21,23 +22,23 @@ if (email) {
                               orderId: newOrder.id,
                               productId: productId
                           })}
-                         return "order created "
+          
+                         return "Cart created "
           } else {
             if (productId) {
-
-              
-              await ShoppingCart.update({
+              await ShoppingCart.create({
                 totalPrice,
                 quantity,
-                  orderId: order.id,
+                userEmail: email,
+                  orderId: order.id, 
                   productId: productId
               }, {
                 where: {
                     orderId: order.id,
                 }
             })
-              
-            return "cart created "
+          
+            return "Added product "
             }
 
           }
@@ -48,3 +49,4 @@ if (email) {
   //    
 
 module.exports = {addCart}
+
