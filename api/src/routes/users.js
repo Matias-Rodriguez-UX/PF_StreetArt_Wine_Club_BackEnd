@@ -1,10 +1,10 @@
-const { Router, Memberships, ShoppingCarts, Orders, Review  } = require('express');
-const { User, Membership } = require("../db");
+const { Router, } = require('express');
+const { User,  Membership, ShoppingCart, Order, Review  } = require("../db");
 const { createUser} = require('../controllers/createUser');
 const { deleteUser } = require('../controllers/deleteUser');
 const { getUserID } = require('../controllers/getUserID');
 const { updateUser } = require('../controllers/updateUser');
-const { newMembership } = require ('../controllers/newMembership')
+const { assignMembership } = require ('../controllers/assignMembership')
 const { getMembership } = require ('../controllers/getMembership')
 const { updateMembership } = require ('../controllers/updateMembership')
 
@@ -72,20 +72,26 @@ router.put('/', async (req, res) => {
 })
 
 //agregar membresia 
-router.post('/:id/membership', async(req,res)=>{
+router.post('/membership', async(req,res)=>{
+
     try{
-        const { id } = req.params;
         const { name, discount, price } = req.body;
-        let result = await newMembership(id, name, discount, price)
-        res.status(200).send(result)
+        let result = await Membership.findOrCreate({
+            where: {
+                name : name,
+                discount : discount,
+                price: price
+            },
+        })
+        res.status(200).send({message:"Membership created"})
     } catch (error) {
         res.status(400).send(error.message)
     }
 })
 
-//traer membresias 
+//traer membresia por id 
 
-router.get('/:id/membership', async (req, res) => {
+router.get('/membership/:id', async (req, res) => {
     try {
         const { id } = req.params;
         let result = await getMembership(id)
@@ -97,19 +103,27 @@ router.get('/:id/membership', async (req, res) => {
 
 //modificar membresia 
 
-router.put('/:id/membership/:idMembership', async (req, res) => {
+router.put('/membership/:idMembership', async (req, res) => {
     try {
-        const { id, idMembership } = req.params
+        const {  idMembership } = req.params
         const { name, discount, price } = req.body;
-
         let result = await updateMembership(idMembership, name, discount, price)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
     }
 })
+// asignar membresia al usuario
+router.put('/:userId/membership/:membershipId', async (req, res) => {
+    try {
+        const { userId, membershipId } = req.params
 
-
+        let result = await assignMembership(userId, membershipId)
+        res.status(200).send()
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
 
 
