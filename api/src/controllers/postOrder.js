@@ -2,8 +2,8 @@ const { Order, User } = require("../db");
 
 const newOrder = async function(orderNumber, date, totalPrice, status, email ){
     
-if(!orderNumber || !orderNumber || !totalPrice){
-    throw new Error('Fill in the fields orderNumber, date and totalPrice')
+if( !totalPrice){
+    throw new Error('Fill in the fields totalPrice')
 }
 
     const newOrder = await Order.create({
