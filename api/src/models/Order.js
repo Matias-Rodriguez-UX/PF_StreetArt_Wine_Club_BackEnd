@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     "order",
     {
       number: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
       },
       date: {
