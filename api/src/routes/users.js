@@ -4,8 +4,9 @@ const { createUser} = require('../controllers/createUser');
 const { deleteUser } = require('../controllers/deleteUser');
 const { getUserID } = require('../controllers/getUserID');
 const { updateUser } = require('../controllers/updateUser');
-const { addItemCart } = require ('../controllers/addItemCart');
 const { deleteItemCart } = require('../controllers/deleteItemCart');
+const { addCart } = require ('../controllers/addCart');
+const { updateCart } = require ('../controllers/updateCart');
 
 const router = Router();
 
@@ -74,14 +75,27 @@ router.put('/', async (req, res) => {
 
 
 //Agregar item al carrito
-router.post('/:id/cart', async (req,res)=>{
-    const { id } = req.params
-    const { totalPrice, quantity, email, productId, orderNumber} = req.body
+router.post('/:userId/cart', async (req,res)=>{
+    const { userId } = req.params
+    const { totalPrice, quantity, email, productId} = req.body
+    try {
+        let result = await addCart( userId, totalPrice, quantity, email, productId)
+        res.status(200).send(result)
+        
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
-    console.log(req.body)
+router.put('/:userId/cart', async (req,res)=>{
+    const { userId } = req.params
+    const { totalPrice, quantity, email, productId} = req.body
+
+    console.log(req.params)
+     console.log(req.body)
     
     try {
-        let result = await addItemCart( totalPrice, quantity, email, productId, orderNumber)
+        let result = await updateCart( userId, totalPrice, quantity, email, productId)
         res.status(200).send(result)
         
     } catch (error) {

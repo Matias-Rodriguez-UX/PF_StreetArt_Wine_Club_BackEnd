@@ -4,10 +4,10 @@ module.exports = (sequelize) => {
   sequelize.define(
     "order",
     {
-      number: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-      },
+      // number: {
+      //   type: DataTypes.INTEGER,
+      //   primaryKey: true,
+      // },
       date: {
         type: DataTypes.DATEONLY,
         defaultValue: DataTypes.NOW
