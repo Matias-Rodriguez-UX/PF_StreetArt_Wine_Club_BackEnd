@@ -5,6 +5,8 @@ const { deleteUser } = require('../controllers/deleteUser');
 const { getUserID } = require('../controllers/getUserID');
 const { updateUser } = require('../controllers/updateUser');
 const { addItemCart } = require ('../controllers/addItemCart');
+const { deleteItemCart } = require('../controllers/deleteItemCart');
+
 const router = Router();
 
 //Traer usuario por ID
@@ -74,12 +76,12 @@ router.put('/', async (req, res) => {
 //Agregar item al carrito
 router.post('/:id/cart', async (req,res)=>{
     const { id } = req.params
-    const { totalPrice, cantidad, email, productId, orderNumber} = req.body
+    const { totalPrice, quantity, email, productId, orderNumber} = req.body
 
     console.log(req.body)
     
     try {
-        let result = await addItemCart( totalPrice, cantidad, email, productId, orderNumber)
+        let result = await addItemCart( totalPrice, quantity, email, productId, orderNumber)
         res.status(200).send(result)
         
     } catch (error) {
@@ -87,16 +89,16 @@ router.post('/:id/cart', async (req,res)=>{
     }
 })
 
-// // Vaciar el carrito
-// router.delete('/:id/cart', async (req,res)=>{
-// try {
-//     const {id} = req.params
-//     let result = await deleteItem(id)
-//     res.status(200).send(result)
-// } catch (error) {
-//     res.status(400).send(error.message)
-// }
-// })
+// Eiminar carrito de un usuario
+router.delete('/:id/cart/:idCart', async (req,res)=>{
+try {
+    const {idCart} = req.params
+    let result = await deleteItemCart(idCart)
+    res.status(200).send(result)
+} catch (error) {
+    res.status(400).send(error.message)
+}
+})
 
 // //Actualizar el carrito
 // router.put('/:id/cart', async (req, res) => {
