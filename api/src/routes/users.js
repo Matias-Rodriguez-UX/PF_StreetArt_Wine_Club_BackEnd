@@ -19,8 +19,8 @@ const router = Router();
 //Traer usuario por ID
 router.post('/auth', async (req, res) => {
     try {
-        const { email, token, rol, fullname } = req.body;
-        let result = await authenticator(email, token, rol, fullname)
+        const { email, token, role, fullname } = req.body;
+        let result = await authenticator(email, token, role, fullname)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
