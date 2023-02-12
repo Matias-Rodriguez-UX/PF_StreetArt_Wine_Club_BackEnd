@@ -1,18 +1,19 @@
 const { ShoppingCart , User } = require("../db");
 
-const deleteItemCart = async function(idCart){
-
-const delItem = ShoppingCart.destroy({
+const deleteItemCart = async function(email,idProduct){
+console.log(email)
+const delItem = await ShoppingCart.destroy({
     where: {
-    
-        id : idCart
+        userEmail: email,
+        productId : idProduct
     }
 })
-
+console.log(delItem)
 if(delItem){
-    return 'The cart was successfully removed'
+    return `Product ${idProduct} was removed from ${email} cart`
+}else{
+    return "Product not found"
 }
-
 }
 
 module.exports = {deleteItemCart}

@@ -121,7 +121,7 @@ router.put('/:userId/cart', async (req, res) => {
     }
 })
 
-// ruta para eliminar el carrito completo pasando por query el email del usuario
+// ruta para eliminar el carrito completo 
 router.delete('/:userId/cart', async (req, res) => {
     const { userId } = req.params
     let usuario = await User.findOne({ where: { id: userId } })
@@ -155,11 +155,24 @@ router.get('/:userId/cart', async (req, res) => {
     }
 })
 
-// Eiminar carrito de un usuario
-router.delete('/:id/cart/:idCart', async (req, res) => {
+// Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
+// router.delete('/:id/cart/', async (req, res) => {
+//     try {
+//         const { email, idCart } = req.query
+//         let result = await deleteItemCart(idCart)
+//         res.status(200).send(result)
+//     } catch (error) {
+//         res.status(400).send(error.message)
+//     }
+// })
+// Eiminar un producto carrito de un usuario
+router.delete('/:id/cart/:idProduct', async (req, res) => {
+   const  userId  = req.params.id
+    let usuario = await User.findOne({ where: { id: userId } })
+    // console.log(usuario)
     try {
-        const { idCart } = req.params
-        let result = await deleteItemCart(idCart)
+        const { idProduct } = req.params
+        let result = await deleteItemCart(usuario.email, idProduct)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
