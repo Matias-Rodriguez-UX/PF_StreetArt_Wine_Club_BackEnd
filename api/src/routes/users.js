@@ -13,6 +13,7 @@ const { getMembership } = require ('../controllers/getMembership')
 const { updateMembership } = require ('../controllers/updateMembership')
 const { authenticator } = require ('../controllers/authenticator')
 
+const nodemailer = require('nodemailer');
 
 const router = Router();
 
@@ -61,6 +62,32 @@ router.post('/', async (req, res) => {
         const { email, role, fullname, profile, avatar } = req.body;
         console.log(req.body)
         let result = await createUser(email, role, fullname, profile, avatar)
+
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+                    auth: {
+                        user: 'artstreetwineclub@gmail.com',
+                        pass: 'rokkcjdppianhcnb'
+                    }
+        })
+
+        const mailOptions = {
+        from: 'artstreetwineclub@gmail.com',
+        to: email,
+        subject: 'Enviado desde nodemailer',
+        text: 'Bienvenido a Art Street Wine Club'
+        }
+
+        transporter.sendMail(mailOptions, (error, info)=>{
+            if(error){
+                res.status(500).send(error.message)
+            } else {
+                console.log('email enviado')
+                res.status(200).jsonp(req.body)
+            }
+        })
+
+
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
