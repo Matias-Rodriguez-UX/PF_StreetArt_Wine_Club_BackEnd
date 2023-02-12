@@ -34,10 +34,7 @@ const LoadingDb = async function (req, res) {
     
     
     const allRegions = await axios.get ('http://demo8521051.mockable.io/regions')
-    console.log(allRegions.data)
-  
-    
-    const regions = allRegions.data;
+  const regions = allRegions.data;
 
     var Regiones =[]
     regions.forEach(region => {
@@ -46,9 +43,6 @@ const LoadingDb = async function (req, res) {
    } 
    });
 
-    console.log(Regiones)
-    
-    
     Regiones.forEach(async(e)=>{
         await Region.findOrCreate({
           where: {

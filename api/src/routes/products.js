@@ -10,6 +10,7 @@ const { getReviews } = require('../controllers/getReviews');
 const { newReview } = require('../controllers/newReview');
 const { deleteReview } = require('../controllers/deleteReview');
 const { updateReview } = require('../controllers/updateReview');
+const isAdmin = require('../utils/middleware.js');
 
 const router = Router();
 
@@ -23,7 +24,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
+router.get('/', isAdmin, async (req, res) => {
     try {
         let { name } = req.query;
         const result = await getProducts(name);

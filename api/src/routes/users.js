@@ -20,6 +20,7 @@ router.post('/auth', async (req, res) => {
     try {
         const { email, token } = req.body;
         console.log(req.body)
+        console.log(req.user)
         let result = await authenticator(email, token)
         res.status(200).send(result)
     } catch (error) {
