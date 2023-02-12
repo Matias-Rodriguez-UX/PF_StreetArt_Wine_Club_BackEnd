@@ -1,6 +1,6 @@
 const { Product, Grape, State, Region, Type  } = require("../db");
 
-const updateProduct = async function (id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types) {
+const updateProduct = async function (id, name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types) {
     if (!id) {
         throw new Error('You must enter an id value')
     }
@@ -44,7 +44,7 @@ const updateProduct = async function (id, name, price, image, volume, quantity, 
                 quantity: quantity,
                 stock: stock,
                 details: details,
-                winery: winerys,
+                winery: winery,
                 rating:"",
                 review:""
             }, {
