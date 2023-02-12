@@ -11,6 +11,7 @@ const { updateCart } = require('../controllers/updateCart');
 const { assignMembership } = require ('../controllers/assignMembership')
 const { getMembership } = require ('../controllers/getMembership')
 const { updateMembership } = require ('../controllers/updateMembership')
+const { authenticator } = require ('../controllers/authenticator')
 
 
 const router = Router();
@@ -18,9 +19,8 @@ const router = Router();
 //Traer usuario por ID
 router.post('/auth', async (req, res) => {
     try {
-        const { email, token } = req.body;
-        console.log(req.body)
-        let result = await authenticator(email, token)
+        const { email, token, role, fullname } = req.body;
+        let result = await authenticator(email, token, role, fullname)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)

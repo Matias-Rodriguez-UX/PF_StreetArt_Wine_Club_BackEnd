@@ -29,24 +29,17 @@ const LoadingDb = async function (req, res) {
     //     // state: provincia.id
     //   };
     // });
-
     // http://demo8521051.mockable.io/regions creada por Mati Regiones mas frecuentes
     
     
     const allRegions = await axios.get ('http://demo8521051.mockable.io/regions')
-    console.log(allRegions.data)
-  
-    
     const regions = allRegions.data;
-
     var Regiones =[]
     regions.forEach(region => {
       for (let i = 0; i < region.state.regions.length; i++) {
     Regiones.push(region.state.regions[i].name)
    } 
    });
-
-    console.log(Regiones)
     
     
     Regiones.forEach(async(e)=>{
