@@ -1,4 +1,5 @@
-const authenticator = async function (email, token, rol) {
+const { User } = require("../db");
+const authenticator = async function (email, token, rol, fullname) {
   
     if (!email ) {
       throw new Error('You must complete email')
@@ -11,12 +12,12 @@ const authenticator = async function (email, token, rol) {
       if (!searchUser) {
           const newUser = await User.create({
               email: email,
-              token:token,
-              rol:rol
+              passwordToken:token,
+              rol:rol,
+              fullname:fullname
           });
       return newUser
     } else {
-//    if(token)
       return searchUser
     }
   }
