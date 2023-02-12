@@ -14,7 +14,6 @@ if(delItem){
 }else{
     return "Product not found"
 }
-
 }
 
 module.exports = {deleteItemCart}
