@@ -10,13 +10,15 @@ const { getReviews } = require('../controllers/getReviews');
 const { newReview } = require('../controllers/newReview');
 const { deleteReview } = require('../controllers/deleteReview');
 const { updateReview } = require('../controllers/updateReview');
+const {isAdmin, isAuthenticated}= require('../utils/middleware.js');
 
 const router = Router();
 
 router.post('/', async (req, res) => {
-    const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types } = req.body;
+    const { name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types } = req.body;
+   
     try {
-        let result = await newProduct(name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
+        let result = await newProduct(name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
         res.status(200).send({ result })
     } catch (error) {
         res.status(400).send(error.message)
@@ -24,6 +26,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
+    
     try {
         let { name } = req.query;
         const result = await getProducts(name);
@@ -94,8 +97,8 @@ router.get('/:idProduct', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const { name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types } = req.body;
-        let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winerys, grapes, state, regions, types)
+        const { name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types } = req.body;
+        let result = await updateProduct(id, name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
