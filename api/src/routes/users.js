@@ -16,6 +16,17 @@ const { updateMembership } = require ('../controllers/updateMembership')
 const router = Router();
 
 //Traer usuario por ID
+router.post('/auth', async (req, res) => {
+    try {
+        const { email, token } = req.body;
+        console.log(req.body)
+        let result = await authenticator(email, token)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 
 router.get('/:id', async (req, res) => {
     try {

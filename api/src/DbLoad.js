@@ -29,15 +29,7 @@ const LoadingDb = async function (req, res) {
     //     // state: provincia.id
     //   };
     // });
-    // // console.log(Regions)
-    // Regions.forEach(async (e) => {
-    //   await Region.findOrCreate({
-    //     where: {
-    //       id: e.id,
-    //       name: e.name,
-    //     },
-    //   });
-    // });
+
     // http://demo8521051.mockable.io/regions creada por Mati Regiones mas frecuentes
     
     
@@ -65,6 +57,14 @@ const LoadingDb = async function (req, res) {
         })
       })
   
+
+
+
+
+
+
+
+
 
 
 

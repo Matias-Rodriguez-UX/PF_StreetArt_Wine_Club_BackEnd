@@ -1,16 +1,15 @@
 const { User  } = require("../db");
 
 const createUser = async function (email, role, fullname, profile, avatar) {
-  if (!email || !role || !fullname) {
+  
+  if (!email ) {
     throw new Error('You must complete email, role and fullname')
   }
-
   const searchUser = await User.findOne({
     where: {
         email: email,
     },
-  });   
-
+  });  
     if (!searchUser) {
         const newUser = await User.create({
             email: email,
