@@ -20,25 +20,53 @@ const LoadingDb = async function (req, res) {
       });
     });
 
-    const allRegions = await axios.get('https://apis.datos.gob.ar/georef/api/municipios?max=1814');
+    // const allRegions = await axios.get('https://apis.datos.gob.ar/georef/api/municipios?max=1814');
 
-    const Regions = allRegions.data.municipios.map((e) => {
-      return {
-        id: e.id,
-        name: e.nombre,
-        // state: provincia.id
-      };
-    });
-    // console.log(Regions)
-    Regions.forEach(async (e) => {
-      await Region.findOrCreate({
-        where: {
-          id: e.id,
-          name: e.name,
-        },
-      });
-    });
+    // const Regions = allRegions.data.municipios.map((e) => {
+    //   return {
+    //     id: e.id,
+    //     name: e.nombre,
+    //     // state: provincia.id
+    //   };
+    // });
+    // // console.log(Regions)
+    // Regions.forEach(async (e) => {
+    //   await Region.findOrCreate({
+    //     where: {
+    //       id: e.id,
+    //       name: e.name,
+    //     },
+    //   });
+    // });
     // http://demo8521051.mockable.io/regions creada por Mati Regiones mas frecuentes
+    
+    
+    const allRegions = await axios.get ('http://demo8521051.mockable.io/regions')
+    console.log(allRegions.data)
+  
+    
+    const regions = allRegions.data;
+
+    var Regiones =[]
+    regions.forEach(region => {
+      for (let i = 0; i < region.state.regions.length; i++) {
+    Regiones.push(region.state.regions[i].name)
+   } 
+   });
+
+    console.log(Regiones)
+    
+    
+    Regiones.forEach(async(e)=>{
+        await Region.findOrCreate({
+          where: {
+            name: e
+          }
+        })
+      })
+  
+
+
 
     const allGrapes = await axios.get('http://demo8521051.mockable.io/grape');
 
