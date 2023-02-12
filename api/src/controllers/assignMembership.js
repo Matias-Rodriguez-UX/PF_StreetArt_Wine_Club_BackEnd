@@ -15,6 +15,7 @@ const assignMembership = async function (userId, membershipId ){
 // console.log(searchMembership)
 // console.log(searchUser)
 await searchUser.setMembership(searchMembership)
+return `${searchMembership.name} membership was assigned to the user ${searchUser.email}`
 }
     
     module.exports = {assignMembership}
