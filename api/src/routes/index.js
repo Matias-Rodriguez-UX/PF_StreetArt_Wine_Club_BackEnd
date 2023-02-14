@@ -8,6 +8,7 @@ const TypeRouter= require('./types');
 const UserRouter= require('./users');
 const AddressRouter= require('./addresses');
 const Orders = require('./orders');
+const Memberships = require ('./memberships');
 
 const router = Router();
 
@@ -20,6 +21,7 @@ router.use('/types', TypeRouter);
 router.use('/users', UserRouter);
 router.use('/addresses', AddressRouter);
 router.use('/orders', Orders);
+router.use('/memberships', Memberships);
 
 module.exports = router;
 
