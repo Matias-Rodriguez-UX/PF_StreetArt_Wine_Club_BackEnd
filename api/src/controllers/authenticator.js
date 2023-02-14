@@ -9,6 +9,7 @@ const authenticator = async function (email, fullname, picture) {
           email: email,
       },
     });  
+    console.log(searchUser)
       if (!searchUser) {
           const newUser = await User.create({
               email: email,
