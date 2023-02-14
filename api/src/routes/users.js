@@ -12,6 +12,7 @@ const { assignMembership } = require ('../controllers/assignMembership')
 const { getMembership } = require ('../controllers/getMembership')
 const { updateMembership } = require ('../controllers/updateMembership')
 const { authenticator } = require ('../controllers/authenticator')
+const { getUserByEmail } = require ('../controllers/getUserByEmail')
 
 const nodemailer = require('nodemailer');
 
@@ -23,8 +24,7 @@ router.post('/auth', async (req, res) => {
 
         const { email, name, picture } = req.body;
         const fullname = name;
-        console.log(req.body)
-        console.log(email, name, picture)
+  
         let result = await authenticator(email, fullname, picture)
 
 
@@ -35,6 +35,15 @@ router.post('/auth', async (req, res) => {
 });
 
 
+router.get('/', async (req, res) => {
+    try {
+        const { email } = req.query;
+        let result = await getUserByEmail(email)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
