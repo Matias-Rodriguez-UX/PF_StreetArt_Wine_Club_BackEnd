@@ -21,17 +21,18 @@ const router = Router();
 router.post('/auth', async (req, res) => {
     try {
 
-        const { email, token } = req.body;
+        const { email, name, picture } = req.body;
+        const fullname = name;
         console.log(req.body)
-        console.log(req.user)
-        let result = await authenticator(email, token)
+        console.log(email, name, picture)
+        let result = await authenticator(email, fullname, picture)
 
 
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
     }
-})
+});
 
 
 router.get('/:id', async (req, res) => {
@@ -44,6 +45,21 @@ router.get('/:id', async (req, res) => {
         res.status(400).send(error.message)
     }
 })
+
+router.get('/:email', async (req, res) => {
+    try {
+        const { email } = req.params;
+        const user = await User.findOne({
+            where: {
+                email: email,
+            }
+        });
+        res.status(200).send(user)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+});
+
 
 //traer todos los usuarios
 router.get('/', async (req, res) => {

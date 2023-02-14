@@ -21,11 +21,9 @@ module.exports = (sequelize) => {
       role: {
         type: DataTypes.ENUM('common', 'member', 'admin', 'superAdmin'),
         defaultValue: 'common',
-        allowNull: false,
       },
       fullname: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       profile: {
         type: DataTypes.TEXT,
