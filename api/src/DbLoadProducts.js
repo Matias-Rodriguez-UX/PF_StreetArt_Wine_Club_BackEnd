@@ -25,7 +25,8 @@ const LoadingProducts = async function (req, res) {
     Products.forEach(async (e) => {
         
         let  {name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types} = e
-        newProduct(name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
+        await newProduct(name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
+        //console.log(e.regions)
 }
     );
     
@@ -33,6 +34,7 @@ const LoadingProducts = async function (req, res) {
   } catch (error) {
     console.log(error)
     res.send(error);
+
   }
 }
 module.exports = { LoadingProducts }

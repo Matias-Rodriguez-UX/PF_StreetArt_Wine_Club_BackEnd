@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
       }, */
       name: {
-        type: DataTypes.ENUM('stencil', 'graffiti', ' '),
+        type: DataTypes.ENUM('stencil', 'graffiti', 'mural'),
         allowNull: false,
       },
       discount: {
