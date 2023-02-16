@@ -140,7 +140,7 @@ router.put('/', async (req, res) => {
         let result = await updateUser(id, email, rol, fullname, profile, avatar, status)
         res.status(200).send(result)
     } catch (error) {
-        res.status(400).send(error.message)
+        res.status(400).send(console.log(error.message))
     }
 })
 
