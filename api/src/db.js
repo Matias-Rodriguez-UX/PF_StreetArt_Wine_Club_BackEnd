@@ -95,6 +95,9 @@ Address.belongsTo(State);
 Region.hasOne(Address);
 Address.belongsTo(Region);
 
+//relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
+User.belongsToMany(Product,{ through: 'Favourite' });
+Product.belongsToMany(User,{ through: 'Favourite' });
 
 
 
