@@ -8,11 +8,11 @@ const { updateUser } = require('../controllers/updateUser');
 const { deleteItemCart } = require('../controllers/deleteItemCart');
 const { addCart } = require('../controllers/addCart');
 const { updateCart } = require('../controllers/updateCart');
-const { assignMembership } = require ('../controllers/assignMembership')
-const { getMembership } = require ('../controllers/getMembership')
-const { updateMembership } = require ('../controllers/updateMembership')
-const { authenticator } = require ('../controllers/authenticator')
-const { getUserByEmail } = require ('../controllers/getUserByEmail')
+const { assignMembership } = require('../controllers/assignMembership')
+const { getMembership } = require('../controllers/getMembership')
+const { updateMembership } = require('../controllers/updateMembership')
+const { authenticator } = require('../controllers/authenticator')
+const { getUserByEmail } = require('../controllers/getUserByEmail')
 
 const nodemailer = require('nodemailer');
 
@@ -24,7 +24,7 @@ router.post('/auth', async (req, res) => {
 
         const { email, name, picture } = req.body;
         const fullname = name;
-  
+
         let result = await authenticator(email, fullname, picture)
 
 
@@ -90,21 +90,21 @@ router.post('/', async (req, res) => {
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-                    auth: {
-                        user: 'artstreetwineclub@gmail.com',
-                        pass: 'rokkcjdppianhcnb'
-                    }
+            auth: {
+                user: 'artstreetwineclub@gmail.com',
+                pass: 'rokkcjdppianhcnb'
+            }
         })
 
         const mailOptions = {
-        from: 'artstreetwineclub@gmail.com',
-        to: email,
-        subject: 'Enviado desde nodemailer',
-        text: 'Bienvenido a Art Street Wine Club'
+            from: 'artstreetwineclub@gmail.com',
+            to: email,
+            subject: 'Enviado desde nodemailer',
+            text: 'Bienvenido a Art Street Wine Club'
         }
 
-        transporter.sendMail(mailOptions, (error, info)=>{
-            if(error){
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
                 res.status(500).send(error.message)
             } else {
                 console.log('email enviado')
@@ -219,7 +219,7 @@ router.get('/:userId/cart', async (req, res) => {
 // })
 // Eiminar un producto carrito de un usuario
 router.delete('/:id/cart/:idProduct', async (req, res) => {
-   const  userId  = req.params.id
+    const userId = req.params.id
     let usuario = await User.findOne({ where: { id: userId } })
     // console.log(usuario)
     try {
@@ -232,19 +232,20 @@ router.delete('/:id/cart/:idProduct', async (req, res) => {
 })
 
 //agregar membresia 
-router.post('/membership', async(req,res)=>{
+router.post('/membership', async (req, res) => {
 
-    try{
+    try {
         const { name, discount, price } = req.body;
         let result = await Membership.findOrCreate({
             where: {
-                name : name,
-                discount : discount,
+                name: name,
+                discount: discount,
                 price: price
             },
         })
-        res.status(200).send({message:"Membership created"})
+        res.status(200).send({ message: "Membership created" })
     } catch (error) {
+        console.log(error)
         res.status(400).send(error.message)
     }
 })
@@ -265,7 +266,7 @@ router.get('/membership/:id', async (req, res) => {
 
 router.put('/membership/:idMembership', async (req, res) => {
     try {
-        const {  idMembership } = req.params
+        const { idMembership } = req.params
         const { name, discount, price } = req.body;
         let result = await updateMembership(idMembership, name, discount, price)
         res.status(200).send(result)

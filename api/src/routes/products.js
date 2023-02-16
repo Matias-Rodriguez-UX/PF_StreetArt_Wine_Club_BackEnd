@@ -10,13 +10,13 @@ const { getReviews } = require('../controllers/getReviews');
 const { newReview } = require('../controllers/newReview');
 const { deleteReview } = require('../controllers/deleteReview');
 const { updateReview } = require('../controllers/updateReview');
-const {isAdmin, isAuthenticated}= require('../utils/middleware.js');
+const { isAdmin, isAuthenticated } = require('../utils/middleware.js');
 
 const router = Router();
 
 router.post('/', async (req, res) => {
     const { name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types } = req.body;
-   
+
     try {
         let result = await newProduct(name, price, image, volume, quantity, stock, details, winery, grapes, state, regions, types)
         res.status(200).send({ result })
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    
+
     try {
         let { name } = req.query;
         const result = await getProducts(name);
@@ -127,10 +127,10 @@ router.get('/:id/review', async (req, res) => {
 })
 
 
-router.post('/:id/review', async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const {review, rating, email} = req.body;
+router.post('/:id/review', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { review, rating, email } = req.body;
         let result = await newReview(id, review, rating, email)
         res.status(200).send(result)
     } catch (error) {
