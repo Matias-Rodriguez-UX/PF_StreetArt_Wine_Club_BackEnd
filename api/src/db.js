@@ -3,12 +3,19 @@ const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
+  DB_DEPLOY,
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/products`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/products`, {
+//   logging: false, // set to console.log to see the raw SQL queries
+//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+// });
+
+
+const sequelize = new Sequelize(DB_DEPLOY, {
+  logging: false,
+  native: false,
 });
 const basename = path.basename(__filename);
 
@@ -36,18 +43,18 @@ const { Product, Type, Grape, State, Region, Review, User, Membership, ShoppingC
 // Aca vendrian las relaciones
 
 //Product (una caja de vinos) puede tener varios tipos (tinto, blanco, etc)
-Product.belongsToMany(Type, {through: 'Product_Type', timestamps: false});
+Product.belongsToMany(Type, { through: 'Product_Type', timestamps: false });
 //Mientras que tipos también pueden pertenecer a varias cajas de vino
-Type.belongsToMany(Product, {through: 'Product_Type', timestamps: false});
+Type.belongsToMany(Product, { through: 'Product_Type', timestamps: false });
 
-Product.belongsToMany(Grape, {through: 'Product_Grape', timestamps: false})
-Grape.belongsToMany(Product, {through: 'Product_Grape', timestamps: false})
+Product.belongsToMany(Grape, { through: 'Product_Grape', timestamps: false })
+Grape.belongsToMany(Product, { through: 'Product_Grape', timestamps: false })
 
-Product.belongsToMany(State, {through: 'Product_State', timestamps: false})
-State.belongsToMany(Product, {through: 'Product_State', timestamps: false})
+Product.belongsToMany(State, { through: 'Product_State', timestamps: false })
+State.belongsToMany(Product, { through: 'Product_State', timestamps: false })
 
-Product.belongsToMany(Region, {through: 'Product_Region', timestamps: false})
-Region.belongsToMany(Product, {through: 'Product_Region', timestamps: false})
+Product.belongsToMany(Region, { through: 'Product_Region', timestamps: false })
+Region.belongsToMany(Product, { through: 'Product_Region', timestamps: false })
 
 
 
@@ -68,8 +75,8 @@ User.hasMany(ShoppingCart);
 ShoppingCart.belongsTo(User);
 
 //relación nro de orden → carrito
-Order.belongsToMany(Product, {through: ShoppingCart});
-Product.belongsToMany(Order, {through: ShoppingCart});
+Order.belongsToMany(Product, { through: ShoppingCart });
+Product.belongsToMany(Order, { through: ShoppingCart });
 
 //relación usuario → pedido
 User.hasMany(Order);
@@ -87,6 +94,9 @@ Address.belongsTo(State);
 Region.hasOne(Address);
 Address.belongsTo(Region);
 
+//relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
+User.belongsToMany(Product, { through: 'Favourite' });
+Product.belongsToMany(User, { through: 'Favourite' });
 
 
 
