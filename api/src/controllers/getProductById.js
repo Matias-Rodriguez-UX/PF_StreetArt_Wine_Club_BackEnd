@@ -1,5 +1,5 @@
 const { Sequelize } = require("sequelize");
-const { Product, Grape, Type, Region, State } = require("../db");
+const { Product, Grape, Type, Region, State, Review } = require("../db");
 
 const productById = async function(productId){
     if(productId === null){
@@ -26,9 +26,12 @@ const productById = async function(productId){
             model: State, 
             attributes: ["name"],
             through: { attributes: [] }
-          }]
-
-      });
+          },
+          { model: Review },
+        ]
+        })
+          
+      
       if(findProduct){
          return findProduct;
       }else{

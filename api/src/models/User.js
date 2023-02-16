@@ -37,6 +37,9 @@ module.exports = (sequelize) => {
       },
       passwordToken: {
         type: DataTypes.TEXT,
+      },
+      dni: {
+        type: DataTypes.STRING,
       }
 
     },
