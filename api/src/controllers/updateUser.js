@@ -2,7 +2,7 @@ const { User  } = require("../db");
 
 const updateUser = async function (id, email, rol, fullname, profile, avatar, status) {
 
-  if (!email, !rol, !fullname, !profile, !avatar, !status) {
+  if (!email, !rol, !fullname, !profile, !status) {
     throw new Error('You must complete fields')
   }
   const searchUser = await User.findOne({
@@ -15,7 +15,7 @@ const updateUser = async function (id, email, rol, fullname, profile, avatar, st
         const updateUser = await User.update({
             email: email,
             rol: rol,
-            fullname: profile,
+            fullname: fullname,
             profile: profile,
             avatar: avatar,
         }, {
