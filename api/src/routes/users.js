@@ -15,6 +15,9 @@ const { authenticator } = require ('../controllers/authenticator')
 const { getUserByEmail } = require ('../controllers/getUserByEmail')
 
 const nodemailer = require('nodemailer');
+const fs = require ('fs');
+const path = require('path');
+const handlebars = require("handlebars");
 
 const router = Router();
 
@@ -88,6 +91,12 @@ router.post('/', async (req, res) => {
         console.log(req.body)
         let result = await createUser(email, role, fullname, profile, avatar)
 
+        const filePath = path.join(__dirname, '../utils/welcomeUser.html');
+        const source = fs.readFileSync(filePath, 'utf-8').toString();
+        const template = handlebars.compile(source);
+        const replacements = { user: fullname };
+        const htmlToSend = template(replacements);
+
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
                     auth: {
@@ -99,8 +108,9 @@ router.post('/', async (req, res) => {
         const mailOptions = {
         from: 'artstreetwineclub@gmail.com',
         to: email,
-        subject: 'Enviado desde nodemailer',
-        text: 'Bienvenido a Art Street Wine Club'
+        subject:  `Welcome ${fullname} your email was registered 📧✔`,
+        html: htmlToSend,
+        headers: { 'x-myheader': 'test header' }
         }
 
         transporter.sendMail(mailOptions, (error, info)=>{

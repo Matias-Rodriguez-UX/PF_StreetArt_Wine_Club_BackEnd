@@ -5,7 +5,7 @@ const {LoadingProducts} = require('./src/DbLoadProducts.js')
 // Sincronización de todos los modelos:
 const port = process.env.PORT || 3001 
 
-conn.sync({ force: true}).then( () => {
+conn.sync({ force: false}).then( () => {
   server.listen(port, async() => {
     await LoadingDb()
     await LoadingProducts()  
