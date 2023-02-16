@@ -22,6 +22,7 @@ const { getUserByEmail } = require("../controllers/getUserByEmail");
 
 const nodemailer = require("nodemailer");
 const { addFavourite } = require("../controllers/addFavourite");
+const { deleteFavourite } = require("../controllers/deleteFavourite");
 
 const router = Router();
 
@@ -301,5 +302,17 @@ router.post("/fav/:email/:id", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
+
+//borrar favorito
+
+router.delete("/deleteFav/:email/:id", async(req,res)=>{
+    const {email, id} = req.params
+    try {
+        const result = await deleteFavourite(email,id)
+        res.send(result)
+    } catch (error) {
+        res.status(404).send(error)
+    }
+})
 
 module.exports = router;
