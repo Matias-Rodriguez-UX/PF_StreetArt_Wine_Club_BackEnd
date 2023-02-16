@@ -28,11 +28,10 @@ router.post('/auth', async (req, res) => {
 
         let result = await authenticator(email, fullname, picture)
 
-
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
 });
 
 //traer los favoritos
@@ -94,11 +93,11 @@ router.get("/", async (req, res) => {
 });
 
 // crear usuario
-router.post('/', async (req, res) => {
-    try {
-        const { email, role, fullname, profile, avatar } = req.body;
-        console.log(req.body)
-        let result = await createUser(email, role, fullname, profile, avatar)
+router.post("/", async (req, res) => {
+  try {
+    const { email, role, fullname, profile, avatar } = req.body;
+    console.log(req.body);
+    let result = await createUser(email, role, fullname, profile, avatar);
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -124,12 +123,11 @@ router.post('/', async (req, res) => {
             }
         })
 
-
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
-})
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 //eliminar permanentemente usuario
 router.delete("/:id", async (req, res) => {
@@ -328,5 +326,15 @@ router.delete("/deleteFav/:email/:id", async(req,res)=>{
     }
 })
 
+router.post("/fav/:email/:id", async (req, res) => {
+  const { email, id } = req.params;
+  try {
+    const result = await addFavourite(email, id)
+    console.log(result)
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 module.exports = router;
