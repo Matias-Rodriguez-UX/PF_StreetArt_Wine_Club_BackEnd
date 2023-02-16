@@ -133,24 +133,17 @@ router.delete("/:id", async (req, res) => {
 });
 
 //modificar datos del usuario
-router.put("/", async (req, res) => {
-  try {
-    const { id, email, rol, fullname, profile, avatar, status } = req.body;
 
-    let result = await updateUser(
-      id,
-      email,
-      rol,
-      fullname,
-      profile,
-      avatar,
-      status
-    );
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
+router.put('/', async (req, res) => {
+    try {
+        const { id, email, rol, fullname, profile, avatar, status } = req.body;
+
+        let result = await updateUser(id, email, rol, fullname, profile, avatar, status)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(console.log(error.message))
+    }
+})
 
 //Agregar item al carrito
 router.post("/:userId/cart", async (req, res) => {
