@@ -1,45 +1,38 @@
-const { Router } = require("express");
-const {
-  User,
-  Product,
-  Membership,
-  ShoppingCart,
-  Order,
-  Review,
-} = require("../db");
-const { createUser } = require("../controllers/createUser");
-const { deleteUser } = require("../controllers/deleteUser");
-const { getUserID } = require("../controllers/getUserID");
-const { updateUser } = require("../controllers/updateUser");
-const { deleteItemCart } = require("../controllers/deleteItemCart");
-const { addCart } = require("../controllers/addCart");
-const { updateCart } = require("../controllers/updateCart");
-const { assignMembership } = require("../controllers/assignMembership");
-const { getMembership } = require("../controllers/getMembership");
-const { updateMembership } = require("../controllers/updateMembership");
-const { authenticator } = require("../controllers/authenticator");
-const { getUserByEmail } = require("../controllers/getUserByEmail");
+const { Router } = require('express');
+const { User, Product, Membership, ShoppingCart, Order, Review } = require("../db");
+const { createUser } = require('../controllers/createUser');
+const { deleteUser } = require('../controllers/deleteUser');
+const { getUserID } = require('../controllers/getUserID');
+const { updateUser } = require('../controllers/updateUser');
+const { deleteItemCart } = require('../controllers/deleteItemCart');
+const { addCart } = require('../controllers/addCart');
+const { updateCart } = require('../controllers/updateCart');
+const { assignMembership } = require('../controllers/assignMembership')
+const { getMembership } = require('../controllers/getMembership')
+const { updateMembership } = require('../controllers/updateMembership')
+const { authenticator } = require('../controllers/authenticator')
+const { getUserByEmail } = require('../controllers/getUserByEmail')
 
-const nodemailer = require("nodemailer");
-const { addFavourite } = require("../controllers/addFavourite");
-const { deleteFavourite } = require("../controllers/deleteFavourite");
-const { getFavourites } = require("../controllers/getFavourites");
+const nodemailer = require('nodemailer');
+
 
 const router = Router();
 
 
 //Traer usuario por ID
-router.post("/auth", async (req, res) => {
-  try {
-    const { email, name, picture } = req.body;
-    const fullname = name;
+router.post('/auth', async (req, res) => {
+    try {
 
-    let result = await authenticator(email, fullname, picture);
+        const { email, name, picture } = req.body;
+        const fullname = name;
 
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
+        let result = await authenticator(email, fullname, picture)
+
+
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
 });
 
 //traer los favoritos
@@ -101,41 +94,42 @@ router.get("/", async (req, res) => {
 });
 
 // crear usuario
-router.post("/", async (req, res) => {
-  try {
-    const { email, role, fullname, profile, avatar } = req.body;
-    console.log(req.body);
-    let result = await createUser(email, role, fullname, profile, avatar);
+router.post('/', async (req, res) => {
+    try {
+        const { email, role, fullname, profile, avatar } = req.body;
+        console.log(req.body)
+        let result = await createUser(email, role, fullname, profile, avatar)
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      auth: {
-        user: "artstreetwineclub@gmail.com",
-        pass: "rokkcjdppianhcnb",
-      },
-    });
+        const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            auth: {
+                user: 'artstreetwineclub@gmail.com',
+                pass: 'rokkcjdppianhcnb'
+            }
+        })
 
-    const mailOptions = {
-      from: "artstreetwineclub@gmail.com",
-      to: email,
-      subject: "Enviado desde nodemailer",
-      text: "Bienvenido a Art Street Wine Club",
-    };
+        const mailOptions = {
+            from: 'artstreetwineclub@gmail.com',
+            to: email,
+            subject: 'Enviado desde nodemailer',
+            text: 'Bienvenido a Art Street Wine Club'
+        }
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        res.status(500).send(error.message);
-      } else {
-        console.log("email enviado");
-        res.status(200).jsonp(req.body);
-      }
-    });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                res.status(500).send(error.message)
+            } else {
+                console.log('email enviado')
+                res.status(200).jsonp(req.body)
+            }
+        })
 
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
+
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
 //eliminar permanentemente usuario
 router.delete("/:id", async (req, res) => {
@@ -239,35 +233,38 @@ router.get("/:userId/cart", async (req, res) => {
 //     }
 // })
 // Eiminar un producto carrito de un usuario
-router.delete("/:id/cart/:idProduct", async (req, res) => {
-  const userId = req.params.id;
-  let usuario = await User.findOne({ where: { id: userId } });
-  // console.log(usuario)
-  try {
-    const { idProduct } = req.params;
-    let result = await deleteItemCart(usuario.email, idProduct);
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
+router.delete('/:id/cart/:idProduct', async (req, res) => {
+    const userId = req.params.id
+    let usuario = await User.findOne({ where: { id: userId } })
+    // console.log(usuario)
+    try {
+        const { idProduct } = req.params
+        let result = await deleteItemCart(usuario.email, idProduct)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
-//agregar membresia
-router.post("/membership", async (req, res) => {
-  try {
-    const { name, discount, price } = req.body;
-    let result = await Membership.findOrCreate({
-      where: {
-        name: name,
-        discount: discount,
-        price: price,
-      },
-    });
-    res.status(200).send({ message: "Membership created" });
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
+//agregar membresia 
+router.post('/membership', async (req, res) => {
+
+    try {
+        const { name, discount, price } = req.body;
+        let result = await Membership.findOrCreate({
+            where: {
+                name: name,
+                discount: discount,
+                price: price
+            },
+        })
+        res.status(200).send({ message: "Membership created" })
+    } catch (error) {
+        console.log(error)
+        res.status(400).send(error.message)
+    }
+})
+
 
 //traer membresia por id
 
@@ -281,18 +278,19 @@ router.get("/membership/:id", async (req, res) => {
   }
 });
 
-//actualizar membresia
 
-router.put("/membership/:idMembership", async (req, res) => {
-  try {
-    const { idMembership } = req.params;
-    const { name, discount, price } = req.body;
-    let result = await updateMembership(idMembership, name, discount, price);
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
+//actualizar membresia
+router.put('/membership/:idMembership', async (req, res) => {
+    try {
+        const { idMembership } = req.params
+        const { name, discount, price } = req.body;
+        let result = await updateMembership(idMembership, name, discount, price)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 // asignar membresia al usuario
 router.put("/:userId/membership/:membershipId", async (req, res) => {
   try {
