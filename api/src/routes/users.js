@@ -12,7 +12,9 @@ const { getMembership } = require('../controllers/getMembership')
 const { updateMembership } = require('../controllers/updateMembership')
 const { authenticator } = require('../controllers/authenticator')
 const { getUserByEmail } = require('../controllers/getUserByEmail')
-
+const { addFavourite } = require ('../controllers/addFavourite')
+const { getFavourites } = require ('../controllers/getFavourites')
+const { deleteFavourite } = require ('../controllers/deleteFavourite')
 const nodemailer = require('nodemailer');
 
 
@@ -326,97 +328,6 @@ router.delete("/deleteFav/:email/:id", async(req,res)=>{
     }
 })
 
-router.post("/fav/:email/:id", async (req, res) => {
-  const { email, id } = req.params;
-  try {
-    const result = await addFavourite(email, id)
-    console.log(result)
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-//borrar favorito
-
-router.delete("/deleteFav/:email/:id", async(req,res)=>{
-    const {email, id} = req.params
-    try {
-        const result = await deleteFavourite(email,id)
-        res.send(result)
-    } catch (error) {
-        res.status(404).send(error)
-    }
-})
-
-router.post("/fav/:email/:id", async (req, res) => {
-  const { email, id } = req.params;
-  try {
-    const result = await addFavourite(email, id)
-    console.log(result)
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-//borrar favorito
-
-router.delete("/deleteFav/:email/:id", async(req,res)=>{
-    const {email, id} = req.params
-    try {
-        const result = await deleteFavourite(email,id)
-        res.send(result)
-    } catch (error) {
-        res.status(404).send(error)
-    }
-})
-
-router.post("/fav/:email/:id", async (req, res) => {
-  const { email, id } = req.params;
-  try {
-    const result = await addFavourite(email, id)
-    console.log(result)
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-//borrar favorito
-
-router.delete("/deleteFav/:email/:id", async(req,res)=>{
-    const {email, id} = req.params
-    try {
-        const result = await deleteFavourite(email,id)
-        res.send(result)
-    } catch (error) {
-        res.status(404).send(error)
-    }
-})
-
-router.post("/fav/:email/:id", async (req, res) => {
-  const { email, id } = req.params;
-  try {
-    const result = await addFavourite(email, id)
-    console.log(result)
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-//borrar favorito
-
-router.delete("/deleteFav/:email/:id", async(req,res)=>{
-    const {email, id} = req.params
-    try {
-        const result = await deleteFavourite(email,id)
-        res.send(result)
-    } catch (error) {
-        res.status(404).send(error)
-    }
-})
 
 
 module.exports = router;
