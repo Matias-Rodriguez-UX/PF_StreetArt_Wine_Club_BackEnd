@@ -1,34 +1,140 @@
-const { Order, User } = require("../db");
+const { where, Op } = require("sequelize");
+const { Product, User, ShoppingCart, Order } = require("../db");
 const { emailUser } = require("./email");
 
-const changeOrder = async function( status, email ){
-
-const user =  await User.findOne({
-    where:{
-       email: email 
+const changeOrder = async function (status, email) {
+    // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
+    const user = await User.findOne({
+        where: {
+            email: email
+        }
+    })
+    if (status === 'processing payment') {
+        const orderSelect = await Order.findOne(
+            {
+                where: {
+                    userEmail: email,
+                    status: 'cart'
+                }
+            }
+        )
+        const sumOfPrices = await ShoppingCart.sum('totalPrice', {
+            where: {
+                userEmail: email,
+                orderId: orderSelect.id,
+                totalPrice: {
+                    [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
+                }
+            }
+        })
+        await Order.update({
+            totalPrice: sumOfPrices,
+            status: status
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'cart'
+                }
+            })
+        //devuelve la orden con el precio actualizado, sumando los precios de los productos en el carrito
+        let orderUp = Order.findOne({ where: { id: orderSelect.id } })
+        return orderUp
     }
-})
 
-    const updated = await Order.update({
-        status: status,
-        userEmail: email},
-        {where: {
-            userEmail: email,
-            status: 'cart',
-        }}
-    )
+    //Si envio que cambie  al estado pagado debo restar los productos del stock
+    if (status === 'processing shipping') {
+        const orderSelect = await Order.findOne(
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing payment'
+                }
+            }
+        )
+        const products = await ShoppingCart.findAll(
+            {
+                attributes: ['productId', 'quantity'],
+                where: {
+                    userEmail: email,
+                    orderId: orderSelect.id
+                }
+            }
+        )
+        products.forEach(async element => {
+
+            let prodSelect = await Product.findOne(
+                {
+                    where: {
+                        id: element.productId
+                    }
+                }
+            )
+            if (prodSelect.stock >= element.quantity) {
+                let newStock = prodSelect.stock - element.quantity
+                await Product.update({
+                    stock: newStock
+                },
+                    {
+                        where: {
+                            id: element.productId
+                        }
+                    }
+                )
+            } else {
+                `the quantity of the product ${prodSelect.name} in the stock is not enough`
+            }
+
+        });
 
 
-    if(status === 'processing shipping'){
-        emailUser(email, user.fullname)
+        const updated = await Order.update({
+            status: status,
+            userEmail: email
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing payment',
+                }
+            }
+        )
     }
-    if(updated){
-        return `The order was updated successfully`
+
+    //si el estado es shipped debe cambiar solo el status
+    if (status === 'shipped') {
+        const updated = await Order.update({
+            status: status,
+            userEmail: email
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing shipping',
+                }
+            }
+        )
     }
-
-
+    //si el estado es delivered debe cambiar solo el status
+    if (status === 'delivered') {
+        const updated = await Order.update({
+            status: status,
+            userEmail: email
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing shipping',
+                }
+            }
+        )
+    }
+    return `The order was updated successfully`
 }
 
-module.exports = {changeOrder}
+
+
+
+module.exports = { changeOrder }
 
 

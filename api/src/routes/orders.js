@@ -28,19 +28,6 @@ router.get('/', async (req, res) => {
     })
 
     
-
-
-// router.post('/checkout', async (req, res, ) => {
-//     try {
-//         const { orderNumber, date, totalPrice, status, email } = req.body;
-//         let result = await postOrder( orderNumber, date, totalPrice, status, email  )
-//         res.status(200).send(result)
-//     } catch (error) {
-//         res.status(400).send(error.message)
-//     }
-  
-    
-// })
 // crear ruta para modificar una Orden
 
 
