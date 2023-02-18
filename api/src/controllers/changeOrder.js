@@ -13,7 +13,8 @@ const user =  await User.findOne({
         status: status,
         userEmail: email},
         {where: {
-            status: status,
+            userEmail: email,
+            status: 'cart',
         }}
     )
 
