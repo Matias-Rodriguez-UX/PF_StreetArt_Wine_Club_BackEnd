@@ -1,15 +1,15 @@
 const { User, Review } = require("../db");
 
-const getReviews = async function(id){
-  
-    const reviews = Review.findAll({
+const getReviews = async function (id) {
+
+    const reviews = await Review.findAll({
         where: {
-            productId: id,	
+            productId: id,
         },
-        include:{model: User},
-        order:[['id','DESC']]
+        include: { model: User },
+        order: [['id', 'DESC']]
     })
     return reviews;
 }
 
-module.exports = {getReviews}
+module.exports = { getReviews }
