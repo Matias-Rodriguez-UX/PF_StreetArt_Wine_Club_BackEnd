@@ -8,7 +8,7 @@ const getFavourites = async function (email) {
         },
         include: {
             model: Product,
-            attributes: ["name", "price", "image"],
+            attributes: ["name", "price", "image", "winery", "id"],
             through: {
                 attributes: []
             }
