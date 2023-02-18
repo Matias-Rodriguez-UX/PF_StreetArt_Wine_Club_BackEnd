@@ -4,6 +4,7 @@ const { createAddress} = require('../controllers/createAddress');
 const { getAddressesUser } = require('../controllers/getAddressesUser');
 // const { deleteUser } = require('../controllers/deleteUser');
 const { updateAddress } = require('../controllers/updateAddress');
+const axios  = require('axios');
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -48,6 +49,25 @@ router.put('/:idAddress', async (req, res) => {
 // console.log(req.body)
         let result = await updateAddress(idAddress, reference, address, zipCode, telephone, userEmail, stateId, regionId )
         res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+router.get('/regions', async (req, res) => {
+    try {
+        
+    const allRegions = await axios.get('https://apis.datos.gob.ar/georef/api/municipios?max=1814');
+
+    const Regions = allRegions.data.municipios.map((e) => {
+       return {
+         id: e.id,
+         name: e.nombre,
+        //state: provincia.id
+       };
+     });
+
+        res.status(200).send(Regions)
     } catch (error) {
         res.status(400).send(error.message)
     }
