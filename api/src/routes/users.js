@@ -13,6 +13,9 @@ const { updateMembership } = require ('../controllers/updateMembership')
 const { authenticator } = require ('../controllers/authenticator')
 const { getUserByEmail } = require ('../controllers/getUserByEmail')
 const {emailUser} = require ('../controllers/email')
+const { addFavourite } = require ('../controllers/addFavourite')
+const { getFavourites } = require ('../controllers/getFavourites')
+const { deleteFavourite } = require ('../controllers/deleteFavourite')
 
 const nodemailer = require('nodemailer');
 const fs = require ('fs');
