@@ -7,15 +7,20 @@ const { updateUser } = require('../controllers/updateUser');
 const { deleteItemCart } = require('../controllers/deleteItemCart');
 const { addCart } = require('../controllers/addCart');
 const { updateCart } = require('../controllers/updateCart');
-const { assignMembership } = require('../controllers/assignMembership')
-const { getMembership } = require('../controllers/getMembership')
-const { updateMembership } = require('../controllers/updateMembership')
-const { authenticator } = require('../controllers/authenticator')
-const { getUserByEmail } = require('../controllers/getUserByEmail')
+const { assignMembership } = require ('../controllers/assignMembership')
+const { getMembership } = require ('../controllers/getMembership')
+const { updateMembership } = require ('../controllers/updateMembership')
+const { authenticator } = require ('../controllers/authenticator')
+const { getUserByEmail } = require ('../controllers/getUserByEmail')
+const {emailUser} = require ('../controllers/email')
 const { addFavourite } = require ('../controllers/addFavourite')
 const { getFavourites } = require ('../controllers/getFavourites')
 const { deleteFavourite } = require ('../controllers/deleteFavourite')
+
 const nodemailer = require('nodemailer');
+const fs = require ('fs');
+const path = require('path');
+const handlebars = require("handlebars");
 
 
 const router = Router();
@@ -95,41 +100,20 @@ router.get("/", async (req, res) => {
 });
 
 // crear usuario
-router.post("/", async (req, res) => {
-  try {
-    const { email, role, fullname, profile, avatar } = req.body;
-    console.log(req.body);
-    let result = await createUser(email, role, fullname, profile, avatar);
+router.post('/', async (req, res) => {
+    try {
+        const { email, role, fullname, profile, avatar } = req.body;
+        console.log(req.body)
+        let result = await createUser(email, role, fullname, profile, avatar)
+        emailUser(email, fullname)
+ 
 
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            auth: {
-                user: 'artstreetwineclub@gmail.com',
-                pass: 'rokkcjdppianhcnb'
-            }
-        })
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
 
-        const mailOptions = {
-            from: 'artstreetwineclub@gmail.com',
-            to: email,
-            subject: 'Enviado desde nodemailer',
-            text: 'Bienvenido a Art Street Wine Club'
-        }
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                res.status(500).send(error.message)
-            } else {
-                console.log('email enviado')
-                res.status(200).jsonp(req.body)
-            }
-        })
-
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
 
 //eliminar permanentemente usuario
 router.delete("/:id", async (req, res) => {

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Product, Order, ShoppingCart, User } = require('../db.js');
 const { getOrderId } = require('../controllers/getOrderId');
+const {changeOrder} = require('../controllers/changeOrder');
 
 
     // ruta que retorna todas las ordenes(solo dar acceso Admin)
@@ -29,18 +30,33 @@ router.get('/', async (req, res) => {
     
 
 
-router.post('/checkout', async (req, res, ) => {
+// router.post('/checkout', async (req, res, ) => {
+//     try {
+//         const { orderNumber, date, totalPrice, status, email } = req.body;
+//         let result = await postOrder( orderNumber, date, totalPrice, status, email  )
+//         res.status(200).send(result)
+//     } catch (error) {
+//         res.status(400).send(error.message)
+//     }
+  
+    
+// })
+// crear ruta para modificar una Orden
+
+
+router.put('/checkout', async (req, res, ) => {
     try {
-        const { orderNumber, date, totalPrice, status, email } = req.body;
-        let result = await postOrder( orderNumber, date, totalPrice, status, email  )
+        const { status, email } = req.body;
+        let result = await changeOrder( status, email  )
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
     }
-  
+
     
 })
-// crear ruta para modificar una Orden
+
+
 
 
 module.exports = router;
