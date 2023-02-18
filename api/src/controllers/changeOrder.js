@@ -1,5 +1,5 @@
 const { Order, User } = require("../db");
-const { emailUser } = require("./email");
+const { purchaseConfirmation } = require("./email");
 
 const changeOrder = async function( status, email ){
 
@@ -20,7 +20,7 @@ const user =  await User.findOne({
 
 
     if(status === 'processing shipping'){
-        emailUser(email, user.fullname)
+        purchaseConfirmation(email, user.fullname)
     }
     if(updated){
         return `The order was updated successfully`
