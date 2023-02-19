@@ -21,6 +21,7 @@ const nodemailer = require('nodemailer');
 const fs = require ('fs');
 const path = require('path');
 const handlebars = require("handlebars");
+const { isAdmin, isAuthenticated } = require('../utils/middleware');
 
 
 const router = Router();
@@ -291,9 +292,10 @@ router.put("/:userId/membership/:membershipId", async (req, res) => {
 
 router.post("/fav/:email/:id", async (req, res) => {
   const { email, id } = req.params;
+
   try {
     const result = await addFavourite(email, id)
-    console.log(result)
+    // console.log(result)
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
