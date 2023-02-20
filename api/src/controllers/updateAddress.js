@@ -1,7 +1,7 @@
 const { Address  } = require("../db");
 
-const updateAddress = async function (idAddress, reference, address, zipCode, telephone, userEmail, stateId, regionId ) {
-  if (!address || !zipCode || !telephone || !userEmail || !stateId) {
+const updateAddress = async function (idAddress, reference, address, zipCode, telephone, userEmail, state, region ) {
+  if (!address || !zipCode || !telephone || !userEmail || !state) {
     throw new Error('You must complete address, zipCode, Email and telephone')
   }
 
@@ -19,8 +19,8 @@ if (searchAddress) {
         zipCode: zipCode,
         telephone: telephone,
         userEmail: userEmail,
-        stateId: stateId,
-        regionId: regionId
+        state: state,
+        region: region
     }, {
         where: {
         id: idAddress,
