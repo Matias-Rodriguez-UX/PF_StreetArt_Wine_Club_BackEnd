@@ -87,13 +87,13 @@ Order.belongsTo(User)
 User.hasMany(Address);
 Address.belongsTo(User);
 
-//relación provincia → dirección
+/* //relación provincia → dirección
 State.hasOne(Address);
 Address.belongsTo(State);
 
 //relación localidad → dirección
 Region.hasOne(Address);
-Address.belongsTo(Region);
+Address.belongsTo(Region); */
 
 //relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
 User.belongsToMany(Product,{ through: 'Favourite' });
