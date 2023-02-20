@@ -26,11 +26,23 @@ router.get('/', async (req, res) => {
             res.status(400).send(error.message)
         }
     })
+//get order del user
+    router.get('/', async (req, res) => {
+        try {
+            const { email } = req.query;
+            let result = await Order.findAll({
+                where: {
+                    userEmail: email
+                }
+            })
+            res.status(200).send(result)
+        } catch (error) {
+            res.status(400).send(error.message)
+        }
+    })
 
     
 // crear ruta para modificar una Orden
-
-
 router.put('/checkout', async (req, res, ) => {
     try {
         const { status, email } = req.body;
@@ -39,8 +51,6 @@ router.put('/checkout', async (req, res, ) => {
     } catch (error) {
         res.status(400).send(error.message)
     }
-
-    
 })
 
 

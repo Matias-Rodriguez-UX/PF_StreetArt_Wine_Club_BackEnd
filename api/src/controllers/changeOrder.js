@@ -3,13 +3,15 @@ const { Product, User, ShoppingCart, Order } = require("../db");
 const { emailUser, purchaseConfirmation } = require("./email");
 
 
-const changeOrder = async function (status, email) {
+const changeOrder = async function (status, email, orderId) {
     // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
     const user = await User.findOne({
         where: {
             email: email
         }
     })
+    if(!orderId){
+    
     if (status === 'processing payment') {
         const orderSelect = await Order.findOne(
             {
@@ -19,7 +21,7 @@ const changeOrder = async function (status, email) {
                 }
             }
         )
-        const sumOfPrices = await ShoppingCart.sum('totalPrice', {
+        /* const sumOfPrices = await ShoppingCart.sum('totalPrice', {
             where: {
                 userEmail: email,
                 orderId: orderSelect.id,
@@ -27,9 +29,8 @@ const changeOrder = async function (status, email) {
                     [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
                 }
             }
-        })
+        })*/
         await Order.update({
-            totalPrice: sumOfPrices,
             status: status
         },
             {
@@ -37,14 +38,11 @@ const changeOrder = async function (status, email) {
                     userEmail: email,
                     status: 'cart'
                 }
-            })
+            }) 
         //devuelve la orden con el precio actualizado, sumando los precios de los productos en el carrito
         let orderUp = Order.findOne({ where: { id: orderSelect.id } })
         return orderUp
-    }
-
-    //Si envio que cambie  al estado pagado debo restar los productos del stock
-    if (status === 'processing shipping') {
+    } if (status === 'processing shipping') {
         const orderSelect = await Order.findOne(
             {
                 where: {
@@ -62,6 +60,25 @@ const changeOrder = async function (status, email) {
                 }
             }
         )
+        const sumOfPrices = await ShoppingCart.sum('totalPrice', {
+            where: {
+                userEmail: email,
+                orderId: orderSelect.id,
+                totalPrice: {
+                    [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
+                }
+            }
+        })
+        /* await Order.update({
+            totalPrice: sumOfPrices,
+            status: status
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing payment'
+                }
+            }) */
         products.forEach(async element => {
 
             let prodSelect = await Product.findOne(
@@ -70,7 +87,7 @@ const changeOrder = async function (status, email) {
                         id: element.productId
                     }
                 }
-            )
+            )//Si envio que cambie  al estado pagado debo restar los productos del stock
             if (prodSelect.stock >= element.quantity) {
                 let newStock = prodSelect.stock - element.quantity
                 await Product.update({
@@ -92,6 +109,7 @@ const changeOrder = async function (status, email) {
 
 
         const updated = await Order.update({
+            totalPrice: sumOfPrices,
             status: status,
             userEmail: email
         },
@@ -103,7 +121,15 @@ const changeOrder = async function (status, email) {
             }
         )
     }
+}
+if(orderId){
 
+    const searchOrder = await Order.findOne({
+        where: {
+            id: orderId
+        }
+    })
+    
     //si el estado es shipped debe cambiar solo el status
     if (status === 'shipped') {
         const updated = await Order.update({
@@ -112,8 +138,7 @@ const changeOrder = async function (status, email) {
         },
             {
                 where: {
-                    userEmail: email,
-                    status: 'processing shipping',
+                    id: orderId
                 }
             }
         )
@@ -126,13 +151,12 @@ const changeOrder = async function (status, email) {
         },
             {
                 where: {
-                    userEmail: email,
-                    status: 'processing shipping',
+                    id: orderId
                 }
             }
         )
     }
-    return `The order was updated successfully`
+    return `The order was updated successfully`}
 }
 
 

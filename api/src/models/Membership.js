@@ -19,8 +19,17 @@ module.exports = (sequelize) => {
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
+      },
+      purchaseDate: {
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.NOW
       }
+
     },
+
     { timestamps: false }
   );
 };

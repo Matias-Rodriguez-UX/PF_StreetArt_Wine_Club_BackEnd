@@ -9,7 +9,7 @@ const getOrderId = async function (id) {
             include: 
             [    
                  { model: User },
-                 { model: ShoppingCart },
+                 { model: Product },
             ]
         })
         if (order) {
