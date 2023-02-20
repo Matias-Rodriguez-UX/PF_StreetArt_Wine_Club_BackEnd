@@ -16,6 +16,7 @@ const {emailUser} = require ('../controllers/email')
 const { addFavourite } = require ('../controllers/addFavourite')
 const { getFavourites } = require ('../controllers/getFavourites')
 const { deleteFavourite } = require ('../controllers/deleteFavourite')
+const { Op} = require("sequelize");
 
 const nodemailer = require('nodemailer');
 const fs = require ('fs');
@@ -23,6 +24,7 @@ const path = require('path');
 const handlebars = require("handlebars");
 const { isAdmin, isAuthenticated } = require('../utils/middleware');
 const { setCancelCart } = require('../controllers/setCancelCart');
+const { Sequelize } = require('sequelize');
 
 
 const router = Router();
@@ -188,7 +190,7 @@ router.delete("/:userId/cart", async (req, res) => {
   }
 });
 
-// Ruta para traer todos los productos del carrito u order por id
+// Ruta para traer todos los productos del carrito u order por id del usuario y solo la que esta en estado carrito
 //
 router.get("/:userId/cart", async (req, res) => {
   const { userId } = req.params;
@@ -196,7 +198,10 @@ router.get("/:userId/cart", async (req, res) => {
   // console.log(usuario.email)
   try {
     const result = await Order.findOne({
-      where: { userEmail: usuario.email, status: "cart" },
+      where: { userEmail: usuario.email,[Op.or]: [
+        { status: 'cart' },
+        { status: 'processing payment' }
+      ]},
       include: [
         { model: Product, as: "products" },
         { model: User, as: "user" },
@@ -208,10 +213,14 @@ router.get("/:userId/cart", async (req, res) => {
   }
 });
 
+
+
 // Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
 router.put('/cancel/:idCart', async (req, res) => {
     try {
-        const { idCart } = req.params
+      const { idCart } = req.params
+      console.log(idCart)
+        
         let result = await setCancelCart(idCart)
         res.status(200).send(result)
     } catch (error) {

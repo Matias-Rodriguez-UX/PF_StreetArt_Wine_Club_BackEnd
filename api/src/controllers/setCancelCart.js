@@ -14,7 +14,7 @@ const setCancelCart = async function(idCart ){
         }
       });
         if(updateCart){
-            return 'The cart was updated successfully'
+            return 'The cart was successfully canceled'
         }
     }
     
