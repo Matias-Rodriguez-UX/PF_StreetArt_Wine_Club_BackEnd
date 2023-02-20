@@ -1,6 +1,7 @@
 const { where, Op } = require("sequelize");
 const { Product, User, ShoppingCart, Order } = require("../db");
-const { emailUser } = require("./email");
+const { emailUser, purchaseConfirmation } = require("./email");
+
 
 const changeOrder = async function (status, email) {
     // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
@@ -81,6 +82,8 @@ const changeOrder = async function (status, email) {
                         }
                     }
                 )
+                purchaseConfirmation(email)
+
             } else {
                 `the quantity of the product ${prodSelect.name} in the stock is not enough`
             }

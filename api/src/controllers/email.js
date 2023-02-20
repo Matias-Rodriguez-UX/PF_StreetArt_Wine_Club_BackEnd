@@ -32,10 +32,6 @@ transporter.verify().then (() => {
 })
 
 
-
-
-
-
 const mailOptions = {
 from: 'artstreetwineclub@gmail.com',
 to: email,
@@ -51,11 +47,63 @@ transporter.sendMail(mailOptions, (error, info)=>{
         // res.status(500).send(error.message)
         console.log(error)
     } else {
-        console.log('email enviado')
+        console.log('email bienvenida enviado')
         // res.status(200).jsonp(req.body)
     }
 })
 
 }
 
-module.exports = {emailUser}
+
+const purchaseConfirmation = function(email, fullname){
+    
+    const filePath = path.join(__dirname, '../utils/purchaseConfirmation.html');
+    const source = fs.readFileSync(filePath, 'utf-8').toString();
+    const template = handlebars.compile(source);
+    const replacements = { user: fullname };
+    const htmlToSend = template(replacements);
+
+
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'artstreetwineclub@gmail.com',
+        pass: 'rokkcjdppianhcnb'
+        // user: 'mvaleriabzn@gmail.com',
+        // pass: 'zhwuiqooqpegqdkl'
+    },
+    
+});
+transporter.verify().then (() => {
+    console.log ('Ready for send emails')
+})
+
+
+const mailOptions = {
+from: 'artstreetwineclub@gmail.com',
+to: email,
+subject:  `Purchase Made ✔`,
+html: htmlToSend,
+headers: { 'x-myheader': 'test header' }
+}
+
+//console.log(mailOptions)
+
+transporter.sendMail(mailOptions, (error, info)=>{
+    if(error){
+        // res.status(500).send(error.message)
+        console.log(error)
+    } else {
+        console.log('email compra enviado')
+        // res.status(200).jsonp(req.body)
+    }
+})
+
+}
+
+
+
+module.exports = {emailUser, purchaseConfirmation}
