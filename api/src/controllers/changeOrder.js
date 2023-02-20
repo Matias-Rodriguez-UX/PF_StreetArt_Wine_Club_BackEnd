@@ -20,7 +20,7 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         )
-        const sumOfPrices = await ShoppingCart.sum('totalPrice', {
+        /* const sumOfPrices = await ShoppingCart.sum('totalPrice', {
             where: {
                 userEmail: email,
                 orderId: orderSelect.id,
@@ -28,9 +28,8 @@ const changeOrder = async function (status, email, orderId) {
                     [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
                 }
             }
-        })
+        })*/
         await Order.update({
-            totalPrice: sumOfPrices,
             status: status
         },
             {
@@ -38,7 +37,7 @@ const changeOrder = async function (status, email, orderId) {
                     userEmail: email,
                     status: 'cart'
                 }
-            })
+            }) 
         //devuelve la orden con el precio actualizado, sumando los precios de los productos en el carrito
         let orderUp = Order.findOne({ where: { id: orderSelect.id } })
         return orderUp
@@ -60,6 +59,25 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         )
+        const sumOfPrices = await ShoppingCart.sum('totalPrice', {
+            where: {
+                userEmail: email,
+                orderId: orderSelect.id,
+                totalPrice: {
+                    [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
+                }
+            }
+        })
+        /* await Order.update({
+            totalPrice: sumOfPrices,
+            status: status
+        },
+            {
+                where: {
+                    userEmail: email,
+                    status: 'processing payment'
+                }
+            }) */
         products.forEach(async element => {
 
             let prodSelect = await Product.findOne(
@@ -88,6 +106,7 @@ const changeOrder = async function (status, email, orderId) {
 
 
         const updated = await Order.update({
+            totalPrice: sumOfPrices,
             status: status,
             userEmail: email
         },
