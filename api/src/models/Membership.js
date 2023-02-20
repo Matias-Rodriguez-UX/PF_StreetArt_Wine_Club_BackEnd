@@ -22,8 +22,14 @@ module.exports = (sequelize) => {
       },
       description: {
         type: DataTypes.TEXT,
+      },
+      purchaseDate: {
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.NOW
       }
+
     },
+
     { timestamps: false }
   );
 };
