@@ -19,6 +19,9 @@ module.exports = (sequelize) => {
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
       }
     },
     { timestamps: false }
