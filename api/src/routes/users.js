@@ -22,6 +22,7 @@ const fs = require ('fs');
 const path = require('path');
 const handlebars = require("handlebars");
 const { isAdmin, isAuthenticated } = require('../utils/middleware');
+const { setCancelCart } = require('../controllers/setCancelCart');
 
 
 const router = Router();
@@ -208,15 +209,16 @@ router.get("/:userId/cart", async (req, res) => {
 });
 
 // Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
-// router.delete('/:id/cart/', async (req, res) => {
-//     try {
-//         const { email, idCart } = req.query
-//         let result = await deleteItemCart(idCart)
-//         res.status(200).send(result)
-//     } catch (error) {
-//         res.status(400).send(error.message)
-//     }
-// })
+router.put('/cancel/:idCart', async (req, res) => {
+    try {
+        const { idCart } = req.params
+        let result = await setCancelCart(idCart)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 // Eiminar un producto carrito de un usuario
 router.delete('/:id/cart/:idProduct', async (req, res) => {
     const userId = req.params.id

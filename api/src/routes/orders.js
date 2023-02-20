@@ -29,8 +29,6 @@ router.get('/', async (req, res) => {
 
     
 // crear ruta para modificar una Orden
-
-
 router.put('/checkout', async (req, res, ) => {
     try {
         const { status, email } = req.body;
@@ -39,8 +37,6 @@ router.put('/checkout', async (req, res, ) => {
     } catch (error) {
         res.status(400).send(error.message)
     }
-
-    
 })
 
 
