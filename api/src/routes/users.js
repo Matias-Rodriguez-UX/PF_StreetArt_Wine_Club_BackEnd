@@ -246,12 +246,13 @@ router.delete('/:id/cart/:idProduct', async (req, res) => {
 router.post('/membership', async (req, res) => {
 
     try {
-        const { name, discount, price } = req.body;
+        const { name, discount, price, description } = req.body;
         let result = await Membership.findOrCreate({
             where: {
                 name: name,
                 discount: discount,
-                price: price
+                price: price,
+                description: description
             },
         })
         res.status(200).send({ message: "Membership created" })
@@ -279,8 +280,8 @@ router.get("/membership/:id", async (req, res) => {
 router.put('/membership/:idMembership', async (req, res) => {
     try {
         const { idMembership } = req.params
-        const { name, discount, price } = req.body;
-        let result = await updateMembership(idMembership, name, discount, price)
+        const { name, discount, price, description } = req.body;
+        let result = await updateMembership(idMembership, name, discount, price, description)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
