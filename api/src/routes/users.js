@@ -34,10 +34,10 @@ const router = Router();
 router.post('/auth', async (req, res) => {
     try {
 
-        const { email, name, picture } = req.body;
+        const { email, name, picture, role } = req.body;
         const fullname = name;
 
-        let result = await authenticator(email, fullname, picture)
+        let result = await authenticator(email, fullname, picture, role)
 
     res.status(200).send(result);
   } catch (error) {
