@@ -147,6 +147,65 @@ transporter.sendMail(mailOptions, (error, info)=>{
 
 }
 
+const emailNewsletter = async function(email){
+
+   
+    
+    const filePath = path.join(__dirname, '../utils/newsletter.html');
+    const source = fs.readFileSync(filePath, 'utf-8').toString();
+    const template = Handlebars.compile(source);
+    const replacements = {}
+    const htmlToSend = template(replacements);
 
 
-module.exports = {emailUser, purchaseConfirmation}
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+        user: 'artstreetwineclub@gmail.com',
+        pass: 'rokkcjdppianhcnb'
+        // user: 'mvaleriabzn@gmail.com',
+        // pass: 'zhwuiqooqpegqdkl'
+    },
+    
+});
+transporter.verify().then (() => {
+    console.log ('Ready for send emails')
+})
+
+
+const mailOptions = {
+from: 'artstreetwineclub@gmail.com',
+to: email,
+subject:  `Welcome to our newsletter ✔`,
+html: htmlToSend,
+headers: { 'x-myheader': 'test header' }
+}
+
+//console.log(mailOptions)
+
+transporter.sendMail(mailOptions, (error, info)=>{
+    if(error){
+        // res.status(500).send(error.message)
+        console.log(error)
+    } else {
+        console.log('newsletter enviado')
+        // res.status(200).jsonp(req.body)
+    }
+})
+
+}
+
+
+
+
+
+
+
+
+
+
+
+module.exports = {emailUser, purchaseConfirmation, emailNewsletter}
