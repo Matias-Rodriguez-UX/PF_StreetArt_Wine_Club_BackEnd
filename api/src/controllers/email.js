@@ -1,15 +1,18 @@
+const { User, Membership, ShoppingCart, Order,Review, Product } = require("../db");
 const nodemailer = require ('nodemailer')
-const handlebars = require("handlebars");
+const Handlebars = require("handlebars");
 const path = require('path');
 const fs = require('fs');
 
 
 
-const emailUser = function(email, fullname){
+const emailUser = async function(email, fullname){
+
+   
     
     const filePath = path.join(__dirname, '../utils/welcomeUser.html');
     const source = fs.readFileSync(filePath, 'utf-8').toString();
-    const template = handlebars.compile(source);
+    const template = Handlebars.compile(source);
     const replacements = { user: fullname };
     const htmlToSend = template(replacements);
 
@@ -55,13 +58,53 @@ transporter.sendMail(mailOptions, (error, info)=>{
 }
 
 
-const purchaseConfirmation = function(email, fullname){
-    
+const purchaseConfirmation = async function(email, orderSelectId){
+
+    const orderSelect = await Order.findOne(
+        {
+            where: {
+                id: orderSelectId
+            },
+            include: 
+            [   
+                 { model: Product },
+                 { model: User }
+            ]
+        }
+    )
+ const products = orderSelect.products
+ const user = await User.findOne({
+    where: {
+        email: email,
+    },
+    include: 
+    [    { model: Review },
+         { model: Membership },
+         { model: ShoppingCart },
+         { model: Order }
+    ]
+})
+
+console.log(user)
+console.log("user . membership",user.membership)
+console.log("nombre de membresia",user.membership.name)
+
+if(user.membership){
+  var finalPrice = await orderSelect.totalPrice - (orderSelect.totalPrice * user.membership.discount * 0.01) 
+  var membership = user.membership
+}else{
+    var finalPrice = orderSelect.totalPrice
+    var membership = "no membership"
+}
+
+  
     const filePath = path.join(__dirname, '../utils/purchaseConfirmation.html');
     const source = fs.readFileSync(filePath, 'utf-8').toString();
-    const template = handlebars.compile(source);
-    const replacements = { user: fullname };
-    const htmlToSend = template(replacements);
+    const template = Handlebars.compile(source);
+    const replacements = { orderSelect, products,user, email, finalPrice, membership };
+    const htmlToSend = template(replacements, {
+        allowProtoPropertiesByDefault: true
+      });
 
 
 

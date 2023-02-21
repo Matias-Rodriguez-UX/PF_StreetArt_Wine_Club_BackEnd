@@ -13,6 +13,7 @@ const changeOrder = async function (status, email, orderId) {
     if(!orderId){
     
     if (status === 'processing payment') {
+        
         const orderSelect = await Order.findOne(
             {
                 where: {
@@ -21,15 +22,7 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         )
-        /* const sumOfPrices = await ShoppingCart.sum('totalPrice', {
-            where: {
-                userEmail: email,
-                orderId: orderSelect.id,
-                totalPrice: {
-                    [Op.ne]: null // Opcional: Para asegurarte que el precio no es nulo
-                }
-            }
-        })*/
+     
         await Order.update({
             status: status
         },
@@ -40,7 +33,7 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }) 
         //devuelve la orden con el precio actualizado, sumando los precios de los productos en el carrito
-        let orderUp = Order.findOne({ where: { id: orderSelect.id } })
+        let orderUp = await Order.findOne({ where: { id: orderSelect.id } })
         return orderUp
     } if (status === 'processing shipping') {
         const orderSelect = await Order.findOne(
@@ -51,6 +44,7 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         )
+       const orderSelectId = await orderSelect.id
         const products = await ShoppingCart.findAll(
             {
                 attributes: ['productId', 'quantity'],
@@ -69,18 +63,17 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         })
-        /* await Order.update({
-            totalPrice: sumOfPrices,
-            status: status
-        },
-            {
-                where: {
-                    userEmail: email,
-                    status: 'processing payment'
-                }
-            }) */
-        products.forEach(async element => {
-
+        //  await Order.update({
+        //     totalPrice: sumOfPrices,
+        //     status: status
+        // },
+        //     {
+        //         where: {
+        //             userEmail: email,
+        //             status: 'processing payment'
+        //         }
+        //     }) 
+        await products.forEach(async element => {
             let prodSelect = await Product.findOne(
                 {
                     where: {
@@ -99,15 +92,13 @@ const changeOrder = async function (status, email, orderId) {
                         }
                     }
                 )
-                purchaseConfirmation(email)
+                
 
             } else {
                 `the quantity of the product ${prodSelect.name} in the stock is not enough`
             }
 
         });
-
-
         const updated = await Order.update({
             totalPrice: sumOfPrices,
             status: status,
@@ -120,21 +111,23 @@ const changeOrder = async function (status, email, orderId) {
                 }
             }
         )
+        //envio de mail confirmando la compra
+        await purchaseConfirmation(email, orderSelectId)
+        return updated
+        
     }
 }
-if(orderId){
-
+else if(orderId){
     const searchOrder = await Order.findOne({
         where: {
             id: orderId
         }
     })
-    
+
     //si el estado es shipped debe cambiar solo el status
     if (status === 'shipped') {
         const updated = await Order.update({
-            status: status,
-            userEmail: email
+            status: status
         },
             {
                 where: {
@@ -142,6 +135,7 @@ if(orderId){
                 }
             }
         )
+        return `The order ${orderId} was updated successfully`
     }
     //si el estado es delivered debe cambiar solo el status
     if (status === 'delivered') {
@@ -155,8 +149,9 @@ if(orderId){
                 }
             }
         )
+        return updated
     }
-    return `The order was updated successfully`}
+    return `The order ${orderId} was updated successfully`}
 }
 
 

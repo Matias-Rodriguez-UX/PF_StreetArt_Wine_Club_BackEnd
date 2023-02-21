@@ -43,10 +43,12 @@ router.get('/', async (req, res) => {
 
     
 // crear ruta para modificar una Orden
-router.put('/checkout', async (req, res, ) => {
+router.put('/checkout/', async (req, res, ) => {
     try {
+        const  { orderId }  = req.query
+        console.log(orderId)
         const { status, email } = req.body;
-        let result = await changeOrder( status, email  )
+        let result = await changeOrder( status, email, orderId )
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
