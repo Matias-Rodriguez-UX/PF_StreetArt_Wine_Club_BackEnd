@@ -1,5 +1,5 @@
 const { User, Membership } = require("../db");
-const authenticator = async function (email, fullname, picture) {
+const authenticator = async function (email, fullname, picture, role) {
   
   const membership = await Membership.findOrCreate({
       where: {
@@ -23,7 +23,8 @@ const authenticator = async function (email, fullname, picture) {
               email: email,
               fullname : fullname,
               avatar: picture,
-              membershipId: membership[0].id
+              membershipId: membership[0].id,
+              role: role
           });
       return newUser
     } else {
