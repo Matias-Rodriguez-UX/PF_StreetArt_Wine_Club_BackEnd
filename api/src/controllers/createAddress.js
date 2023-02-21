@@ -1,6 +1,6 @@
 const { Address  } = require("../db");
 
-const createAddress = async function (reference, address, zipCode, telephone, userEmail, stateId, regionId ) {
+const createAddress = async function (reference, address, zipCode, telephone, userEmail, state, region ) {
   if (!address || !zipCode || !telephone) {
     throw new Error('You must complete address, zipCode and telephone')
   }
@@ -18,8 +18,8 @@ const createAddress = async function (reference, address, zipCode, telephone, us
             zipCode: zipCode,
             telephone: telephone,
             userEmail: userEmail,
-            stateId: stateId,
-            regionId: regionId
+            state: state,
+            region: region
         });
     
     return `New address was created successfully`
