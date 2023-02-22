@@ -4,6 +4,7 @@ const { createAddress} = require('../controllers/createAddress');
 const { getAddressesUser } = require('../controllers/getAddressesUser');
 // const { deleteUser } = require('../controllers/deleteUser');
 const { updateAddress } = require('../controllers/updateAddress');
+const axios  = require('axios');
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -19,9 +20,9 @@ router.get('/', async (req, res) => {
 //crear direccion de entrega de usuario
 router.post('/', async (req, res) => {
     try {
-        const { reference, address, zipCode, telephone, userEmail, stateId, regionId} = req.body;
+        const { reference, address, zipCode, telephone, userEmail, state, region} = req.body;
 
-        let result = await createAddress(reference, address, zipCode, telephone, userEmail, stateId, regionId )
+        let result = await createAddress(reference, address, zipCode, telephone, userEmail, state, region )
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
@@ -44,10 +45,29 @@ const deleteAddress = await Address.destroy({
 router.put('/:idAddress', async (req, res) => {
     try {
         const { idAddress } = req.params
-        const { reference, address, zipCode, telephone, userEmail, stateId, regionId } = req.body;
+        const { reference, address, zipCode, telephone, userEmail, state, region } = req.body;
 // console.log(req.body)
-        let result = await updateAddress(idAddress, reference, address, zipCode, telephone, userEmail, stateId, regionId )
+        let result = await updateAddress(idAddress, reference, address, zipCode, telephone, userEmail, state, region )
         res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+router.get('/regions', async (req, res) => {
+    try {
+        
+    const allRegions = await axios.get('https://apis.datos.gob.ar/georef/api/municipios?max=1814');
+
+    const Regions = allRegions.data.municipios.map((e) => {
+       return {
+         id: e.id,
+         name: e.nombre,
+        //state: provincia.id
+       };
+     });
+
+        res.status(200).send(Regions)
     } catch (error) {
         res.status(400).send(error.message)
     }

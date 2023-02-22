@@ -19,6 +19,14 @@ module.exports = (sequelize) => {
       telephone:{
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      state:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      region:{
+        type: DataTypes.STRING,
+        allowNull: false,
       }
     },
     { timestamps: false }
