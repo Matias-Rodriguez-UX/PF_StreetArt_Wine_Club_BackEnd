@@ -1,7 +1,7 @@
 const { Membership, User } = require("../db");
 
 const assignMembership = async function (userId, membershipId ){
-
+    if(!userId || !membershipId) return "Mandatory info missing"
     const searchMembership = await Membership.findOne({
                 where: {
                     id: membershipId
@@ -14,7 +14,7 @@ const assignMembership = async function (userId, membershipId ){
                     })
 // console.log(searchMembership)
 // console.log(searchUser)
-await searchUser.setMembership(searchMembership)
+await searchUser.addMemberships(searchMembership)
 return `${searchMembership.name} membership was assigned to the user ${searchUser.email}`
 }
     

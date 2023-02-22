@@ -18,13 +18,12 @@ const { getFavourites } = require('../controllers/getFavourites')
 const { deleteFavourite } = require('../controllers/deleteFavourite')
 const { Op } = require("sequelize");
 
+
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require("handlebars");
 const { isAdmin, isAuthenticated } = require('../utils/middleware');
-const { setCancelCart } = require('../controllers/setCancelCart');
-const { Sequelize } = require('sequelize');
 
 
 const router = Router();
@@ -33,12 +32,9 @@ const router = Router();
 //Traer usuario por ID
 router.post('/auth', async (req, res) => {
   try {
-
     const { email, name, picture, role } = req.body;
     const fullname = name;
-
     let result = await authenticator(email, fullname, picture, role)
-
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -105,17 +101,15 @@ router.get("/", async (req, res) => {
 
 // crear usuario
 router.post('/', async (req, res) => {
-  try {
-    const { email, role, fullname, profile, avatar } = req.body;
-    console.log(req.body)
-    let result = await createUser(email, role, fullname, profile, avatar)
-    emailUser(email, fullname)
+    try {
+        const { email, role, fullname, profile, avatar, birthdate } = req.body;
+        let result = await createUser(email, role, fullname, profile, avatar, birthdate)
+        emailUser(email, fullname)
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
 
-
-    res.status(200).send(result)
-  } catch (error) {
-    res.status(400).send(error.message)
-  }
 })
 
 
@@ -190,12 +184,11 @@ router.delete("/:userId/cart", async (req, res) => {
   }
 });
 
-// Ruta para traer todos los productos del carrito u order por id del usuario y solo la que esta en estado carrito
+// Ruta para traer todos los productos del carrito u order por id
 //
 router.get("/:userId/cart", async (req, res) => {
   const { userId } = req.params;
   let usuario = await User.findOne({ where: { id: userId } });
-  // console.log(usuario.email)
   try {
     const result = await Order.findOne({
       where: {
@@ -215,14 +208,10 @@ router.get("/:userId/cart", async (req, res) => {
   }
 });
 
-
-
-// Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
+// Eliminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
 router.put('/cancel/:idCart', async (req, res) => {
   try {
     const { idCart } = req.params
-    console.log(idCart)
-
     let result = await setCancelCart(idCart)
     res.status(200).send(result)
   } catch (error) {
@@ -230,7 +219,7 @@ router.put('/cancel/:idCart', async (req, res) => {
   }
 })
 
-// Eiminar un producto carrito de un usuario
+// Eliminar un producto carrito de un usuario
 router.delete('/:id/cart/:idProduct', async (req, res) => {
   const userId = req.params.id
   let usuario = await User.findOne({ where: { id: userId } })
@@ -262,6 +251,7 @@ router.post('/membership', async (req, res) => {
     console.log(error)
     res.status(400).send(error.message)
   }
+
 })
 
 
