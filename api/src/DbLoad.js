@@ -1,14 +1,16 @@
-const axios = require('axios');
-const { State, Grape, Region, Type } = require('./db')
+const axios = require("axios");
+const { State, Grape, Region, Type, Membership } = require("./db");
 
 const LoadingDb = async function (req, res) {
   try {
-    const allStates = await axios.get('https://apis.datos.gob.ar/georef/api/provincias');
-    
+    const allStates = await axios.get(
+      "https://apis.datos.gob.ar/georef/api/provincias"
+    );
+
     const States = allStates.data.provincias.map((e) => {
       return {
         id: e.id,
-        name: e.nombre
+        name: e.nombre,
       };
     });
     States.forEach(async (e) => {
@@ -30,43 +32,33 @@ const LoadingDb = async function (req, res) {
     //   };
     // });
     // http://demo8521051.mockable.io/regions creada por Mati Regiones mas frecuentes
-    
-    
-    const allRegions = await axios.get ('http://demo8521051.mockable.io/regions')
+
+    const allRegions = await axios.get(
+      "http://demo8521051.mockable.io/regions"
+    );
 
     const regions = allRegions.data;
 
-    var Regiones =[]
-    regions.forEach(region => {
+    var Regiones = [];
+    regions.forEach((region) => {
       for (let i = 0; i < region.state.regions.length; i++) {
-    Regiones.push(region.state.regions[i].name)
-   } 
-   });
+        Regiones.push(region.state.regions[i].name);
+      }
+    });
 
-    Regiones.forEach(async(e)=>{
-        await Region.findOrCreate({
-          where: {
-            name: e
-          }
-        })
-      })
-  
+    Regiones.forEach(async (e) => {
+      await Region.findOrCreate({
+        where: {
+          name: e,
+        },
+      });
+    });
 
-
-
-
-
-
-
-
-
-
-
-    const allGrapes = await axios.get('http://demo8521051.mockable.io/grape');
+    const allGrapes = await axios.get("http://demo8521051.mockable.io/grape");
 
     const Grapes = allGrapes.data.map((e) => {
       return {
-        name: e.name
+        name: e.name,
       };
     });
     Grapes.forEach(async (e) => {
@@ -77,11 +69,11 @@ const LoadingDb = async function (req, res) {
       });
     });
 
-    const allTypes = await axios.get('http://demo8521051.mockable.io/types');
+    const allTypes = await axios.get("http://demo8521051.mockable.io/types");
 
     const Types = allTypes.data.map((e) => {
       return {
-        name: e.name
+        name: e.name,
       };
     });
     Types.forEach(async (e) => {
@@ -92,12 +84,41 @@ const LoadingDb = async function (req, res) {
       });
     });
 
-    console.log('Database loaded successfully')
+    const stencil = await Membership.findOrCreate({
+      where: {
+        name: "stencil",
+        discount: 10,
+        price: 3000,
+        description:
+          "With the Stencil membership you've got: shipments FREE, a gift box with 2 premium bottles of mixed wines, 10% OFF in our shop and more! Explore the world of wine with the StreetArt Wine Club! We've curated a delicious selection that will get shipped to your door monthly.",
+      },
+    });
 
+    const graffiti = await Membership.findOrCreate({
+      where: {
+        name: "graffiti",
+        discount: 20,
+        price: 5900,
+        description:
+          "With the Graffiti membership you've got: shipments FREE, a gift box with 4 premium bottles of mixed wines, 20% OFF in our shop and more! Explore the world of wine with the StreetArt Wine Club! We've curated a delicious selection that will get shipped to your door monthly.",
+      },
+    });
+
+    const mural = await Membership.findOrCreate({
+      where: {
+        name: "mural",
+        discount: 30,
+        price: 8000,
+        description:
+          "With the Mural membership you've got: shipments FREE, a gift box with 6 premium bottles of mixed wines, 30% OFF in our shop and more! Explore the world of wine with the StreetArt Wine Club! We've curated a delicious selection that will get shipped to your door monthly.",
+      },
+    });
+
+    console.log("Database loaded successfully");
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send(error);
   }
-}
+};
 
-module.exports = { LoadingDb }
+module.exports = { LoadingDb };

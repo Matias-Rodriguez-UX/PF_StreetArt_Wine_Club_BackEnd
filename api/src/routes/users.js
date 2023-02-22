@@ -7,19 +7,19 @@ const { updateUser } = require('../controllers/updateUser');
 const { deleteItemCart } = require('../controllers/deleteItemCart');
 const { addCart } = require('../controllers/addCart');
 const { updateCart } = require('../controllers/updateCart');
-const { assignMembership } = require ('../controllers/assignMembership')
-const { getMembership } = require ('../controllers/getMembership')
-const { updateMembership } = require ('../controllers/updateMembership')
-const { authenticator } = require ('../controllers/authenticator')
-const { getUserByEmail } = require ('../controllers/getUserByEmail')
-const {emailUser} = require ('../controllers/email')
-const { addFavourite } = require ('../controllers/addFavourite')
-const { getFavourites } = require ('../controllers/getFavourites')
-const { deleteFavourite } = require ('../controllers/deleteFavourite')
-const { Op} = require("sequelize");
+const { assignMembership } = require('../controllers/assignMembership')
+const { getMembership } = require('../controllers/getMembership')
+const { updateMembership } = require('../controllers/updateMembership')
+const { authenticator } = require('../controllers/authenticator')
+const { getUserByEmail } = require('../controllers/getUserByEmail')
+const { emailUser } = require('../controllers/email')
+const { addFavourite } = require('../controllers/addFavourite')
+const { getFavourites } = require('../controllers/getFavourites')
+const { deleteFavourite } = require('../controllers/deleteFavourite')
+const { Op } = require("sequelize");
 
 const nodemailer = require('nodemailer');
-const fs = require ('fs');
+const fs = require('fs');
 const path = require('path');
 const handlebars = require("handlebars");
 const { isAdmin, isAuthenticated } = require('../utils/middleware');
@@ -32,12 +32,12 @@ const router = Router();
 
 //Traer usuario por ID
 router.post('/auth', async (req, res) => {
-    try {
+  try {
 
-        const { email, name, picture, role } = req.body;
-        const fullname = name;
+    const { email, name, picture, role } = req.body;
+    const fullname = name;
 
-        let result = await authenticator(email, fullname, picture, role)
+    let result = await authenticator(email, fullname, picture, role)
 
     res.status(200).send(result);
   } catch (error) {
@@ -105,17 +105,17 @@ router.get("/", async (req, res) => {
 
 // crear usuario
 router.post('/', async (req, res) => {
-    try {
-        const { email, role, fullname, profile, avatar } = req.body;
-        console.log(req.body)
-        let result = await createUser(email, role, fullname, profile, avatar)
-        emailUser(email, fullname)
- 
+  try {
+    const { email, role, fullname, profile, avatar } = req.body;
+    console.log(req.body)
+    let result = await createUser(email, role, fullname, profile, avatar)
+    emailUser(email, fullname)
 
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
 })
 
 
@@ -133,14 +133,14 @@ router.delete("/:id", async (req, res) => {
 //modificar datos del usuario
 
 router.put('/', async (req, res) => {
-    try {
-        const { id, email, rol, fullname, profile, avatar, status } = req.body;
+  try {
+    const { id, email, role, fullname, profile, avatar, status } = req.body;
 
-        let result = await updateUser(id, email, rol, fullname, profile, avatar, status)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(console.log(error.message))
-    }
+    let result = await updateUser(id, email, role, fullname, profile, avatar, status)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(console.log(error.message))
+  }
 })
 
 //Agregar item al carrito
@@ -198,10 +198,12 @@ router.get("/:userId/cart", async (req, res) => {
   // console.log(usuario.email)
   try {
     const result = await Order.findOne({
-      where: { userEmail: usuario.email,[Op.or]: [
-        { status: 'cart' },
-        { status: 'processing payment' }
-      ]},
+      where: {
+        userEmail: usuario.email, [Op.or]: [
+          { status: 'cart' },
+          { status: 'processing payment' }
+        ]
+      },
       include: [
         { model: Product, as: "products" },
         { model: User, as: "user" },
@@ -217,49 +219,49 @@ router.get("/:userId/cart", async (req, res) => {
 
 // Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
 router.put('/cancel/:idCart', async (req, res) => {
-    try {
-      const { idCart } = req.params
-      console.log(idCart)
-        
-        let result = await setCancelCart(idCart)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+  try {
+    const { idCart } = req.params
+    console.log(idCart)
+
+    let result = await setCancelCart(idCart)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
 })
 
 // Eiminar un producto carrito de un usuario
 router.delete('/:id/cart/:idProduct', async (req, res) => {
-    const userId = req.params.id
-    let usuario = await User.findOne({ where: { id: userId } })
-    // console.log(usuario)
-    try {
-        const { idProduct } = req.params
-        let result = await deleteItemCart(usuario.email, idProduct)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+  const userId = req.params.id
+  let usuario = await User.findOne({ where: { id: userId } })
+  // console.log(usuario)
+  try {
+    const { idProduct } = req.params
+    let result = await deleteItemCart(usuario.email, idProduct)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
 })
 
 //agregar membresia 
 router.post('/membership', async (req, res) => {
 
-    try {
-        const { name, discount, price, description } = req.body;
-        let result = await Membership.findOrCreate({
-            where: {
-                name: name,
-                discount: discount,
-                price: price,
-                description: description
-            },
-        })
-        res.status(200).send({ message: "Membership created" })
-    } catch (error) {
-        console.log(error)
-        res.status(400).send(error.message)
-    }
+  try {
+    const { name, discount, price, description } = req.body;
+    let result = await Membership.findOrCreate({
+      where: {
+        name: name,
+        discount: discount,
+        price: price,
+        description: description
+      },
+    })
+    res.status(200).send({ message: "Membership created" })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send(error.message)
+  }
 })
 
 
@@ -278,14 +280,14 @@ router.get("/membership/:id", async (req, res) => {
 
 //actualizar membresia
 router.put('/membership/:idMembership', async (req, res) => {
-    try {
-        const { idMembership } = req.params
-        const { name, discount, price, description } = req.body;
-        let result = await updateMembership(idMembership, name, discount, price, description)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+  try {
+    const { idMembership } = req.params
+    const { name, discount, price, description } = req.body;
+    let result = await updateMembership(idMembership, name, discount, price, description)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
 })
 
 // asignar membresia al usuario
@@ -316,14 +318,14 @@ router.post("/fav/:email/:id", async (req, res) => {
 
 //borrar favorito
 
-router.delete("/deleteFav/:email/:id", async(req,res)=>{
-    const {email, id} = req.params
-    try {
-        const result = await deleteFavourite(email,id)
-        res.send(result)
-    } catch (error) {
-        res.status(404).send(error)
-    }
+router.delete("/deleteFav/:email/:id", async (req, res) => {
+  const { email, id } = req.params
+  try {
+    const result = await deleteFavourite(email, id)
+    res.send(result)
+  } catch (error) {
+    res.status(404).send(error)
+  }
 })
 
 
