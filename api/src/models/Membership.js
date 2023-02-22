@@ -9,8 +9,8 @@ module.exports = (sequelize) => {
         primaryKey: true,
       }, */
       name: {
-        type: DataTypes.ENUM('stencil', 'graffiti', 'mural'),
-        allowNull: false,
+        type: DataTypes.ENUM('stencil', 'graffiti', 'mural','not member'),
+        allowNull: false
       },
       discount: {
         type: DataTypes.INTEGER,
@@ -19,8 +19,17 @@ module.exports = (sequelize) => {
       price: {
         type: DataTypes.INTEGER,
         allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
+      },
+      purchaseDate: {
+        type: DataTypes.DATEONLY,
+        defaultValue: DataTypes.NOW
       }
+
     },
+
     { timestamps: false }
   );
 };

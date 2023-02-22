@@ -9,6 +9,7 @@ const UserRouter= require('./users');
 const AddressRouter= require('./addresses');
 const Orders = require('./orders');
 const Memberships = require ('./memberships');
+const Newsletter = require ('./newsletter')
 
 const router = Router();
 
@@ -22,6 +23,7 @@ router.use('/users', UserRouter);
 router.use('/addresses', AddressRouter);
 router.use('/orders', Orders);
 router.use('/memberships', Memberships);
+router.use('/newsletter', Newsletter);
 
 module.exports = router;
 
