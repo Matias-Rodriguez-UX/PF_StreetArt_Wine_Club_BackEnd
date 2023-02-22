@@ -34,7 +34,6 @@ const getProducts = async function (name) {
     ],
   });
   if (!name) {
-    console.log(productsAll);
     return productsAll;
   } else {
     let searchProduct = await productsAll.filter((p) =>
