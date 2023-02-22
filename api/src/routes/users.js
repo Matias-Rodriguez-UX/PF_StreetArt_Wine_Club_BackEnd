@@ -242,7 +242,7 @@ router.delete('/:id/cart/:idProduct', async (req, res) => {
     }
 })
 
-//agregar membresia 
+/* //agregar membresia 
 router.post('/membership', async (req, res) => {
 
     try {
@@ -298,7 +298,7 @@ router.put("/:userId/membership/:membershipId", async (req, res) => {
   } catch (error) {
     res.status(400).send(error.message);
   }
-});
+}); */
 
 //agregar favorito a usuario
 

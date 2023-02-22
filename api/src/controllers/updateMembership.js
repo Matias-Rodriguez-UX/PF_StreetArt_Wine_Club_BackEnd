@@ -2,7 +2,7 @@ const { Membership, User } = require("../db");
 
 const updateMembership = async function( idMembership, name, discount, price, description){
 
-    const update = Membership.update(
+    const update = await Membership.update(
 		{ name: name, 
           discount: discount,
           price: price,
