@@ -43,7 +43,6 @@ module.exports = (sequelize) => {
       },
       birthdate: {
         type: DataTypes.STRING,
-        allowNull: false
       }
 
     },
