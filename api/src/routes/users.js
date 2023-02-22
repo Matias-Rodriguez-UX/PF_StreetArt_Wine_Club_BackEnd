@@ -16,15 +16,12 @@ const {emailUser} = require ('../controllers/email')
 const { addFavourite } = require ('../controllers/addFavourite')
 const { getFavourites } = require ('../controllers/getFavourites')
 const { deleteFavourite } = require ('../controllers/deleteFavourite')
-const { Op} = require("sequelize");
 
 const nodemailer = require('nodemailer');
 const fs = require ('fs');
 const path = require('path');
 const handlebars = require("handlebars");
 const { isAdmin, isAuthenticated } = require('../utils/middleware');
-const { setCancelCart } = require('../controllers/setCancelCart');
-const { Sequelize } = require('sequelize');
 
 
 const router = Router();
@@ -34,10 +31,10 @@ const router = Router();
 router.post('/auth', async (req, res) => {
     try {
 
-        const { email, name, picture, role } = req.body;
+        const { email, name, picture } = req.body;
         const fullname = name;
 
-        let result = await authenticator(email, fullname, picture, role)
+        let result = await authenticator(email, fullname, picture)
 
     res.status(200).send(result);
   } catch (error) {
@@ -106,9 +103,9 @@ router.get("/", async (req, res) => {
 // crear usuario
 router.post('/', async (req, res) => {
     try {
-        const { email, role, fullname, profile, avatar } = req.body;
+        const { email, role, fullname, profile, avatar, birthdate } = req.body;
         console.log(req.body)
-        let result = await createUser(email, role, fullname, profile, avatar)
+        let result = await createUser(email, role, fullname, profile, avatar, birthdate)
         emailUser(email, fullname)
  
 
@@ -190,7 +187,7 @@ router.delete("/:userId/cart", async (req, res) => {
   }
 });
 
-// Ruta para traer todos los productos del carrito u order por id del usuario y solo la que esta en estado carrito
+// Ruta para traer todos los productos del carrito u order por id
 //
 router.get("/:userId/cart", async (req, res) => {
   const { userId } = req.params;
@@ -198,10 +195,7 @@ router.get("/:userId/cart", async (req, res) => {
   // console.log(usuario.email)
   try {
     const result = await Order.findOne({
-      where: { userEmail: usuario.email,[Op.or]: [
-        { status: 'cart' },
-        { status: 'processing payment' }
-      ]},
+      where: { userEmail: usuario.email, status: "cart" },
       include: [
         { model: Product, as: "products" },
         { model: User, as: "user" },
@@ -213,21 +207,16 @@ router.get("/:userId/cart", async (req, res) => {
   }
 });
 
-
-
 // Eiminar carrito de un usuario en realidad se debe cambiar a un estado de cancelado
-router.put('/cancel/:idCart', async (req, res) => {
-    try {
-      const { idCart } = req.params
-      console.log(idCart)
-        
-        let result = await setCancelCart(idCart)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
-})
-
+// router.delete('/:id/cart/', async (req, res) => {
+//     try {
+//         const { email, idCart } = req.query
+//         let result = await deleteItemCart(idCart)
+//         res.status(200).send(result)
+//     } catch (error) {
+//         res.status(400).send(error.message)
+//     }
+// })
 // Eiminar un producto carrito de un usuario
 router.delete('/:id/cart/:idProduct', async (req, res) => {
     const userId = req.params.id
@@ -242,17 +231,16 @@ router.delete('/:id/cart/:idProduct', async (req, res) => {
     }
 })
 
-/* //agregar membresia 
+//agregar membresia 
 router.post('/membership', async (req, res) => {
 
     try {
-        const { name, discount, price, description } = req.body;
+        const { name, discount, price } = req.body;
         let result = await Membership.findOrCreate({
             where: {
                 name: name,
                 discount: discount,
-                price: price,
-                description: description
+                price: price
             },
         })
         res.status(200).send({ message: "Membership created" })
@@ -280,8 +268,8 @@ router.get("/membership/:id", async (req, res) => {
 router.put('/membership/:idMembership', async (req, res) => {
     try {
         const { idMembership } = req.params
-        const { name, discount, price, description } = req.body;
-        let result = await updateMembership(idMembership, name, discount, price, description)
+        const { name, discount, price } = req.body;
+        let result = await updateMembership(idMembership, name, discount, price)
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error.message)
@@ -298,7 +286,7 @@ router.put("/:userId/membership/:membershipId", async (req, res) => {
   } catch (error) {
     res.status(400).send(error.message);
   }
-}); */
+});
 
 //agregar favorito a usuario
 

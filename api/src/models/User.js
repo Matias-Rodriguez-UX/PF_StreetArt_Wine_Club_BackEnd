@@ -40,6 +40,10 @@ module.exports = (sequelize) => {
       },
       dni: {
         type: DataTypes.STRING,
+      },
+      birthdate: {
+        type: DataTypes.STRING,
+        allowNull: false
       }
 
     },
