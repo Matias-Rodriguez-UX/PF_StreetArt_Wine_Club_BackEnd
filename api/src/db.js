@@ -63,7 +63,13 @@ State.belongsToMany(Product, { through: 'Product_State', timestamps: false })
 Product.belongsToMany(Region, { through: 'Product_Region', timestamps: false })
 Region.belongsToMany(Product, { through: 'Product_Region', timestamps: false })
 
+//relación nro de orden → carrito
+Order.belongsToMany(Product, { through: ShoppingCart });
+Product.belongsToMany(Order, { through: ShoppingCart });
 
+//relación User → Membership
+User.belongsToMany(Membership,  { through: 'User_Membership' });
+Membership.belongsToMany(User, { through: 'User_Membership' });
 
 //relación producto → review: en Review voy a tener la FK productId (el id del product al que pertenece dicha review)
 Product.hasMany(Review);
@@ -73,17 +79,9 @@ Review.belongsTo(Product);
 User.hasMany(Review);
 Review.belongsTo(User);
 
-//relación membresia → usuario: una membresía va a pertenecer a un usuario, la FK va a ser puesta en user como: membershipId
-Membership.hasOne(User);
-User.belongsTo(Membership);
-
 //relacion usuario → carrito
 User.hasMany(ShoppingCart);
 ShoppingCart.belongsTo(User);
-
-//relación nro de orden → carrito
-Order.belongsToMany(Product, { through: ShoppingCart });
-Product.belongsToMany(Order, { through: ShoppingCart });
 
 //relación usuario → pedido
 User.hasMany(Order);
@@ -92,14 +90,6 @@ Order.belongsTo(User)
 //relación usuario → dirección
 User.hasMany(Address);
 Address.belongsTo(User);
-
-/* //relación provincia → dirección
-State.hasOne(Address);
-Address.belongsTo(State);
-
-//relación localidad → dirección
-Region.hasOne(Address);
-Address.belongsTo(Region); */
 
 //relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
 User.belongsToMany(Product,{ through: 'Favourite' });
