@@ -89,15 +89,6 @@ router.get("/:email", async (req, res) => {
 });
 
 //traer todos los usuarios
-router.get("/", async (req, res) => {
-  try {
-    let result = await User.findAll();
-
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
 
 // crear usuario
 router.post('/', async (req, res) => {
