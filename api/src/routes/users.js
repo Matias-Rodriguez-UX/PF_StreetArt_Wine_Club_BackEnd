@@ -32,9 +32,9 @@ const router = Router();
 //Traer usuario por ID
 router.post('/auth', async (req, res) => {
   try {
-    const { email, name, picture, role } = req.body;
+    const { email, name, picture, role, birthdate } = req.body;
     const fullname = name;
-    let result = await authenticator(email, fullname, picture, role)
+    let result = await authenticator(email, fullname, picture, role, birthdate)
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -101,14 +101,14 @@ router.get("/", async (req, res) => {
 
 // crear usuario
 router.post('/', async (req, res) => {
-    try {
-        const { email, role, fullname, profile, avatar, birthdate } = req.body;
-        let result = await createUser(email, role, fullname, profile, avatar, birthdate)
-        emailUser(email, fullname)
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
+  try {
+    const { email, role, fullname, profile, avatar, birthdate } = req.body;
+    let result = await createUser(email, role, fullname, profile, avatar, birthdate)
+    emailUser(email, fullname)
+    res.status(200).send(result)
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
 
 })
 
