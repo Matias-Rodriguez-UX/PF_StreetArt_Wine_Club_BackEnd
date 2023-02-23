@@ -119,9 +119,9 @@ router.delete("/:id", async (req, res) => {
 
 router.put('/', async (req, res) => {
   try {
-    const { id, email, role, fullname, profile, avatar, status } = req.body;
+    const { id, email, role, fullname, profile, avatar, status, birthdate, dni } = req.body;
 
-    let result = await updateUser(id, email, role, fullname, profile, avatar, status)
+    let result = await updateUser(id, email, role, fullname, profile, avatar, status, birthdate, dni)
     res.status(200).send(result)
   } catch (error) {
     res.status(400).send(console.log(error.message))

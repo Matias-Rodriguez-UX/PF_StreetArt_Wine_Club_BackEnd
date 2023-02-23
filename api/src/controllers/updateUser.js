@@ -1,6 +1,6 @@
 const { User } = require("../db");
 
-const updateUser = async function (id, email, role, fullname, profile, avatar, status) {
+const updateUser = async function (id, email, role, fullname, profile, avatar, status, birthdate, dni) {
 
   if (!email, !role, !fullname, !profile, !status) {
     throw new Error('You must complete fields')
@@ -19,6 +19,8 @@ const updateUser = async function (id, email, role, fullname, profile, avatar, s
       profile: profile,
       avatar: avatar,
       status: status,
+      birthdate: birthdate,
+      dni: dni
     }, {
       where: {
         id: id,
