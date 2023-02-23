@@ -3,7 +3,7 @@ const router = express.Router();
 const { Product, Order, ShoppingCart, User } = require("../db.js");
 const { getOrderId } = require("../controllers/getOrderId");
 const { changeOrder } = require("../controllers/changeOrder");
-
+const {localStorageCart} = require("../controllers/localStorageCart");
 // ruta que retorna todas las ordenes(solo dar acceso Admin)
 
 router.get("/", async (req, res) => {
@@ -69,6 +69,17 @@ router.put("/backToCart/:orderId", async (req, res) => {
         },
       }
     );
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+router.post("/localStorageCart", async (req, res) => {
+  try {
+    const arrayProducts = req.body;
+    console.log(arrayProducts)
+    let result = await localStorageCart(arrayProducts)
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
