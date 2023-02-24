@@ -85,13 +85,21 @@ const purchaseConfirmation = async function(email, orderSelectId){
     ]
 })
 
-console.log(user)
-console.log("user . membership",user.membership)
-console.log("nombre de membresia",user.membership.name)
+// console.log(user)
+// console.log("user . membership",user.memberships)
+// console.log("nombre de membresia",user.memberships[0].name)
 
-if(user.membership){
-  var finalPrice = await orderSelect.totalPrice - (orderSelect.totalPrice * user.membership.discount * 0.01) 
-  var membership = user.membership
+
+if(user.memberships.length){
+    var discounts = user.memberships.map(e=>e.discount)
+    var maxdiscount = Math.max(discounts)
+  var finalPrice = await orderSelect.totalPrice - (orderSelect.totalPrice * maxdiscount * 0.01) 
+//   var membership = await user.memberships.map(e=>e.name)
+//   var membershipNames = await membership.join('-')
+    var membership = `${maxdiscount}% off`
+  console.log("soy membership",membership)
+// console.log("soy membership con join",membershipNames)
+if(user.memberships[0].name==='not member'){var shipping = 1000}
 }else{
     var finalPrice = orderSelect.totalPrice
     var membership = "no membership"
@@ -101,7 +109,7 @@ if(user.membership){
     const filePath = path.join(__dirname, '../utils/purchaseConfirmation.html');
     const source = fs.readFileSync(filePath, 'utf-8').toString();
     const template = Handlebars.compile(source);
-    const replacements = { orderSelect, products,user, email, finalPrice, membership };
+    const replacements = { orderSelect, products,user, email, finalPrice, membership, shipping };
     const htmlToSend = template(replacements, {
         allowProtoPropertiesByDefault: true
       });
