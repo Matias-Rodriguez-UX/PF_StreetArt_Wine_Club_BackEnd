@@ -1,10 +1,11 @@
 const { Membership, User } = require("../db");
 
-const assignMembership = async function (userId, membershipId) {
-    if (!userId || !membershipId.length) return "Mandatory info missing"
+const assignMembership = async function (userId, idMembership) {
+    if (!userId || !idMembership.length) return "Mandatory info missing"
     const searchMembership = await Membership.findAll({
         where: {
-            id: membershipId
+            id: idMembership
+
         },
     })
     const searchUser = await User.findOne({
