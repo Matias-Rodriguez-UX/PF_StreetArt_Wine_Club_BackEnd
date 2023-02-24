@@ -3,7 +3,7 @@ const router = express.Router();
 const { Product, Order, ShoppingCart, User } = require("../db.js");
 const { getOrderId } = require("../controllers/getOrderId");
 const { changeOrder } = require("../controllers/changeOrder");
-const {localStorageCart} = require("../controllers/localStorageCart");
+const { localStorageCart } = require("../controllers/localStorageCart");
 // ruta que retorna todas las ordenes(solo dar acceso Admin)
 
 router.get("/", async (req, res) => {
@@ -44,17 +44,17 @@ router.get("/", async (req, res) => {
 
 // crear ruta para modificar una Orden
 
-router.put('/checkout/', async (req, res, ) => {
-    try {
-        const  { orderId }  = req.query
-        console.log(orderId)
-        const { status, email } = req.body;
-        let result = await changeOrder( status, email, orderId )
-        res.status(200).send(result)
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
-})
+router.put("/checkout/", async (req, res) => {
+  try {
+    const { orderId } = req.query;
+    console.log(orderId);
+    const { status, email } = req.body;
+    let result = await changeOrder(status, email, orderId);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 router.put("/backToCart/:orderId", async (req, res) => {
   try {
@@ -77,9 +77,8 @@ router.put("/backToCart/:orderId", async (req, res) => {
 
 router.post("/localStorageCart", async (req, res) => {
   try {
-    const arrayProducts = req.body;
-    console.log(arrayProducts)
-    let result = await localStorageCart(arrayProducts)
+    const { arrayProducts, email } = req.body;
+    let result = await localStorageCart(arrayProducts, email);
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
