@@ -1,6 +1,6 @@
 const { where, Op } = require("sequelize");
 const { Product, User, ShoppingCart, Order } = require("../db");
-const { emailUser, purchaseConfirmation } = require("./email");
+const { emailUser, purchaseConfirmation, orderShipped } = require("./email");
 
 
 const changeOrder = async function (status, email, orderId) {
@@ -135,6 +135,8 @@ else if(orderId){
                 }
             }
         )
+
+      
         return `The order ${orderId} was updated successfully`
     }
     //si el estado es delivered debe cambiar solo el status

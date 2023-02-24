@@ -86,7 +86,7 @@ const purchaseConfirmation = async function(email, orderSelectId){
 })
 
 console.log(user)
-console.log("user . membership",user.membership)
+console.log("user.membership",user.membership)
 console.log("nombre de membresia",user.membership.name)
 
 if(user.membership){
