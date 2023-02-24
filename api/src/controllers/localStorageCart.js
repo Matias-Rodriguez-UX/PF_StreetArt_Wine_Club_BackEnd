@@ -19,16 +19,16 @@ const localStorageCart = async function (carts, email) {
         await newOrder.setUser(email);
 
         await carts.forEach(async (element) => {
-          const { userId, totalPrice, quantity, email, productId } = element;
-          let product = await Product.findOne({ where: { id: productId } });
+          const { userId, price, quantity, cartQuantity, id } = element;
+          let product = await Product.findOne({ where: { id: id } });
           if (product.stock >= quantity) {
             await ShoppingCart.create(
               {
-                totalPrice,
-                quantity,
+                totalPrice: price * cartQuantity,
+                quantity: cartQuantity,
                 userEmail: email,
                 orderId: newOrder.id,
-                productId: productId,
+                productId: id,
               },
               {
                 where: {
