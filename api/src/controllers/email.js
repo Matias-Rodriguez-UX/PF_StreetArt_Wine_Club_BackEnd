@@ -222,7 +222,7 @@ const orderShipped = async function(email, orderId){
         }
     )
 
-console.log(orderSelect)
+console.log('SOY LA ORDEN', orderSelect)
 
  const products = orderSelect.products
  const user = await User.findOne({
@@ -249,7 +249,7 @@ if(user.memberships.length){
 //   var membership = await user.memberships.map(e=>e.name)
 //   var membershipNames = await membership.join('-')S
     var membership = `${maxdiscount}% off`
-  console.log("soy membership",membership)
+  //console.log("soy membership",membership)
 // console.log("soy membership con join",membershipNames)
 if(user.memberships[0].name==='not member'){var shipping = 1000}
 }else{
@@ -257,11 +257,12 @@ if(user.memberships[0].name==='not member'){var shipping = 1000}
     var membership = "no membership"
 }
 
+var address = await orderSelect.address.address
   
     const filePath = path.join(__dirname, '../utils/orderShipped.html');
     const source = fs.readFileSync(filePath, 'utf-8').toString();
     const template = Handlebars.compile(source);
-    const replacements = { orderSelect, products,user, email, finalPrice, membership, shipping };
+    const replacements = { orderSelect, products,user, email, finalPrice, membership, shipping, address };
     const htmlToSend = template(replacements, {
         allowProtoPropertiesByDefault: true
       });
