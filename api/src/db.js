@@ -49,17 +49,19 @@ const { Product, Type, Grape, State, Region, Review, User, Membership, ShoppingC
 
 // Aca vendrian las relaciones
 
-//Product (una caja de vinos) puede tener varios tipos (tinto, blanco, etc)
+//relación producto → tipo
 Product.belongsToMany(Type, { through: 'Product_Type', timestamps: false });
-//Mientras que tipos también pueden pertenecer a varias cajas de vino
 Type.belongsToMany(Product, { through: 'Product_Type', timestamps: false });
 
+//relación producto → cepa
 Product.belongsToMany(Grape, { through: 'Product_Grape', timestamps: false })
 Grape.belongsToMany(Product, { through: 'Product_Grape', timestamps: false })
 
+//relación producto → provincia
 Product.belongsToMany(State, { through: 'Product_State', timestamps: false })
 State.belongsToMany(Product, { through: 'Product_State', timestamps: false })
 
+//relación producto → ciudad
 Product.belongsToMany(Region, { through: 'Product_Region', timestamps: false })
 Region.belongsToMany(Product, { through: 'Product_Region', timestamps: false })
 
@@ -70,6 +72,10 @@ Product.belongsToMany(Order, { through: ShoppingCart });
 //relación User → Membership
 User.belongsToMany(Membership,  { through: 'User_Membership' });
 Membership.belongsToMany(User, { through: 'User_Membership' });
+
+//relacion usuario → producto
+User.belongsToMany(Product,{ through: 'Favourite' });
+Product.belongsToMany(User,{ through: 'Favourite' });
 
 //relación producto → review: en Review voy a tener la FK productId (el id del product al que pertenece dicha review)
 Product.hasMany(Review);
@@ -91,9 +97,11 @@ Order.belongsTo(User)
 User.hasMany(Address);
 Address.belongsTo(User);
 
-//relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
-User.belongsToMany(Product,{ through: 'Favourite' });
-Product.belongsToMany(User,{ through: 'Favourite' });
+//relación dirección → pedido
+Address.hasMany(Order);
+Order.belongsTo(Address);
+
+
 
 
 

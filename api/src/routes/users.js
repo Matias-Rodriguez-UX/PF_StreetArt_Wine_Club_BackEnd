@@ -300,10 +300,11 @@ router.put("/membership/:idMembership", async (req, res) => {
 });
 
 // asignar membresia al usuario
-router.put("/:userId/membership/:membershipId", async (req, res) => {
+router.put("/:userId/membership/", async (req, res) => {
   try {
-    const { userId, membershipId } = req.params;
-    let result = await assignMembership(userId, membershipId);
+    const { userId } = req.params;
+    const idMembership = req.body;
+    let result = await assignMembership(userId, idMembership);
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);

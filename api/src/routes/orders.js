@@ -46,11 +46,17 @@ router.get("/", async (req, res) => {
 
 router.put("/checkout/", async (req, res) => {
   try {
-    const { orderId } = req.query;
-    console.log(orderId);
+    const orderId = req.query.orderId || null;
+    const addressId = req.query.addressId || null;
+    console.log(orderId, "y", addressId, "EN RUTA");
     const { status, email } = req.body;
-    let result = await changeOrder(status, email, orderId);
-    res.status(200).send(result);
+    if (orderId === null) {
+      let result = await changeOrder(status, email, orderId, addressId);
+      res.status(200).send(result);
+    } else {
+      let result = await changeOrder(status, email, orderId, addressId);
+      res.status(200).send(result);
+    }
   } catch (error) {
     res.status(400).send(error.message);
   }
