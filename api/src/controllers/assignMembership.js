@@ -5,6 +5,7 @@ const assignMembership = async function (userId, idMembership) {
     const searchMembership = await Membership.findAll({
         where: {
             id: idMembership
+
         },
     })
     const searchUser = await User.findOne({
