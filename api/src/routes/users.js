@@ -275,7 +275,6 @@ router.put('/membership/:idMembership', async (req, res) => {
 router.put("/:userId/membership/:membershipId", async (req, res) => {
   try {
     const { userId, membershipId } = req.params;
-
     let result = await assignMembership(userId, membershipId);
     res.status(200).send(result);
   } catch (error) {
