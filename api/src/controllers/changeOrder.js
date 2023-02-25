@@ -2,19 +2,12 @@ const { where, Op } = require("sequelize");
 const { Product, User, ShoppingCart, Order, Address } = require("../db");
 const { emailUser, purchaseConfirmation, orderShipped } = require("./email");
 
-const changeOrder = async function (status, email, orderId, addressId) {
+const changeOrder = async function (status, email, orderId, addressId, newAddress) {
   // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
 
   const user = await User.findOne({
     where: {
       email: email,
-    },
-  });
-
-  const address = await Address.findOne({
-    where: {
-      userEmail: email,
-      id: addressId,
     },
   });
 
@@ -43,9 +36,8 @@ const changeOrder = async function (status, email, orderId, addressId) {
       return orderUp;
     }
     if (status === "processing shipping") {
-      if (addressId === null) {
-        return "Address is mandatory!";
-      }
+        let addressUpdate = await newAddress? newAddress.id :addressId
+
       const orderSelect = await Order.findOne({
         where: {
           userEmail: email,
@@ -98,7 +90,7 @@ const changeOrder = async function (status, email, orderId, addressId) {
           totalPrice: sumOfPrices,
           status: status,
           userEmail: email,
-          addressId: address.id,
+          addressId: addressUpdate,
         },
         {
           where: {
@@ -111,7 +103,7 @@ const changeOrder = async function (status, email, orderId, addressId) {
       await purchaseConfirmation(email, orderSelectId);
       return updated;
     }
-  } else if (orderId) {
+  } else if (orderId ) {
     const searchOrder = await Order.findOne({
       where: {
         id: orderId,
