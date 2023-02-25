@@ -1,4 +1,4 @@
-const { User, Membership, ShoppingCart, Order,Review, Product, Address } = require("../db");
+const { User, Membership, ShoppingCart, Order,Review, Product, Address, Newsletter } = require("../db");
 const nodemailer = require ('nodemailer')
 const Handlebars = require("handlebars");
 const path = require('path');
@@ -214,6 +214,20 @@ transporter.sendMail(mailOptions, (error, info)=>{
     }
 })
 
+// Programa el envío de la newsletter cada 1 semana
+// setInterval(() => {
+//     transporter.sendMail(mailOptions, function(error, info){
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Correo electrónico enviado: newsletter programado' + info.response);
+//       }
+//     });
+//   },  7 * 24 * 60 * 60 * 1000);
+
+
+
+
 }
 
 const orderShipped = async function(email, orderId){
@@ -232,7 +246,7 @@ const orderShipped = async function(email, orderId){
         }
     )
 
-console.log('SOY LA ORDEN', orderSelect)
+//console.log('SOY LA ORDEN', orderSelect)
 
  const products = orderSelect.products
  const user = await User.findOne({

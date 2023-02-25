@@ -1,7 +1,6 @@
 const { Router } = require('express');
-const {emailNewsletter} = require ('../controllers/email')
-
-
+const { createNewsletter } = require('../controllers/postNewsletter');
+const { Newsletter } = require("../db");
 const router = Router();
 
 router.post('/', async (req, res) => {
@@ -10,13 +9,38 @@ router.post('/', async (req, res) => {
     //console.log(req.body)
    
     try {
-        // emailNewsletter(email)
+        await createNewsletter(email)
         res.status(200).send(email)
         console.log('email ok')
     } catch (error) {
         res.status(400).send(error.message)
     }
 })
+
+
+router.put('/', async (req, res) => {
+    try {
+      const  { email } = req.body;
+  
+      const updateStatus = await Newsletter.update({
+        email: email,
+        userStatus: 'unsubscribed',
+
+      },{
+        where:{
+           email: email,
+           userStatus:'subscribed',
+        
+                  
+        }
+      });
+
+      res.status(200).send(updateStatus)
+    } catch (error) {
+      res.status(400).send(console.log(error.message))
+    }
+  })
+
 
 
 
