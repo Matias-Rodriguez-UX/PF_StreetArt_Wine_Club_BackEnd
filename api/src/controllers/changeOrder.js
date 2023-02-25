@@ -108,7 +108,7 @@ const changeOrder = async function (status, email, orderId, addressId) {
         }
       );
       //envio de mail confirmando la compra
-      await purchaseConfirmation(email, orderSelectId);
+    //   await purchaseConfirmation(email, orderSelectId);
       return updated;
     }
   } else if (orderId) {
@@ -130,7 +130,7 @@ const changeOrder = async function (status, email, orderId, addressId) {
           },
         }
       );
-      await orderShipped(email, orderId)
+    //   await orderShipped(email, orderId)
       return `The order ${orderId} was updated successfully`;
     }
 
