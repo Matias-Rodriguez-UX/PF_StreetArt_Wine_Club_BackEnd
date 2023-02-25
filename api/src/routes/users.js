@@ -16,6 +16,7 @@ const { emailUser } = require('../controllers/email')
 const { addFavourite } = require('../controllers/addFavourite')
 const { getFavourites } = require('../controllers/getFavourites')
 const { deleteFavourite } = require('../controllers/deleteFavourite')
+const { setCancelCart } = require('../controllers/setCancelCart')
 const { Op } = require("sequelize");
 
 
@@ -95,7 +96,7 @@ router.post('/', async (req, res) => {
   try {
     const { email, role, fullname, profile, avatar, birthdate } = req.body;
     let result = await createUser(email, role, fullname, profile, avatar, birthdate)
-    emailUser(email, fullname)
+    // emailUser(email, fullname)
     res.status(200).send(result)
   } catch (error) {
     res.status(400).send(error.message)

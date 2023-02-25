@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
     //console.log(req.body)
    
     try {
-        emailNewsletter(email)
+        // emailNewsletter(email)
         res.status(200).send(email)
         console.log('email ok')
     } catch (error) {

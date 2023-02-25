@@ -23,10 +23,13 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'artstreetwineclub@gmail.com',
-        pass: 'rokkcjdppianhcnb'
+        // user: 'artstreetwineclub@gmail.com',
+        // pass: 'rokkcjdppianhcnb'
         // user: 'mvaleriabzn@gmail.com',
         // pass: 'zhwuiqooqpegqdkl'
+           user: 'wineclubartstreet@gmail.com',
+           pass: 'iqvnacnmyogdhahf'
+
     },
     
 });
@@ -36,7 +39,8 @@ transporter.verify().then (() => {
 
 
 const mailOptions = {
-from: 'artstreetwineclub@gmail.com',
+// from: 'artstreetwineclub@gmail.com',
+from: 'wineclubartstreet@gmail.com',
 to: email,
 subject:  `Welcome ${fullname} your email was registered 📧✔`,
 html: htmlToSend,
@@ -121,10 +125,12 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'artstreetwineclub@gmail.com',
-        pass: 'rokkcjdppianhcnb'
+        // user: 'artstreetwineclub@gmail.com',
+        // pass: 'rokkcjdppianhcnb'
         // user: 'mvaleriabzn@gmail.com',
         // pass: 'zhwuiqooqpegqdkl'
+        user: 'wineclubartstreet@gmail.com',
+        pass: 'iqvnacnmyogdhahf'
     },
     
 });
@@ -134,7 +140,8 @@ transporter.verify().then (() => {
 
 
 const mailOptions = {
-from: 'artstreetwineclub@gmail.com',
+// from: 'artstreetwineclub@gmail.com',
+from: 'wineclubartstreet@gmail.com',
 to: email,
 subject:  `Purchase Made ✔`,
 html: htmlToSend,
@@ -172,10 +179,12 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'artstreetwineclub@gmail.com',
-        pass: 'rokkcjdppianhcnb'
+        // user: 'artstreetwineclub@gmail.com',
+        // pass: 'rokkcjdppianhcnb'
         // user: 'mvaleriabzn@gmail.com',
         // pass: 'zhwuiqooqpegqdkl'
+        user: 'wineclubartstreet@gmail.com',
+        pass: 'iqvnacnmyogdhahf'
     },
     
 });
@@ -185,7 +194,8 @@ transporter.verify().then (() => {
 
 
 const mailOptions = {
-from: 'artstreetwineclub@gmail.com',
+// from: 'artstreetwineclub@gmail.com',
+from: 'wineclubartstreet@gmail.com',
 to: email,
 subject:  `Welcome to our newsletter ✔`,
 html: htmlToSend,
@@ -274,10 +284,12 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-        user: 'artstreetwineclub@gmail.com',
-        pass: 'rokkcjdppianhcnb'
+        // user: 'artstreetwineclub@gmail.com',
+        // pass: 'rokkcjdppianhcnb'
         // user: 'mvaleriabzn@gmail.com',
         // pass: 'zhwuiqooqpegqdkl'
+        user: 'wineclubartstreet@gmail.com',
+        pass: 'iqvnacnmyogdhahf'
     },
     
 });
@@ -287,7 +299,8 @@ transporter.verify().then (() => {
 
 
 const mailOptions = {
-from: 'artstreetwineclub@gmail.com',
+// from: 'artstreetwineclub@gmail.com',
+from: 'wineclubartstreet@gmail.com',
 to: email,
 subject:  `order shipped ✔`,
 html: htmlToSend,
