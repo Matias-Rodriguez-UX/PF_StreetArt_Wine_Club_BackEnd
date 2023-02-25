@@ -1,4 +1,4 @@
-const { User, Membership, ShoppingCart, Order, Review } = require("../db");
+const { User, Membership, ShoppingCart, Order, Review, Address } = require("../db");
 
 const getUserByEmail = async function (email) {
     if (email) {
@@ -11,7 +11,10 @@ const getUserByEmail = async function (email) {
                 [{ model: Review },
                 { model: Membership },
                 { model: ShoppingCart },
-                { model: Order }
+                { model: Order },
+                {
+                    model: Address,
+                },
                 ]
         })
         if (user) {
@@ -30,7 +33,7 @@ const getUserByEmail = async function (email) {
                             through: {
                                 attributes: [],
                             },
-                        },
+                        }
                     ]
             }
         )

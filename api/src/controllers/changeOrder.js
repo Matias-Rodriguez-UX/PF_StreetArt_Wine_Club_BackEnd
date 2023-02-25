@@ -122,6 +122,9 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
           },
         }
       );
+
+      //envia mail de compra realizada
+
     //   await orderShipped(email, orderId)
       return `The order ${orderId} was updated successfully`;
     }
