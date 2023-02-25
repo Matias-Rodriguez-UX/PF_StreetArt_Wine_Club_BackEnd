@@ -23,7 +23,7 @@
 </xml>
 <![endif]-->
     <!--[if !mso]><!-- -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
     <!--<![endif]-->
 </head>
 
@@ -53,8 +53,8 @@
                                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td align="center" class="esd-block-text es-p10b es-m-txt-c">
-                                                                                        <h2 style="font-size: 38px; line-height: 100%; font-family: roboto, 'helvetica neue', helvetica, arial, sans-serif; color: #212529;">Thanks for&nbsp;choosing us!</h2>
+                                                                                    <td align="center" class="esd-block-text">
+                                                                                        <p style="font-size: 29px; font-family: lato">StreetArt Wine Club<br><br></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -86,8 +86,11 @@
                                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                                             <tbody>
                                                                                 <tr>
+                                                                                    <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank"><img class="adapt-img" src="https://cannonhome.cl/static/version1676479201/frontend/Linets/cannon/es_CL/images/icons/camion.svg" alt style="display: block;" width="100"></a></td>
+                                                                                </tr>
+                                                                                <tr>
                                                                                     <td align="center" class="esd-block-text es-p5t es-p5b es-p40r es-p40l es-m-p0r es-m-p0l">
-                                                                                        <p>Your order <span style="font-size:16px;"><strong>{{orderSelect.id}}</strong></span>&nbsp;has now been completed!&nbsp;<br>We’ve attached your <strong>receipt </strong>to this email.</p>
+                                                                                        <p style="font-size: 23px; font-family: lato, 'helvetica neue', helvetica, arial, sans-serif;"><br>Your order <strong>{{orderSelect.id}}</strong>&nbsp; was shipped!<br><span style="font-size:18px;">In the next 10 business days your purchase will arrive at the indicated address.</span></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -165,7 +168,7 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text">
-                                                                                        <p>&nbsp; &nbsp; &nbsp; <strong> Price:</strong></p>
+                                                                                        <p><strong> Price:</strong></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -180,137 +183,103 @@
                                                 <tr>
                                                     <td class="esd-structure es-p10t es-p10b es-p20r es-p20l esdev-adapt-off" align="left">
                                                         {{#each orderSelect.products}}
-                                                        
-                                                        <table width="560" cellpadding="0" cellspacing="0" class="esdev-mso-table">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="esdev-mso-td" valign="top">
-                                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td width="70" class="es-m-p0r esd-container-frame" align="center">
-                                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank"><img class="adapt-img" src="{{image}}" alt style="display: block;" width="70"></a></td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td width="20"></td>
-                                                                    <td class="esdev-mso-td" valign="top">
-                                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td width="265" class="esd-container-frame" align="center">
-                                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="left" class="esd-block-text">
-                                                                                                        <p><br><strong>{{name}}</strong><br><br></p>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td width="20"></td>
-                                                                    <td class="esdev-mso-td" valign="top">
-                                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td width="80" align="left" class="esd-container-frame">
-                                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="center" class="esd-block-text">
-                                                                                                        <p><br>{{quantity}}<br><br></p>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                    <td width="20"></td>
-                                                                    <td class="esdev-mso-td" valign="top">
-                                                                        <table cellpadding="0" cellspacing="0" class="es-right" align="right">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td width="85" align="left" class="esd-container-frame">
-                                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                                            <tbody>
-                                                                                                <tr>
-                                                                                                    <td align="right" class="esd-block-text">
-                                                                                                        <p><br>{{price}}<br><br></p>
-                                                                                                    </td>
-                                                                                                </tr>
-                                                                                            </tbody>
-                                                                                        </table>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
+                                                            <table width="550" cellpadding="0" cellspacing="0" class="esdev-mso-table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="esdev-mso-td" valign="top">
+                                                                            <table cellpadding="0" cellspacing="0" class="es-left" align="left">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td width="70" class="es-m-p0r esd-container-frame" align="center">
+                                                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td align="center" class="esd-block-image" style="font-size: 0px;"><a target="_blank"><img class="adapt-img" src="{{image}}" alt style="display: block;" width="70"></a></td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td width="20"></td>
+                                                                        <td class="esdev-mso-td" valign="top">
+                                                                            <table cellpadding="0" cellspacing="0" class="es-left" align="left">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td width="265" class="esd-container-frame" align="center">
+                                                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td align="left" class="esd-block-text">
+                                                                                                            <p><br><strong>{{name}}</strong><br><br></p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td width="20"></td>
+                                                                        <td class="esdev-mso-td" valign="top">
+                                                                            <table cellpadding="0" cellspacing="0" class="es-left" align="left">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td width="80" align="left" class="esd-container-frame">
+                                                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td align="center" class="esd-block-text">
+                                                                                                            <p><br>{{quantity}}<br><br></p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                        <td width="20"></td>
+                                                                        <td class="esdev-mso-td" valign="top">
+                                                                            <table cellpadding="0" cellspacing="0" class="es-right" align="right">
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td width="85" align="left" class="esd-container-frame">
+                                                                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                                                                <tbody>
+                                                                                                    <tr>
+                                                                                                        <td align="right" class="esd-block-text">
+                                                                                                            <p><br>{{price}}<br><br></p>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         {{/each}}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="esd-structure es-p20t es-p5r es-p10l" align="left">
-                                                        <!--[if mso]><table width="585" cellpadding="0" cellspacing="0"><tr><td width="232" valign="top"><![endif]-->
-                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
+                                                    <td class="esd-structure es-p20t es-p20r es-p20l" align="left">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td width="232" class="es-m-p0r es-m-p20b esd-container-frame" align="center">
-                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td align="center" class="esd-empty-container" style="display: none;"></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <!--[if mso]></td><td width="195" valign="top"><![endif]-->
-                                                        <table cellpadding="0" cellspacing="0" class="es-left" align="left">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td width="195" class="es-m-p20b esd-container-frame" align="center">
-                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td align="center" class="esd-empty-container" style="display: none;"></td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <!--[if mso]></td><td width="0"></td><td width="158" valign="top"><![endif]-->
-                                                        <table cellpadding="0" cellspacing="0" class="es-right" align="right">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td width="158" align="center" class="esd-container-frame">
+                                                                    <td width="560" class="esd-container-frame" align="center" valign="top">
                                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text">
-                                                                                        <p style="line-height: 200%;">Shipping:&nbsp; &nbsp; &nbsp;&nbsp;<strong>$&nbsp;free</strong><br>Membership:&nbsp;&nbsp;<b><strong>{{user.membership.name}}</strong></b><br>Total:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>$ {{finalPrice}}</strong></p>
+                                                                                        <p style="text-align: right;">Shipping:&nbsp; &nbsp; &nbsp;&nbsp;<strong>$&nbsp;free</strong><br>Membership:&nbsp;&nbsp;<b><strong>{{user.membership.name}}</strong></b><br>Total:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<strong>$ {{finalPrice}}</strong></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -319,7 +288,6 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <!--[if mso]></td></tr></table><![endif]-->
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -355,8 +323,8 @@
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td align="left" class="esd-block-text es-m-txt-l">
-                                                                                        <p>Shipping address:</p>
-                                                                                        <p><b>Direccion de envio</b></p>
+                                                                                        <p>Shipping address: {{orderSelect.address.address}}, {{orderSelect.address.region}}, {{orderSelect.address.state}} </p>
+                                                                                        <p><b></b></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -377,8 +345,8 @@
                                                                         <table cellpadding="0" cellspacing="0" width="100%">
                                                                             <tbody>
                                                                                 <tr>
-                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b es-p35r es-p35l">
-                                                                                        <p>Got a question?&nbsp;Email us at artstreetwineclub@gmail.com&nbsp;or give us a call at&nbsp;<a target="_blank" href="tel:">+549 3512001541</a>.</p>
+                                                                                    <td align="center" class="esd-block-text es-p10t es-p10b es-p35r es-p35l" esd-links-color="#0b5394">
+                                                                                        <p>Got a question?&nbsp;Email us at <a target="_blank" href="mailto:artstreetwineclub@gmail.com" style="color: #0b5394;">artstreetwineclub@gmail.com</a>&nbsp;or give us a call at&nbsp;<a target="_blank" href="tel:" style="color: #0b5394;">+549 3512001541</a>.</p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -395,7 +363,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <table cellpadding="0" cellspacing="0" class="es-footer" align="center">
+                        <table cellpadding="0" cellspacing="0" class="es-footer esd-footer-popover" align="center">
                             <tbody>
                                 <tr>
                                     <td class="esd-stripe" align="center">
@@ -414,10 +382,10 @@
                                                                                         <table cellpadding="0" cellspacing="0" class="es-table-not-adapt es-social">
                                                                                             <tbody>
                                                                                                 <tr>
-                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Facebook" src="https://defvit.stripocdn.email/content/assets/img/social-icons/logo-black/facebook-logo-black.png" alt="Fb" width="32"></a></td>
-                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Twitter" src="https://defvit.stripocdn.email/content/assets/img/social-icons/logo-black/twitter-logo-black.png" alt="Tw" width="32"></a></td>
-                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Instagram" src="https://defvit.stripocdn.email/content/assets/img/social-icons/logo-black/instagram-logo-black.png" alt="Inst" width="32"></a></td>
-                                                                                                    <td align="center" valign="top"><a target="_blank" href><img title="Youtube" src="https://defvit.stripocdn.email/content/assets/img/social-icons/logo-black/youtube-logo-black.png" alt="Yt" width="32"></a></td>
+                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Facebook" src="https://dcudmj.stripocdn.email/content/assets/img/social-icons/logo-black/facebook-logo-black.png" alt="Fb" width="32"></a></td>
+                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Twitter" src="https://dcudmj.stripocdn.email/content/assets/img/social-icons/logo-black/twitter-logo-black.png" alt="Tw" width="32"></a></td>
+                                                                                                    <td align="center" valign="top" class="es-p40r"><a target="_blank" href><img title="Instagram" src="https://dcudmj.stripocdn.email/content/assets/img/social-icons/logo-black/instagram-logo-black.png" alt="Inst" width="32"></a></td>
+                                                                                                    <td align="center" valign="top"><a target="_blank" href><img title="Youtube" src="https://dcudmj.stripocdn.email/content/assets/img/social-icons/logo-black/youtube-logo-black.png" alt="Yt" width="32"></a></td>
                                                                                                 </tr>
                                                                                             </tbody>
                                                                                         </table>
@@ -426,39 +394,6 @@
                                                                                 <tr>
                                                                                     <td align="center" class="esd-block-text es-p10b">
                                                                                         <p style="line-height: 150%;"><strong>ArtStreet Wine Club© 2023, Inc. All Rights Reserved.</strong></p>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table cellpadding="0" cellspacing="0" class="es-content esd-footer-popover" align="center">
-                            <tbody>
-                                <tr>
-                                    <td class="esd-stripe" align="center">
-                                        <table class="es-content-body" align="center" cellpadding="0" cellspacing="0" width="600" style="background-color: transparent;" bgcolor="rgba(0, 0, 0, 0)">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="esd-structure es-p20" align="left">
-                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td width="560" class="esd-container-frame" align="center" valign="top">
-                                                                        <table cellpadding="0" cellspacing="0" width="100%">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <td align="center" class="esd-block-text es-infoblock">
-                                                                                        <p><a target="_blank"></a>No longer want to receive these emails?&nbsp;<a href target="_blank">Unsubscribe</a>.<a target="_blank"></a></p>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
