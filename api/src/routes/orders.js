@@ -3,11 +3,12 @@ const router = express.Router();
 const { Product, Order, ShoppingCart, User, Address } = require("../db.js");
 const { getOrderId } = require("../controllers/getOrderId");
 const { changeOrder } = require("../controllers/changeOrder");
-const {localStorageCart} = require("../controllers/localStorageCart");
+const { localStorageCart } = require("../controllers/localStorageCart");
 // ruta que retorna todas las ordenes(solo dar acceso Admin)
 
 router.get("/", async (req, res) => {
   try {
+    console.log("soy el console");
     let allOrders = await Order.findAll({
       include: { model: User, as: "user" },
     });
@@ -16,26 +17,30 @@ router.get("/", async (req, res) => {
     res.status(400).send("no purchase orders created");
   }
 });
-
-// retornar orden por id
-router.get("/:id", async (req, res) => {
+//get order del user
+router.get("/byuser", async (req, res) => {
+  //console.log("SOY LA RUTA")
   try {
-    const { id } = req.params;
-    let result = await getOrderId(id);
+    const { email } = req.query;
+
+    let result = await Order.findAll({
+      where: {
+        userEmail: email,
+      },
+      include: { model: Product },
+    });
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
   }
 });
-//get order del user
-router.get("/", async (req, res) => {
+
+// retornar orden por id
+router.get("/:id", async (req, res) => {
   try {
-    const { email } = req.query;
-    let result = await Order.findAll({
-      where: {
-        userEmail: email,
-      },
-    });
+    console.log("SOY LA RUTA");
+    const { id } = req.params;
+    let result = await getOrderId(id);
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -69,11 +74,7 @@ router.put('/checkout/', async (req, res, ) => {
       let result = await changeOrder( status, email, orderId, addressId)
         res.status(200).send(result)
     }
-  
-
-      
-      
-        
+    
     } catch (error) {
         res.status(400).send(error.message)
     }
@@ -101,8 +102,8 @@ router.put("/backToCart/:orderId", async (req, res) => {
 router.post("/localStorageCart", async (req, res) => {
   try {
     const arrayProducts = req.body;
-    console.log(arrayProducts)
-    let result = await localStorageCart(arrayProducts)
+    console.log(arrayProducts);
+    let result = await localStorageCart(arrayProducts);
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
