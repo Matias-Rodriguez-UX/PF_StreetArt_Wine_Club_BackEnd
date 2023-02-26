@@ -4,11 +4,12 @@ const { Product, Order, ShoppingCart, User, Address } = require("../db.js");
 const { getOrderId } = require("../controllers/getOrderId");
 const { changeOrder } = require("../controllers/changeOrder");
 const { localStorageCart } = require("../controllers/localStorageCart");
+const { updateOrderById } = require("../controllers/updateOrder.js");
 // ruta que retorna todas las ordenes(solo dar acceso Admin)
 
 router.get("/", async (req, res) => {
   try {
-    console.log("soy el console");
+    //console.log("soy el console");
     let allOrders = await Order.findAll({
       include: { model: User, as: "user" },
     });
@@ -38,7 +39,7 @@ router.get("/byuser", async (req, res) => {
 // retornar orden por id
 router.get("/:id", async (req, res) => {
   try {
-    console.log("SOY LA RUTA");
+    //console.log("SOY LA RUTA");
     const { id } = req.params;
     let result = await getOrderId(id);
     res.status(200).send(result);
@@ -53,7 +54,7 @@ router.put("/checkout/", async (req, res) => {
   try {
     const orderId = req.query.orderId || null;
     const addressId = req.query.addressId || null;
-    console.log(orderId, "y", addressId, "EN RUTA");
+    //console.log(orderId, "y", addressId, "EN RUTA");
     const {
       status,
       email,
@@ -129,5 +130,26 @@ router.post("/localStorageCart", async (req, res) => {
     res.status(400).send(error.message);
   }
 });
+
+router.put("/update", async (req, res) => {
+  try {
+
+    const orderId = req.query.orderId || null;
+    const addressId = req.query.addressId || null;
+    const { status} = req.body;
+    
+    const result = await updateOrderById(orderId, status, addressId)
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+
+
+
+
+
 
 module.exports = router;
