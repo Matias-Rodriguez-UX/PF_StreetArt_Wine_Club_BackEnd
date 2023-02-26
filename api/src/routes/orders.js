@@ -136,12 +136,13 @@ router.put("/update", async (req, res) => {
 
     const orderId = req.query.orderId || null;
     const addressId = req.query.addressId || null;
-    const { status} = req.body;
-    
-    const result = await updateOrderById(orderId, status, addressId)
+    const { status } = req.body;
 
+    let result = await updateOrderById(orderId, status, addressId)
+    console.log(result)
     res.status(200).send(result);
   } catch (error) {
+    console.log(error.message)
     res.status(400).send(error.message);
   }
 });
