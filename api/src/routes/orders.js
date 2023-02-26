@@ -49,36 +49,57 @@ router.get("/:id", async (req, res) => {
 
 // crear ruta para modificar una Orden
 
-router.put('/checkout/', async (req, res, ) => {
-    try {
-      const orderId = req.query.orderId|| null
-      const addressId = req.query.addressId|| null
-        console.log(orderId, "y", addressId, "EN RUTA")
-        const { status, email,   reference, Newaddress, zipCode, telephone, state, region } = req.body;
-        // console.log(req.body)
-        if(email && reference && Newaddress && zipCode && telephone && state && region)
-       { var newAddress = await Address.create({
-          reference: reference,
-          address: Newaddress,
-          zipCode: zipCode,
-          telephone: telephone,
-          userEmail: email,
-          state: state,
-          region: region
+router.put("/checkout/", async (req, res) => {
+  try {
+    const orderId = req.query.orderId || null;
+    const addressId = req.query.addressId || null;
+    console.log(orderId, "y", addressId, "EN RUTA");
+    const {
+      status,
+      email,
+      reference,
+      Newaddress,
+      zipCode,
+      telephone,
+      state,
+      region,
+    } = req.body;
+    // console.log(req.body)
+    if (
+      email &&
+      reference &&
+      Newaddress &&
+      zipCode &&
+      telephone &&
+      state &&
+      region
+    ) {
+      var newAddress = await Address.create({
+        reference: reference,
+        address: Newaddress,
+        zipCode: zipCode,
+        telephone: telephone,
+        userEmail: email,
+        state: state,
+        region: region,
       });
-      console.log(newAddress)
-      let result = await changeOrder( status, email, orderId, addressId, newAddress )
-        res.status(200).send(result)
-    
-    }else{
-      let result = await changeOrder( status, email, orderId, addressId)
-        res.status(200).send(result)
+
+      let result = await changeOrder(
+        status,
+        email,
+        orderId,
+        addressId,
+        newAddress
+      );
+      res.status(200).send(result);
+    } else {
+      let result = await changeOrder(status, email, orderId, addressId);
+      res.status(200).send(result);
     }
-    
-    } catch (error) {
-        res.status(400).send(error.message)
-    }
-})
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
 
 router.put("/backToCart/:orderId", async (req, res) => {
   try {
@@ -101,9 +122,8 @@ router.put("/backToCart/:orderId", async (req, res) => {
 
 router.post("/localStorageCart", async (req, res) => {
   try {
-    const arrayProducts = req.body;
-    console.log(arrayProducts);
-    let result = await localStorageCart(arrayProducts);
+    const { arrayProducts, email } = req.body;
+    let result = await localStorageCart(arrayProducts, email);
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
