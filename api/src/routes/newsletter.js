@@ -42,6 +42,18 @@ router.put('/', async (req, res) => {
   })
 
 
+  router.get('/', async (req, res) => {
+    try {
+        let result = await Newsletter.findAll();
+        res.status(200).send(result)
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
+
+
+
 
 
 module.exports = router;
