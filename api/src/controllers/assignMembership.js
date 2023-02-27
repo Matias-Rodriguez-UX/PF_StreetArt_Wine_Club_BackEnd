@@ -1,7 +1,6 @@
 const { Membership, User } = require("../db");
 
 const assignMembership = async function (userId, idMembership) {
-    console.log(userId, idMembership)
     if (!userId || !idMembership.length) return "Mandatory info missing"
     const searchMembership = await Membership.findAll({
         where: {
