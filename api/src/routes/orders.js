@@ -59,7 +59,7 @@ router.put("/checkout/", async (req, res) => {
       status,
       email,
       reference,
-      Newaddress,
+      address,
       zipCode,
       telephone,
       state,
@@ -69,7 +69,7 @@ router.put("/checkout/", async (req, res) => {
     if (
       email &&
       reference &&
-      Newaddress &&
+      address &&
       zipCode &&
       telephone &&
       state &&
@@ -77,7 +77,7 @@ router.put("/checkout/", async (req, res) => {
     ) {
       var newAddress = await Address.create({
         reference: reference,
-        address: Newaddress,
+        address: address,
         zipCode: zipCode,
         telephone: telephone,
         userEmail: email,
