@@ -304,7 +304,7 @@ router.put("/membership/:idMembership", async (req, res) => {
 router.put("/:userId/membership/", async (req, res) => {
   try {
     const { userId } = req.params;
-    const  idMembership  = req.body;
+    const { idMembership } = req.body;
     let result = await assignMembership(userId, idMembership);
     res.status(200).send(result);
   } catch (error) {
