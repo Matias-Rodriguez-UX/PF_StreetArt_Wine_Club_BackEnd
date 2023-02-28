@@ -14,7 +14,7 @@ const createNewsletter = async function (email) {
       },
     });
 
-    console.log('soy el user',users)
+    //console.log('soy el user',users)
     if(users){
       const news = await Newsletter.findOne({
         where: {
