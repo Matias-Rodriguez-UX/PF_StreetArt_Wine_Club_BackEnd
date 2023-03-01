@@ -5,11 +5,11 @@ const { getOrderId } = require("../controllers/getOrderId");
 const { changeOrder } = require("../controllers/changeOrder");
 const { localStorageCart } = require("../controllers/localStorageCart");
 const { updateOrderById } = require("../controllers/updateOrder.js");
-// ruta que retorna todas las ordenes(solo dar acceso Admin)
 
+// ruta que retorna todas las ordenes(solo dar acceso Admin)
 router.get("/", async (req, res) => {
   try {
-    //console.log("soy el console");
+  
     let allOrders = await Order.findAll({
       include: { model: User, as: "user" },
     });
@@ -18,9 +18,10 @@ router.get("/", async (req, res) => {
     res.status(400).send("no purchase orders created");
   }
 });
+
 //get order del user
 router.get("/byuser", async (req, res) => {
-  //console.log("SOY LA RUTA")
+
   try {
     const { email } = req.query;
 
@@ -39,7 +40,7 @@ router.get("/byuser", async (req, res) => {
 // retornar orden por id
 router.get("/:id", async (req, res) => {
   try {
-    //console.log("SOY LA RUTA");
+
     const { id } = req.params;
     let result = await getOrderId(id);
     res.status(200).send(result);
@@ -49,12 +50,11 @@ router.get("/:id", async (req, res) => {
 });
 
 // crear ruta para modificar una Orden
-
 router.put("/checkout/", async (req, res) => {
   try {
     const orderId = req.query.orderId || null;
     const addressId = req.query.addressId || null;
-    //console.log(orderId, "y", addressId, "EN RUTA");
+
     const {
       status,
       email,
@@ -65,8 +65,9 @@ router.put("/checkout/", async (req, res) => {
       state,
       region,
     } = req.body;
-    // console.log(req.body)
-    if (addressId===null&&
+  
+    if (
+      addressId === null &&
       email &&
       reference &&
       address &&
@@ -75,14 +76,16 @@ router.put("/checkout/", async (req, res) => {
       state &&
       region
     ) {
-      var newAddress = await Address.create({
-        reference: reference,
-        address: address,
-        zipCode: zipCode,
-        telephone: telephone,
-        userEmail: email,
-        state: state,
-        region: region,
+      var newAddress = await Address.findOrCreate({
+        where: {
+          reference: reference,
+          address: address,
+          zipCode: zipCode,
+          telephone: telephone,
+          userEmail: email,
+          state: state,
+          region: region,
+        },
       });
 
       let result = await changeOrder(
@@ -133,24 +136,17 @@ router.post("/localStorageCart", async (req, res) => {
 
 router.put("/update", async (req, res) => {
   try {
-
     const orderId = req.query.orderId || null;
     const addressId = req.query.addressId || null;
     const { status } = req.body;
 
-    let result = await updateOrderById(orderId, status, addressId)
-    console.log(result)
+    let result = await updateOrderById(orderId, status, addressId);
+    console.log(result);
     res.status(200).send(result);
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
     res.status(400).send(error.message);
   }
 });
-
-
-
-
-
-
 
 module.exports = router;
