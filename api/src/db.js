@@ -3,27 +3,22 @@ const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  // DB_DEPLOY,
+  DB_DEPLOY,
   DB_USER, DB_PASSWORD, DB_HOST,
 } = process.env;
 
-const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/products`, {
-  logging: false, // set to console.log to see the raw SQL queries
-  native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-});
+// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/products`, {
+//   logging: false, // set to console.log to see the raw SQL queries
+//   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
+// });
 
 // ------------------------Para deployar -------
-// const sequelize = new Sequelize(DB_DEPLOY, {
-//   logging: false, 
-//   native: false, 
-// });
+const sequelize = new Sequelize(DB_DEPLOY, {
+  logging: false,
+  native: false,
+});
 // --------------------------------------------------------
-// ------------------------Para deployar -------
-// const sequelize = new Sequelize(DB_DEPLOY, {
-//   logging: false, 
-//   native: false, 
-// });
-// --------------------------------------------------------
+
 const basename = path.basename(__filename);
 
 const modelDefiners = [];
@@ -70,12 +65,12 @@ Order.belongsToMany(Product, { through: ShoppingCart });
 Product.belongsToMany(Order, { through: ShoppingCart });
 
 //relación User → Membership
-User.belongsToMany(Membership,  { through: 'User_Membership' });
+User.belongsToMany(Membership, { through: 'User_Membership' });
 Membership.belongsToMany(User, { through: 'User_Membership' });
 
 //relacion usuario → producto
-User.belongsToMany(Product,{ through: 'Favourite' });
-Product.belongsToMany(User,{ through: 'Favourite' });
+User.belongsToMany(Product, { through: 'Favourite' });
+Product.belongsToMany(User, { through: 'Favourite' });
 
 //relación producto → review: en Review voy a tener la FK productId (el id del product al que pertenece dicha review)
 Product.hasMany(Review);
