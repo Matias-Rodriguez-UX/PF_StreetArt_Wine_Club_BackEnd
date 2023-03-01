@@ -1,6 +1,6 @@
 const { User } = require("../db");
 
-const createUser = async function (email, role, fullname, profile, avatar) {
+const createUser = async function (email, role, fullname, profile, avatar, birthdate) {
 
   if (!email) {
     throw new Error('You must complete email, role and fullname')
@@ -17,6 +17,7 @@ const createUser = async function (email, role, fullname, profile, avatar) {
       fullname: fullname,
       profile: profile,
       avatar: avatar,
+      birthdate: birthdate
     });
 
     return `New User ${email} was created successfully`

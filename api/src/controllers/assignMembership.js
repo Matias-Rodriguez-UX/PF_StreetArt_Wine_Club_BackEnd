@@ -1,21 +1,22 @@
 const { Membership, User } = require("../db");
 
-const assignMembership = async function (userId, membershipId ){
+const assignMembership = async function (userId, idMembership) {
+    if (!userId || !idMembership.length) return "Mandatory info missing"
+    const searchMembership = await Membership.findAll({
+        where: {
+            id: idMembership
 
-    const searchMembership = await Membership.findOne({
-                where: {
-                    id: membershipId
-                },
-            })
-            const searchUser =  await User.findOne({
-                        where: {
-                            id: userId,
-                        },
-                    })
-// console.log(searchMembership)
-// console.log(searchUser)
-await searchUser.setMembership(searchMembership)
-return `${searchMembership.name} membership was assigned to the user ${searchUser.email}`
+        },
+    })
+    const searchUser = await User.findOne({
+        where: {
+            id: userId,
+        },
+    })
+    // console.log(searchMembership)
+    // console.log(searchUser)
+    await searchUser.setMemberships(searchMembership)
+    return `${searchMembership.id} membership was assigned to the user ${searchUser.email}`
 }
-    
-    module.exports = {assignMembership}
+
+module.exports = { assignMembership }

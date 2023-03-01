@@ -4,12 +4,8 @@ module.exports = (sequelize) => {
   sequelize.define(
     "membership",
     {
-      /* id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-      }, */
       name: {
-        type: DataTypes.ENUM('stencil', 'graffiti', 'mural','not member'),
+        type: DataTypes.STRING,
         allowNull: false
       },
       discount: {
