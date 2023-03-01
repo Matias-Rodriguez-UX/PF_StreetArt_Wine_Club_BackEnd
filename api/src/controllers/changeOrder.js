@@ -36,7 +36,7 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
       return orderUp;
     }
     if (status === "processing shipping") {
-        let addressUpdate = await newAddress? newAddress.id :addressId
+        let addressUpdate = await newAddress? newAddress[0].id :addressId
 
       const orderSelect = await Order.findOne({
         where: {
