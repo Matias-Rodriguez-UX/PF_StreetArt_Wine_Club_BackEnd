@@ -1,6 +1,7 @@
 const { User } = require("../db");
+const { userBaned } = require("./email");
 
-const updateUser = async function (id, email, role, fullname, profile, avatar, status) {
+const updateUser = async function (id, email, role, fullname, profile, avatar, status, birthdate, dni) {
 
   if (!email, !role, !fullname, !profile, !status) {
     throw new Error('You must complete fields')
@@ -19,12 +20,18 @@ const updateUser = async function (id, email, role, fullname, profile, avatar, s
       profile: profile,
       avatar: avatar,
       status: status,
+      birthdate: birthdate,
+      dni: dni
     }, {
       where: {
         id: id,
       }
     });
 
+   //envio email usuario baneado 
+   if(status === 'suspended'){
+    userBaned(email, fullname)
+   }
     return `New User ${email} was created and added successfully`
   } else {
 

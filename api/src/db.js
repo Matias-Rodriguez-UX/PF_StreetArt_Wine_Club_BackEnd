@@ -44,26 +44,38 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Product, Type, Grape, State, Region, Review, User, Membership, ShoppingCart, Order, Address } = sequelize.models;
+const { Product, Type, Grape, State, Region, Review, User, Membership, ShoppingCart, Order, Address, Newsletter } = sequelize.models;
 
 
 // Aca vendrian las relaciones
 
-//Product (una caja de vinos) puede tener varios tipos (tinto, blanco, etc)
+//relación producto → tipo
 Product.belongsToMany(Type, { through: 'Product_Type', timestamps: false });
-//Mientras que tipos también pueden pertenecer a varias cajas de vino
 Type.belongsToMany(Product, { through: 'Product_Type', timestamps: false });
 
+//relación producto → cepa
 Product.belongsToMany(Grape, { through: 'Product_Grape', timestamps: false })
 Grape.belongsToMany(Product, { through: 'Product_Grape', timestamps: false })
 
+//relación producto → provincia
 Product.belongsToMany(State, { through: 'Product_State', timestamps: false })
 State.belongsToMany(Product, { through: 'Product_State', timestamps: false })
 
+//relación producto → ciudad
 Product.belongsToMany(Region, { through: 'Product_Region', timestamps: false })
 Region.belongsToMany(Product, { through: 'Product_Region', timestamps: false })
 
+//relación nro de orden → carrito
+Order.belongsToMany(Product, { through: ShoppingCart });
+Product.belongsToMany(Order, { through: ShoppingCart });
 
+//relación User → Membership
+User.belongsToMany(Membership,  { through: 'User_Membership' });
+Membership.belongsToMany(User, { through: 'User_Membership' });
+
+//relacion usuario → producto
+User.belongsToMany(Product,{ through: 'Favourite' });
+Product.belongsToMany(User,{ through: 'Favourite' });
 
 //relación producto → review: en Review voy a tener la FK productId (el id del product al que pertenece dicha review)
 Product.hasMany(Review);
@@ -73,17 +85,9 @@ Review.belongsTo(Product);
 User.hasMany(Review);
 Review.belongsTo(User);
 
-//relación membresia → usuario: una membresía va a pertenecer a un usuario, la FK va a ser puesta en user como: membershipId
-Membership.hasOne(User);
-User.belongsTo(Membership);
-
 //relacion usuario → carrito
 User.hasMany(ShoppingCart);
 ShoppingCart.belongsTo(User);
-
-//relación nro de orden → carrito
-Order.belongsToMany(Product, { through: ShoppingCart });
-Product.belongsToMany(Order, { through: ShoppingCart });
 
 //relación usuario → pedido
 User.hasMany(Order);
@@ -93,19 +97,17 @@ Order.belongsTo(User)
 User.hasMany(Address);
 Address.belongsTo(User);
 
-/* //relación provincia → dirección
-State.hasOne(Address);
-Address.belongsTo(State);
+//relación dirección → pedido
+Address.hasMany(Order);
+Order.belongsTo(Address);
 
-//relación localidad → dirección
-Region.hasOne(Address);
-Address.belongsTo(Region); */
+//relación usuario → newsletter
+User.hasMany(Newsletter);
+Newsletter.belongsTo(User);
 
-//relacion usuario → producto (le dejamos el timestamps en caso de ser info útil)
-User.belongsToMany(Product,{ through: 'Favourite' });
-Product.belongsToMany(User,{ through: 'Favourite' });
-
-
+//relación usuario → newsletter
+Product.hasMany(Newsletter);
+Newsletter.belongsTo(Product);
 
 
 module.exports = {

@@ -29,7 +29,6 @@ const addCart = async function (userId, totalPrice, quantity, email, productId) 
           return "There is not enough stock for the purchase"
         }
       }
-
       return "Cart created "
     } else if (order && !orderPayment) {
       if (productId) {
