@@ -66,7 +66,7 @@ router.put("/checkout/", async (req, res) => {
       region,
     } = req.body;
     // console.log(req.body)
-    if (
+    if (addressId===null&&
       email &&
       reference &&
       address &&
