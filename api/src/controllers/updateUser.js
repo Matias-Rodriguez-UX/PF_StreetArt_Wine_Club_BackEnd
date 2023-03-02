@@ -30,7 +30,7 @@ const updateUser = async function (id, email, role, fullname, profile, avatar, s
 
    //envio email usuario baneado 
    if(status === 'suspended'){
-    userBaned(email, fullname)
+   await userBaned(email, fullname)
    }
     return `New User ${email} was created and added successfully`
   } else {
