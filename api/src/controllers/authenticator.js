@@ -1,4 +1,5 @@
 const { User, Membership } = require("../db");
+const { emailUser } = require("./controllers/email");
 const authenticator = async function (email, fullname, picture, role, birthdate) {
   console.log(email, fullname, picture, role, birthdate)
   const membership = await Membership.findOrCreate({
@@ -28,7 +29,7 @@ const authenticator = async function (email, fullname, picture, role, birthdate)
     });
 
     await newUser.addMemberships(membership[0])
-
+    emailUser(email, fullname)
     return newUser
   } else {
     return searchUser
