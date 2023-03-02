@@ -4,7 +4,7 @@ const { emailUser, purchaseConfirmation, orderShipped } = require("./email");
 
 const changeOrder = async function (status, email, orderId, addressId, newAddress, discount) {
   // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
-
+  console.log('en controlador', status, 'status', email, 'email', orderId, 'orderId', addressId, 'addressId', newAddress, 'newAddress', discount, 'discount')
   const user = await User.findOne({
     where: {
       email: email,

@@ -88,7 +88,7 @@ router.put("/checkout/", async (req, res) => {
           region: region,
         },
       });
-
+      console.log('en ruta primera opcion', status, 'status', email, 'email', orderId, 'orderId', addressId, 'addressId', newAddress, 'newAddress', discount, 'discount')
       let result = await changeOrder(
         status,
         email,
@@ -99,6 +99,7 @@ router.put("/checkout/", async (req, res) => {
       );
       res.status(200).send(result);
     } else {
+      console.log('en ruta segunda opcion', status, 'status', email, 'email', orderId, 'orderId', addressId, 'addressId', newAddress, 'newAddress', discount, 'discount')
       let result = await changeOrder(status, email, orderId, addressId, discount);
       res.status(200).send(result);
     }
