@@ -29,7 +29,7 @@ const authenticator = async function (email, fullname, picture, role, birthdate)
     });
 
     await newUser.addMemberships(membership[0])
-    emailUser(email, fullname)
+    await emailUser(email, fullname)
     return newUser
   } else {
     return searchUser
