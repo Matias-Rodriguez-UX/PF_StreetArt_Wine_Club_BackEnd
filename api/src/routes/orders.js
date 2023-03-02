@@ -9,7 +9,7 @@ const { updateOrderById } = require("../controllers/updateOrder.js");
 // ruta que retorna todas las ordenes(solo dar acceso Admin)
 router.get("/", async (req, res) => {
   try {
-  
+
     let allOrders = await Order.findAll({
       include: { model: User, as: "user" },
     });
@@ -64,8 +64,9 @@ router.put("/checkout/", async (req, res) => {
       telephone,
       state,
       region,
+      discount
     } = req.body;
-  
+
     if (
       addressId === null &&
       email &&
@@ -93,11 +94,12 @@ router.put("/checkout/", async (req, res) => {
         email,
         orderId,
         addressId,
+        discount,
         newAddress
       );
       res.status(200).send(result);
     } else {
-      let result = await changeOrder(status, email, orderId, addressId);
+      let result = await changeOrder(status, email, orderId, addressId, discount);
       res.status(200).send(result);
     }
   } catch (error) {

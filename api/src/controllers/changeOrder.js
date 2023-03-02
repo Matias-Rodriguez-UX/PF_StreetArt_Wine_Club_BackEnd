@@ -2,7 +2,7 @@ const { where, Op } = require("sequelize");
 const { Product, User, ShoppingCart, Order, Address } = require("../db");
 const { emailUser, purchaseConfirmation, orderShipped } = require("./email");
 
-const changeOrder = async function (status, email, orderId, addressId, newAddress) {
+const changeOrder = async function (status, email, orderId, addressId, newAddress, discount) {
   // 'cart', 'processing payment', 'processing shipping', 'shipped', 'delivered', 'cancelled'
 
   const user = await User.findOne({
@@ -36,7 +36,7 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
       return orderUp;
     }
     if (status === "processing shipping") {
-        let addressUpdate = await newAddress? newAddress[0].id :addressId
+      let addressUpdate = await newAddress ? newAddress[0].id : addressId
 
       const orderSelect = await Order.findOne({
         where: {
@@ -87,7 +87,7 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
       });
       const updated = await Order.update(
         {
-          totalPrice: sumOfPrices,
+          totalPrice: sumOfPrices - (sumOfPrices * (discount / 100)),
           status: status,
           userEmail: email,
           addressId: addressUpdate,
@@ -100,10 +100,10 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
         }
       );
       //envio de mail confirmando la compra
-    //   await purchaseConfirmation(email, orderSelectId);
+      //   await purchaseConfirmation(email, orderSelectId);
       return updated;
     }
-  } else if (orderId ) {
+  } else if (orderId) {
     const searchOrder = await Order.findOne({
       where: {
         id: orderId,
@@ -125,7 +125,7 @@ const changeOrder = async function (status, email, orderId, addressId, newAddres
 
       //envia mail de compra realizada
 
-    //   await orderShipped(email, orderId)
+      //   await orderShipped(email, orderId)
       return `The order ${orderId} was updated successfully`;
     }
 
