@@ -1,5 +1,5 @@
 const { User, Membership } = require("../db");
-const { emailUser } = require("./controllers/email");
+const { emailUser } = require("./email");
 const authenticator = async function (email, fullname, picture, role, birthdate) {
   console.log(email, fullname, picture, role, birthdate)
   const membership = await Membership.findOrCreate({
