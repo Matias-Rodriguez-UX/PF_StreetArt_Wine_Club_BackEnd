@@ -206,26 +206,26 @@ const emailNewsletter = async function(email){
 
     let count = 0;
 
-    setInterval(() => {
-        if (count % 2 === 0) {
-            transporter.sendMail(mailOptions1, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Correo electrónico enviado: newsletter programado' + info.response);
-                }
-            });
-        } else {
-            transporter.sendMail(mailOptions2, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Correo electrónico enviado: newsletter programado' + info.response);
-                }
-            });
-        }
-        count++;
-    }, 10 * 60 * 1000);
+//     setInterval(() => {
+//         if (count % 2 === 0) {
+//             transporter.sendMail(mailOptions1, function(error, info){
+//                 if (error) {
+//                     console.log(error);
+//                 } else {
+//                     console.log('Correo electrónico enviado: newsletter programado' + info.response);
+//                 }
+//             });
+//         } else {
+//             transporter.sendMail(mailOptions2, function(error, info){
+//                 if (error) {
+//                     console.log(error);
+//                 } else {
+//                     console.log('Correo electrónico enviado: newsletter programado' + info.response);
+//                 }
+//             });
+//         }
+//         count++;
+//     }, 10 * 60 * 1000);
 
 }
 
