@@ -372,7 +372,7 @@ transporter.verify().then (() => {
 
 const mailOptions = {
 // from: 'artstreetwineclub@gmail.com',
-from: 'wineclubartstreet@gmail.com',
+from: 'streetwineclub@gmail.com',
 to: email,
 subject:  `Banned user`,
 html: htmlToSend,
