@@ -1,5 +1,5 @@
 const { User, ShoppingCart, Order, Product, Address } = require("../db");
-
+const { orderShipped } = require("./email");
 const updateOrderById = async function (orderId, status, addressId) {
 
     const searchOrder = await Order.findOne({
@@ -10,6 +10,9 @@ const updateOrderById = async function (orderId, status, addressId) {
 
     if (searchOrder) {
 
+        if(status==='shipped'){
+            await orderShipped(searchOrder.userEmail, orderId)
+        }
         if (addressId !== null) {
             const searchAddress = await Address.findOne({
                 where: {
@@ -33,6 +36,9 @@ const updateOrderById = async function (orderId, status, addressId) {
             )
 
             if (update) {
+                if(status==='shipped'){
+                await orderShipped(email, orderId)
+            }
                 return 'Your order status and address was successfully updated'
             }
 
@@ -48,7 +54,9 @@ const updateOrderById = async function (orderId, status, addressId) {
                     }
                 },
             )
-
+if(status==='shipped'){
+                await orderShipped(email, orderId)
+            }
             if (updateStatus) {
                 return 'Your order status was successfully updated'
             }
